@@ -9,6 +9,7 @@ and also a codename for the actual website.
 * Blue Screen Simulator Plus online documentation and downloads are missing from this repository
 * All of the downloads stored directly on the website are missing from this repository
 * MySQL database is populated with actual tables used on the website, but the records themselves are missing or populated with default values
+* Certain graphics have been modified
 
 ## How to setup?
 To setup the website on your local network, install either LAMP, WAMP or MAMP stack, depending
