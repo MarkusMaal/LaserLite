@@ -1,0 +1,163 @@
+body {
+    font-family: "Lucida Console", "Hack", "Monospace";
+    color: #0ff;
+    background: linear-gradient(90deg, #002 33%, #020 33%, #020 66%, #200 66%);
+    margin: 0px;
+    margin-bottom: 50px;
+    opacity: 0px;
+}
+
+div.navbar {
+	position: absolute;
+	top: 15px;
+	left: 12%;
+	width: 20%;
+}
+
+hr {
+	border-style: solid;
+	margin: 10%;
+}
+
+hr.red {
+	border-color: #500;
+}
+hr.green {
+	border-color: #050;
+}
+hr.blue {
+	border-color: #005;
+}
+
+div.navitem {
+	background: #0000;
+	padding: 10px;
+	display: block;
+	color: #0ff;
+}
+
+div.navitem:hover {
+	background: #003;
+}
+
+a.link {
+	text-decoration: none;
+}
+
+div.parent {
+	background: linear-gradient(90deg, #008 33%, #080 33%, #080 66%, #800 66%);
+	padding: 20px;
+}
+div.container {
+	display: flex;
+	padding-bottom: 20px;
+}
+div.blue {
+	background: linear-gradient(#00f 0px, #00f 10px, #002 10px);
+	width: 33%;
+	color: #ccc;
+	flex-basis: 33%;
+    animation: colorswitch1 0.5s linear 1;
+}
+
+div.green {
+	background: linear-gradient(#0f0 0px, #0f0 10px, #020 10px);
+	width: 33%;
+	color: #ccc;
+	flex-basis: 33%;
+    animation: colorswitch2 0.5s linear 1;
+}
+
+
+div.red {
+	background: linear-gradient(#f00 0px, #f00 10px, #200 10px);
+	width: 34%;
+	color: #ccc;
+	flex-basis: 34%;
+    animation: colorswitch3 0.5s linear 1;
+}
+
+a {
+    color: #ff0;
+}
+
+a:active {
+	color: #00f;
+}
+
+h1 {
+	margin-left: 20px;
+	font-weight: normal;
+}
+h2 {
+    font-weight: normal;
+}
+h3 {
+    font-weight: normal;
+    text-align: center;
+}
+
+span.blinky {
+	animation: blink 1.5s linear infinite;
+	width: 10px;
+	background: linear-gradient(#0000 75%, #0fff 75%, #0fff 80%, #0000 80%);
+	margin-left: 5px;
+	color: #0000;
+}
+
+
+img[alt="www.000webhost.com"]
+{
+    display:none;
+}
+
+@keyframes blink{
+	0%{
+		opacity: 0;
+	}
+	49%{
+		opacity: 0;
+	}
+	50%{
+		opacity: 1;
+	}
+	99%{
+		opacity: 1;
+	}
+	100%{
+		opacity: 0;
+	}
+}
+
+@keyframes colorswitch1 {
+	0%{
+		opacity: 0;
+	}
+	100%{
+		opacity: 1;
+	}
+}
+
+@keyframes colorswitch2 {
+	0%{
+		opacity: 0;
+	}
+	33%{
+		opacity: 0;
+	}
+	100%{
+		opacity: 1;
+	}
+}
+
+@keyframes colorswitch3 {
+	0%{
+		opacity: 0;
+	}
+	50%{
+		opacity: 0;
+	}
+	100%{
+		opacity: 1;
+	}
+}

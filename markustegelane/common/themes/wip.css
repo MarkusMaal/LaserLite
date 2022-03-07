@@ -1,0 +1,254 @@
+body {
+	color: white;
+	font-family: "Microsoft Sans Serif", Sans;
+	font-size: 15;
+	background: #008080;
+	background-position: fixed;
+	z-index: -1;
+	background-size: cover;
+ 	background-repeat: no-repeat;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 20%;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background: #808080;
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: auto;
+  padding: 25px;
+  width: 50%;
+  box-shadow: 10px 10px #404040;
+}
+input, textarea, select {
+	background: #fefefe;
+	border: solid;
+	border-width: 5% 2% 5% 2%;
+	border-color: #bbb #efefef #efefef #bbb;
+	padding: 5px 15px 5px 15px;
+}
+
+input[type="submit"], select {
+	background: #eee;
+	border: solid;
+	border-width: 5%;
+	border-color: #fff #bbb #bbb #fff;
+	padding: 5px 15px 5px 15px;
+}
+input[type=range] {
+  -webkit-appearance: none;
+  background: transparent;
+  border: none;
+}
+input[type=range]:focus {
+  outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+  background: #000;
+  border: 2px solid;
+  border-color: #bbb #fff #fff #bbb;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  border: solid;
+  border-width: 5%;
+  height: 25px;
+  margin-top: -10px;
+  background: #eee;
+  border-color: #fff #bbb #bbb #fff;
+  width: 15px;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
+
+input[type="submit"]:active {
+	border-color: #bbb #fff #fff #bbb;
+}
+
+hr {
+	color: #eee;
+	border: solid;
+	border-width: 2px;
+}
+
+div.mainpage {
+	background: #eee;
+	color: black;
+	margin: 50px;
+	box-shadow: 10px 10px #404040;
+	padding: 20px;
+	padding-top: 50px;
+}
+
+.floatie {
+	display: inline-block;
+	position: fixed;
+	z-index: 0;
+	margin: auto;
+	bottom: 10px;
+	left: 720px;
+	background: #eee;
+	border: solid;
+	border-width: 2px;
+	border-color: #fff #bbb #bbb #fff;
+	padding: 10px;
+	padding-top: 4px;
+	padding-bottom: 10px;
+}
+
+.floatie:active {
+	border-color: #bbb #fff #fff #bbb;
+}
+
+img.banner {
+	display: block;
+	width: 500px;
+	height: auto;
+	margin: auto;
+    display:none;
+}
+
+/* main style for anchor (not related to navbar) */
+a {
+	color: #00f;
+	text-decoration: none;
+}
+a:hover {
+	color: #00f;
+	text-decoration: underline;
+}
+
+/* navbar style */
+
+nav {    
+	text-align: left;
+	position: fixed;
+	bottom: 10px;
+}
+
+nav ul {
+	margin: 0;
+	padding:0;
+	list-style: none;
+	text-align: left;
+	background: #eee;
+}
+
+
+.listitems {
+	background: #eee;
+	border: solid;
+	border-width: 5%;
+	border-color: #fff #bbb #bbb #fff;
+	padding: 5px 15px 5px 15px;
+	color: black;
+}
+.listitems:hover {
+	color: black;
+	text-decoration: none;
+}
+.listitems:focus {
+	border-width: 1px 3px 3px 1px;
+	border-radius: 0px;
+	border-color: #000 #000 #000 #000;
+	color: black;
+	text-decoration: none;
+}
+.listitems:active {
+	border-color: #bbb #fff #fff #bbb;
+}
+
+.nav a{
+	font-style: normal;
+	display:block;
+	color: black;
+	text-decoration: none;
+	padding: 12px;
+	font-family: "Segoe UI";
+	position: relative;
+	background: transparent;
+	border: solid;
+	border-width: 5%;
+	border-color: #fff #bbb #bbb #fff;
+	padding: 5px 15px 5px 15px;
+}
+.nav a:active {
+	border-color: #bbb #fff #fff #bbb;
+}
+.nav{  
+	vertical-align: bottom; 
+	display: inline-block;
+}
+.nav li {
+	position: relative;
+}
+.nav > li { 
+	float: left; 
+	margin-right: 1px; 
+} 
+.nav > li:hover, 
+.nav > li:hover > a,
+.nav > li:focus, 
+.nav > li:focus > a{ 
+	background: transparent;
+}
+.nav li:hover > a, .nav li:focus > a{ 
+	background: transparent;
+	color: black;
+}
+.nav li li a { 
+	margin-top: 1px;
+}
+.nav li a:first-child:nth-last-child(2):before { 
+	content: ""; 
+	position: absolute; 
+	height: 0; 
+	width: 0; 
+	bottom: 49% ;
+	right:5px;  
+	}
+/* submenu positioning*/
+.nav ul {
+	position: absolute;
+	z-index: 0;
+	left: -99999em;
+	bottom: 2em;
+}
+.nav > li:hover > ul, .nav > li:focus > ul {
+	left: auto;
+	min-width: 120%;
+}
+.nav > li li:hover > ul, .nav > li li:focus > ul { 
+	left: 100%;
+	margin-left: 1px;
+	bottom: 0px;
+}
+
+
+a.selected {
+	border-color: #000;
+	border-width: 1px 3px 5px 1px;
+}
+
+img[alt="www.000webhost.com"]
+{
+    display:none;
+}
+
+.disclaimer
+{
+    display:none;
+}

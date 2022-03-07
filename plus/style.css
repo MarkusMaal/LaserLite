@@ -1,0 +1,65 @@
+
+html {
+	height: 100%;
+}
+h1 {
+	width: 27%;
+	margin: auto;
+}
+h2 {
+	color: #500085;
+}
+body {
+	background: linear-gradient(#8f00a9, #ff00ff);
+	background-image: url("resources/llp.png");
+	background-repeat: repeat-xy;
+  	background-attachment: fixed;
+	tile-size: 100%;
+	font-family: "Arial";
+}
+
+div.mainpage {
+	background: #fff;
+	padding: 50px;
+	padding-bottom: 150px;
+	margin-bottom: 150px;
+	margin: 50px;
+	box-shadow: 5px 5px 5px 0 black;
+}
+td {
+    padding: 1%;
+    background-color: #999999;
+	color: #000000;
+    padding: 1%;
+}
+th {
+    background-color: #333333;
+    text-align: center;
+    color: #ffffff;
+    padding: 1%;
+    font-weight: normal;
+}
+a {
+	text-decoration: none;
+	color: #ab00ff;
+}
+
+a.returnhome {
+	color: #ffffff;
+	margin: 30px;
+	text-align: center;
+}
+a:hover {
+	text-decoration: underline;
+}
+table {
+	width: 80%;
+	margin: auto;
+	padding: 10px;
+}
+
+
+img[alt="www.000webhost.com"]
+{
+    display:none;
+}

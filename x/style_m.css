@@ -1,0 +1,104 @@
+body {
+    font-family: "Segoe UI";
+    color: #fff;
+    background: #f77;
+    font-size: 30pt;
+}
+
+a {
+    color: #aff;
+    text-shadow: 0 0 10px #0bb;
+    text-decoration: none;
+}
+a:hover {
+    color: #fff;
+    text-shadow: 0 0 10px #0ff;
+}
+h2 {
+    font-weight: normal;
+    text-shadow: 0 0 10px #fff;
+}
+table {
+    width: 80%;
+    margin: auto;
+    border-radius: 20px;
+    box-shadow: 0 0 20px #0004;
+    background: #2052;
+    font-size:20pt;
+}
+th {
+    text-align: left;
+    font-weight: normal;
+    background: #5034;
+    padding: 5px;
+    color: #fff;
+    text-shadow: 0 0 10px #fff;
+}
+td {
+    background: #3021;
+    padding: 2px;
+}
+.parent {
+    position: fixed;
+    background-image:url('resources/bg.png');
+    background-repeat: repeat;
+    background-size: 350px 350px;
+    height: 1000%;
+    width: 1000%;
+    left: -100%;
+    top: -100%;
+    transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    z-index:-999;
+}
+
+.banner {
+    margin: auto;
+    width: 1280px;
+}
+
+.mainpage {
+    background: linear-gradient(#00f3, #f4f2);
+    padding: 70px;
+    margin: 100px;
+    border-radius: 30px;
+    box-shadow: 0 0 20px #00f7;
+}
+
+.pages {
+    background: linear-gradient(#00f3, #f4f2);
+    padding: 7px;
+    margin: 10px;
+    border-radius: 30px;
+    color: white;
+    box-shadow: 0 0 20px #00f7;
+}
+.pages:hover {
+    background: linear-gradient(#00f6, #f4f5);
+    padding: 7px;
+    margin: 10px;
+    border-radius: 30px;
+    color: white;
+    box-shadow: 0 0 20px #00fa;
+}
+.navbar {
+    width: 100%;
+    text-align: center;
+    margin: auto;
+    margin-top: 40px;
+}
+
+.returnhome {
+    position: fixed;
+    left: 10px;
+    top: 10px;
+    color: #fff;
+    text-shadow: 0 0 0px #000;
+}
+img[alt="www.000webhost.com"]
+{
+    display:none;
+}
