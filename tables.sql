@@ -9,21 +9,23 @@ CREATE TABLE schedules (
 );
 -- Old comment system/unused poll system (e stands for English, the other one should be in Estonian)
 CREATE TABLE poll_e (
-	question TEXT NOT NULL DEFAULT '',
-	options TEXT NOT NULL DEFAULT '',
+	question TEXT,
+	options TEXT,
 	last_vote_date DOUBLE NOT NULL,
-	close TEXT NOT NULL DEFAULT '',
-	public TEXT NOT NULL DEFAULT '',
-	id INT NOT NULL AUTO_INCREMENT
+	close TEXT,
+	public TEXT,
+	id INT NOT NULL AUTO_INCREMENT,
+	PRIMARY KEY (id)
 );
 
 CREATE TABLE poll (
-	question TEXT DEFAULT '',
+	question TEXT,
 	options VARCHAR(250) DEFAULT NULL,
-	close TEXT DEFAULT '',
+	close TEXT,
 	public INT NOT NULL,
 	last_vote_date DOUBLE DEFAULT NULL,
-	id INT NOT NULL AUTO_INCREMENT
+	id INT NOT NULL AUTO_INCREMENT,
+	PRIMARY KEY (id)
 );
 
 -- Markus' stuff database
@@ -89,7 +91,7 @@ CREATE TABLE client_ratings (
 	CLIENT VARCHAR(255) NOT NULL, -- Client token. This is a has, generated using IP and browser session ID
 	CID INT NOT NULL, -- Comment ID reference
 	POSITIVE TINYINT(1) NOT NULL DEFAULT 0, -- If 1, it's a like, if 0, it's a dislike
-	PRIMARY KEY(ID)
+	PRIMARY KEY(ID),
 	FOREIGN KEY (CID) REFERENCES general_comments(ID)
 );
 
