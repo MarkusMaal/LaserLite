@@ -1,0 +1,174 @@
+h1 {
+	color: #ffffff;
+	font-family: Arial;
+	font-size: 35;
+	text-align: center;
+}
+.banner {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 700px;
+	
+}
+.container {
+	width: 90%;
+    height: 200px;
+    margin: auto;
+    padding: 0px;
+}
+.belowpage {
+    height: auto;
+    float: left;
+	margin-left: 0%;
+    width: 68%;
+	text-align: left;
+	font-size: 15;
+	font-family: Arial;
+	vertical-align: top;
+	margin-top: 30px;
+	background-color: #e00000;
+	padding-top: 30px;
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-bottom: 30px;
+}
+.mainpage{
+    height: auto;
+    float: left;
+	margin-left: 0%;
+    width: 93%;
+	text-align: left;
+    margin-bottom: 5%;
+	font-size: 15;
+	font-family: Arial;
+	vertical-align: top;
+	/*background-image: url("plus.png");*/
+	background-color: rgb(99, 17, 13);
+	background-color: rgba(0, 0, 0, 0.25);
+    border: solid 2px #cc027c;
+	padding-top: 30px;
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-bottom: 30px;
+	background-position: bottom;
+	background-size: 100% auto;
+	background-repeat: no-repeat;
+    border-radius: 15px;
+}
+.activepage {
+    background-color: #ba008b;
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+.linklist {
+    list-style-type: none;
+    /*overflow: hidden;*/
+	background: linear-gradient(#ff0700, #b40400);
+	margin-left: 24%;
+	margin-right: auto;
+    margin-bottom: 5%;
+	padding-left: 0;
+	padding-right: 0;
+	font-family: Arial;
+	text-decoration: none;
+}
+.listitems {
+    /*position: relative;*/
+	background: linear-gradient(#ff0700, #b40400);
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+	margin: auto;
+}
+.linklist ul {
+    margin: 0;
+    padding: 0;
+    text-align:center;
+}
+.linklist ul li {
+	margin-left: auto;
+	margin-right: auto;
+    padding: 0;
+    display:inline-block;
+    position: relative;
+}
+.linklist ul li a {
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    color: #FFF;
+    text-align: center;     
+}
+.listitems:hover {
+	background: linear-gradient(#ea0000, #cc027c);
+	color: #ffffff;
+	text-decoration: none;
+}
+.activepage:hover {
+	background: linear-gradient(#ea0000, #cc027c);
+	color: #ffffff;
+	text-decoration: none;
+}
+.maintable {
+	padding:0 100px 0 70px;
+}
+body {
+	color: #C7D9FF;
+	font-family: Arial;
+	font-size: 15;
+	background: radial-gradient(#cc027c, #ea0000);
+/*	background-image: url("bgplus.svg");
+	background-size: 5% auto;*/
+}
+img {
+	text-align: center;
+    width: 100%;
+}
+a {
+	color: #fff200;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+p {
+	color: #f9f9f9
+}
+.ge {
+	width: 75%;
+	text-align: left;
+}
+img[alt="www.000webhost.com"]
+{
+    display:none;
+}
+
+@media screen and (max-width:640px) {
+    .banner {
+	    width: 500px;
+	}
+    .linklist ul li {
+        display:block;
+        position: absolute;
+    }
+    body {
+	    font-size: 12;
+    }
+}
+td {
+    padding: 1%;
+}
+@media screen and (min-width:1280px) {
+    .banner {
+	    width: 800px;
+	}
+    body {
+	    font-size: 18;
+    }
+)

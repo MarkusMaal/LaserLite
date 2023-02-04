@@ -7,7 +7,7 @@ if (!empty($_SESSION) && ($_SESSION["level"] == "owner")) {
 	die('<br/><span style="color: #ff0000">Selleks, et kasutada haldamistööriistu peate sisse logima omaniku kontoga.<br/></span>
 	<a href="/markustegelane/common/config/login.php?redir=mas_db">Logi sisse</a>');
 }
-if (!empty($_POST["verification-code"])) {
+if (!empty($_POST)) {
 	echo '<h1>Andmebaasi muutmine</h1>';
 	if ($connection->connect_error) {
 		die('<span style="color: #ff0000">Andmebaasige ühendumine nurjus.
@@ -81,10 +81,10 @@ if (!empty($_POST["verification-code"])) {
 				<select name="ver_id">
 				<?php
 					include("../connect.php");
-					$query = "SELECT ID FROM mas_db";
+					$query = "SELECT * FROM mas_db";
 					$result = mysqli_query($connection, $query);
 					while ($row = mysqli_fetch_array($result)) {
-						echo '<option value="' . $row[0] . '">' . $row[0] . '</option>';
+						echo '<option value="' . $row[0] . '">' . $row["ID"] . ' <-> ' . $row["VERSIOON"] . ' - ' . $row["LVERSIOON"] . ' ' . substr($row["NIMI"], 0,10) . '</option>';
 					}
 				?>
 				</select>
@@ -110,10 +110,10 @@ if (!empty($_POST["verification-code"])) {
 				<select name="wallpaper_id">
 				<?php
 					include("../connect.php");
-					$query = "SELECT ID FROM mas_wallpapers";
+					$query = "SELECT * FROM mas_wallpapers";
 					$result = mysqli_query($connection, $query);
 					while ($row = mysqli_fetch_array($result)) {
-						echo '<option value="' . $row[0] . '">' . $row[0] . '</option>';
+						echo '<option value="' . $row[0] . '">' . $row[0] . ' &lt;-&gt; ' . substr($row["ASUKOHT"], 0, 10) . '</option>';
 					}
 				?>
 				</select>
@@ -136,10 +136,10 @@ if (!empty($_POST["verification-code"])) {
 				<select name="ver_id">
 				<?php
 					include("../connect.php");
-					$query = "SELECT ID FROM mas_db";
+					$query = "SELECT * FROM mas_db";
 					$result = mysqli_query($connection, $query);
 					while ($row = mysqli_fetch_array($result)) {
-						echo '<option value="' . $row[0] . '">' . $row[0] . '</option>';
+						echo '<option value="' . $row[0] . '">' . $row[0] . ' &lt;-&gt; ' . $row["VERSIOON"] . ' - ' . $row["LVERSIOON"] . ' ' . substr($row["NIMI"], 0,10) . '</option>';
 					}
 				?>
 				</select>
@@ -167,10 +167,10 @@ if (!empty($_POST["verification-code"])) {
 				<select name="remove_id">
 				<?php
 					include("../connect.php");
-					$query = "SELECT ID FROM mas_wallpapers";
+					$query = "SELECT * FROM mas_wallpapers";
 					$result = mysqli_query($connection, $query);
 					while ($row = mysqli_fetch_array($result)) {
-						echo '<option value="' . $row[0] . '">' . $row[0] . '</option>';
+						echo '<option value="' . $row[0] . '">' . $row[0] . ' &lt;-&gt; ' . substr($row["ASUKOHT"], 0, 10) . '</option>';
 					}
 				?>
 				</select>

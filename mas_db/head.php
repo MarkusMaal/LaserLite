@@ -8,7 +8,22 @@
 	<head>
 		<link rel="shortcut icon" type="image/svg" href="/favicons/mas_web.svg" />
 		<title><?php echo ms("Markus' stuff versions", "Markuse asjade versioonid");?></title>
-		<link rel="stylesheet" href="../style.css"/>
+		<?php 
+		$theme = "blue";
+		if (!empty($_COOKIE["theme"])) {
+			$theme = $_COOKIE["theme"];
+		}
+		switch ($theme) {
+			case "dark":
+				echo '<link rel="stylesheet" href="../style_d.css"/>';
+				break;
+			case "light":
+				echo '<link rel="stylesheet" href="../style.css"/>';
+				break;
+			default:
+				echo '<link rel="stylesheet" href="../style_b.css"/>';
+				break;
+		}?>
 	</head>
 	<body>
 		<a href=".."><img style="height: 100px;" src="../images/mas_web.svg"/></a>

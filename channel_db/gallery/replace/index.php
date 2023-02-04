@@ -1,15 +1,11 @@
 <?php
     if(session_status()!=PHP_SESSION_ACTIVE) session_start();
-?>
-<?php include("../head.php"); ?>
-<h1>Muuda kirjet</h1>
-<?php
 	if (!empty($_POST["record-id"])) {
 		echo "<br/>POST andmed kätte saadud!<br/>";
 		include("../../connect.php");
 		if ($connection->connect_error) {
 			die('<span style="color: #ff0000">Andmebaasiga ühendumine nurjus.
-			Olge kindlad, et andmebaas toimib ning, et teie kinnitusparool oli õige</span><br/><a href="index.php">Tagasi andmebaasi</a>');
+			Olge kindlad, et andmebaas toimib ning, et teie kinnitusparool oli õige</span><br/><a class="btn btn-primary" href="index.php">Tagasi andmebaasi</a>');
 		}
 		// sql päring
 		$sql = 'UPDATE channel_gallery SET ' . $_POST["col"] . ' = ' . $_POST["new"] . ' WHERE ID=' . $_POST["record-id"];
@@ -20,28 +16,38 @@
 			echo '<span style="color: #ff0000; ">Viga: ' . $sql . '<br>' . $connection->error;
 		}
 		$connection->close();
-		echo '<br/><a href="index.php">Muuda veel</a><a href="..">Tagasi andmebaasi</a>';
+		echo '<br/><a class="btn btn-primary" href="index.php">Muuda veel</a><a class="btn btn-primary mx-2" href="..">Tagasi andmebaasi</a>';
 		die();
 	}
 	if (!((!empty($_SESSION["usr"])) && ($_SESSION["level"] == "owner"))) {
 		die("Peate sisse logima.");
 	}
 ?>
-<table>
-<form method="post" action="index.php" name="form" id="form1" enctype="multipart/mixed">
-<td>Kirje ID: </td>
-<td><input name="record-id" style="width: 5%;" type="text" value="<?php
-if (!empty($_GET["id"])) {
-	echo $_GET["id"];
-}
-?>"/></td>
-<tr>
-<td>Veerg mida muuta: </td>
-<td>
-<select name="col"/>
+<form method="post" action="index.php?gallery=1" name="form" id="form1" enctype="multipart/mixed">
+<div class="form-floating">
+<select id="record-id" class="form-select my-3" name="record-id">
 <?php
 	include("../../connect.php");
 	$query = "SELECT * FROM channel_gallery";
+	$id = -1;
+	if (!empty($_GET["id"])) {
+		$id = $_GET["id"];
+	}
+	$result = mysqli_query($connection, $query);
+	while ($row = mysqli_fetch_array($result)) {
+		echo '<option value="' . $row["ID"] . '"';
+		if ($id == $row["ID"]) {
+			echo ' selected';
+		}
+		echo '>' . $row["ID"] . ' &lt;&gt; ' . $row["Kanal"] . '</option>';
+	}
+?>
+</select>
+<label for="record-id">Kirje ID</label>
+</div>
+<div class="form-floating my-3">
+<select class="form-select" id="col" name="col"/>
+<?php
 	$result = mysqli_query($connection, $query);
 	$mod = "void";
 	if (!empty($_GET["mod"])) {
@@ -58,11 +64,10 @@ if (!empty($_GET["id"])) {
 	}
 ?>
 </select>
-</td>
-</tr>
-<tr>
-<td>Uus väärtus: <br/>0 = Ei, 1 = Jah</td>
-<td><textarea id="text1" name="new" rows="5" cols="100"><?php
+<label for="col">Veerg, mida muuta</label>
+</div>
+<div class="form-floating my-3">
+<textarea class="form-control" id="text1" name="new" rows="5" cols="100"><?php
 if ((!empty($_GET["mod"])) && (!empty($_GET["id"]))) {
 	include("../connect.php");
 	$query = "SELECT " . $_GET["mod"] . " FROM channel_gallery WHERE ID = " . $_GET["id"];
@@ -70,10 +75,10 @@ if ((!empty($_GET["mod"])) && (!empty($_GET["id"]))) {
 	$row = mysqli_fetch_array($result);
 	echo $row[0];
 }
-?></textarea></td>
-</tr>
-</table>
-<br/><a href="#/" onclick="ReplaceRecord();">Asenda üksus</a><a href="..">Tagasi</a>
+?></textarea>
+<label for="text1">Uus väärtus</label>
+</div>
+<br/><a class="btn btn-warning" href="#/" onclick="ReplaceRecord();">Asenda üksus</a><a class="btn btn-primary mx-2" href="..">Tagasi</a>
 </form>
 <script>
 	function ReplaceRecord() {

@@ -1,0 +1,245 @@
+h1 {
+	color: #121212;
+	font-family: Arial;
+	font-size: 35;
+	text-align: center;
+}
+.banner {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 700px;
+	
+}
+.container {
+	width: 90%;
+    height: 200px;
+    margin: auto;
+    padding: 0px;
+}
+.belowpage {
+    height: auto;
+    float: left;
+	margin-left: 0%;
+    width: 68%;
+	text-align: left;
+	font-size: 15;
+	font-family: Arial;
+	vertical-align: top;
+	margin-top: 30px;
+	background-color: #000060;
+	padding-top: 30px;
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-bottom: 30px;
+}
+.mainpage{
+    height: auto;
+	margin-left: auto;
+	margin-right: auto;
+    width: 80%;
+	text-align: left;
+	font-size: 15;
+	font-family: Arial;
+	vertical-align: top;
+	color: #121212;
+	background: #ffffff;
+	background-color: #ffffff;
+	padding-top: 30px;
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-bottom: 50px;
+}
+.sidepanel3{
+    height: auto;
+	background: linear-gradient(#ffffff, rgba(255, 255, 255, 0.7));
+    width: 30%;
+	margin: auto;
+	margin-right: 15%;
+	margin-top: 5%;
+	padding-top: 3%;
+	padding-right: 2%;
+	padding-bottom: 5%;
+	padding-bottom: 8%;
+	vertical-align: top;
+	color: black;
+	font-family: Arial;
+	font-size: 20;
+	float: right;
+}
+.sidepanel2{
+    height: auto;
+	background: linear-gradient(#00ffff, rgba(0, 255, 255, 0.2));
+    width: 70%;
+	margin: auto;
+	margin-top: 5%;
+	vertical-align: top;
+	color: white;
+	font-family: Arial;
+	font-size: 20;
+}
+.sidepanel{
+    height: auto;
+	background: linear-gradient(#00bbff, rgba(102, 102, 255, 0.1));
+    width: 35%;
+	margin-left: 15%;
+	margin-right: auto;
+	margin-top: 5%;
+	padding: 1%;
+	vertical-align: top;
+	color: white;
+	font-family: Arial;
+	font-size: 20;
+}
+.activepage {
+    background-color: deepskyblue;
+    display: inline-block;
+    color: blue;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+.linklist {
+    list-style-type: none;
+    overflow: hidden;
+	background: transparent;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 0;
+	padding-right: 0;
+	font-family: Arial;
+	text-decoration: none;
+}
+.listitems {
+    position: relative;
+	background: linear-gradient(#00bbff, rgba(0, 50, 100, 0.5));
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+	margin: auto;
+}
+.linklist ul {
+    margin: 0;
+    padding: 0;
+    text-align:center;
+}
+.linklist ul li {
+	margin-left: auto;
+	margin-right: auto;
+    padding: 0;
+    display:inline-block;
+    position: relative;
+}
+.linklist ul li a {
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    color: #FFF;
+    text-align: center;     
+}
+.listitems:hover {
+	background: linear-gradient(#00bbff, rgba(0, 50, 100, 0.5));
+	color: skyblue;
+	text-decoration: none;
+}
+.activepage:hover {
+    background-color: deepskyblue;
+	color: #ffffff;
+	text-decoration: none;
+}
+.maintable {
+	padding:0 100px 0 70px;
+}
+body {
+	color: #C7D9FF;
+	font-family: Arial;
+	font-size: 15;
+	background: linear-gradient(#00dbff, #009dff);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+img {
+	text-align: center;
+    width: 100%;
+}
+a {
+	color: rgba(0, 185, 255, 0.75);
+	text-decoration: none;
+	background: transparent;
+}
+a:hover {
+	color: rgba(0, 185, 255, 1.0);
+}
+p {
+	color: #555555
+}
+.ge {
+	width: 75%;
+	text-align: left;
+}
+img[alt="www.000webhost.com"]
+{
+    display:none;
+}
+
+@media screen and (max-width:1000px) {
+    .mainpage{
+        width: 62%;
+    }
+}
+@media screen and (max-width:680px) {
+    .banner {
+	    width: 110%;
+        margin: auto;
+	}
+    .linklist ul li {
+        display:block;
+        position: absolute;
+    }
+    body {
+	    font-size: 20;
+    }
+    .mainpage{
+        width: 89%;
+        margin: auto;
+        margin-bottom: 10px;
+    }
+    .sidepanel3{
+        height: auto;
+        width: 100%;
+	    float: left;
+	    font-size: 20;
+    }
+    .sidepanel2{
+        height: auto;
+        width: 100%;
+	    float: left;
+	    font-size: 20;
+    }
+    .sidepanel{
+        height: auto;
+        width: 100%;
+	    float: left;
+	    font-size: 20;
+    }
+    h1 {
+        font-size: 32;
+    }
+    h2 {
+        font-size: 24;
+    }
+    
+    .linklist{
+        width: 190px;
+    }
+}
+@media screen and (min-width:1280px) {
+    .banner {
+	    width: 800px;
+	}
+    body {
+	    font-size: 18;
+    }
+)

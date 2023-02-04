@@ -1,9 +1,25 @@
 <?php
 ?>
   <h1>Teave</h1>
-  <p>markustegelane ametlik veebisait<br>Versioon 6.1<br>Varjunimi: LaserLite<br>Järk: 6138<br>Viimane muutmisaeg (UTC): <?php
+  <p>markustegelane ametlik veebisait<br>Versioon 6.3<br>Varjunimi: LaserLite<br>Järk: 6403<br>Viimane muutmisaeg (UTC): <?php
 echo date('d.m.Y H:m:s', filemtime($_SERVER["DOCUMENT_ROOT"] . '/markustegelane/content/et-EE/about/1.php'));
-?><script>document.write('<br>Tehnoloogia: Markuse tarkvara JS<br/><span id="ctype"></span>'); </script><?php echo 'Hosti versioon: ' . phpversion();?><br/>
+?><script>document.write('<br>Tehnoloogia: Markuse tarkvara JS<br/><span id="ctype"></span>'); </script><?php echo 'Hosti versioon: ' . phpversion();?><br/>Ühenduse tüüp: <?php 
+$isSsl = false; 
+if (isset($_SERVER['HTTP_CF_VISITOR']) || !empty($_SERVER['HTTPS'])) {
+    $cfDecode = json_decode($_SERVER['HTTP_CF_VISITOR']);
+    if (!empty($cfDecode) && !empty($cfDecode->scheme) && $cfDecode->scheme == 'https') {
+        $isSsl = true;
+    }
+    if (!empty($_SERVER["HTTPS"])) {
+        $isSsl = true;
+    }
+}
+if ($isSsl == true) {
+   echo '<span style="color: #0f0;">Turvaline</span>';
+} else {
+   echo '<span style="color: #f00;">Ebaturvaline</span>';
+}
+?><br/>
   </p>
 <?php if (!empty($_SESSION["usr"])) {
   echo '<a href="?doc=development&s=1&subdoc=about">Teabe muutmine</a><br/>';
@@ -13,7 +29,7 @@ echo date('d.m.Y H:m:s', filemtime($_SERVER["DOCUMENT_ROOT"] . '/markustegelane/
   <br>
   <div style="width: 500px; margin: auto;">
   <?php
-  if ($_COOKIE["theme"] == "light") {
+  if ($theme == "light") {
   echo '<a href="images/ljsoftware.png" title="markuse loodud veebitarkvara"><img style="width: 100%;" src="images/ljsoftware.png"></a>';
   } else {
   echo '<a href="images/jsoftware.png" title="markuse loodud veebitarkvara"><img style="width: 100%;" src="images/jsoftware.png"></a>';
@@ -21,14 +37,26 @@ echo date('d.m.Y H:m:s', filemtime($_SERVER["DOCUMENT_ROOT"] . '/markustegelane/
   ?>
   </div>
   <br>
-  <h2>Hostimine 000webhost'i poolt</h2>
-  <a target="_blank" href="https://000webhost.com"><img alt="000webhost" src="https://cdn.000webhost.com/000webhost/logo/000logo-new-colors.svg" style="width:20%;"></a>
+<?php if ((str_contains($_SERVER["HTTP_HOST"], ".ml")) || (str_contains($_SERVER["HTTP_HOST"], ".tk"))) {
+echo '<h2>Domeeni pakkuja</h2>
+<a target="_blank" href="freenom.com"><img title="Freenom - A name for everyone" alt="Freenom" src="https://www.freenom.com/images.v2/logo.png" style="width: 20%;"></a><br/><br/>';
+}
+if (!empty($_SERVER["HTTPS"])) {
+if (str_contains($_SERVER["HTTP_HOST"], ".eu")) {
+echo '<h2>SSL/TLS pakkuja</h2>
+<a target="_blank" href="https://letsencrypt.org/"><img title="Let\'s Encrypt" alt="Let\'s Encrypt" src="https://letsencrypt.org/images/letsencrypt-logo-horizontal.svg" style="width: 20%;"></a><br/><br/>';
+} else if (str_contains($_SERVER["HTTP_HOST"], ".tk")) {
+echo '<h2>SSL/TLS pakkuja</h2>
+<a target="_blank" href="https://zerossl.com/"><img title="ZeroSSL" alt="ZeroSSL" src="https://zerossl.com/assets/images/zerossl_logo.svg" style="width: 20%;"></a><br/><br/>';
+} else if (str_contains($_SERVER["HTTP_HOST"], ".online")) {
+echo '<h2>SSL/TLS pakkuja</h2>
+<a target="_blank" href="https://pki.goog/"><img title="Google Trust Services LLC" alt="ZeroSSL" src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" style="width: 20%;"></a><br/><br/>';
+}
+}
+?>
+   <h2>Veebimajutus</h2>
+  <a target="_blank" href="https://hostinger.ee?REFERRALCODE=1MARKUS53"><img title="Klõpsake siia, kui soovite 20% allahindlust ning samal ajal ka aidata katta veebilehe majutuskulusid" alt="Hostinger" src="https://assets.hostinger.com/images/logo-homepage2020-f9c79137d7.svg" style="width:20%;"></a>
   <br><br>
-  <h2>Domeeni pakkuja</h2>
-  <a title="Freenom - A Name for Everyone" href="https://www.freenom.com"><img alt="Freenom - DNS teenus" src="https://www.freenom.com/images.v2/logo.png" style="width:20%;"></a>
-  <br><br>
-  <h2>SSL/TLS pakkuja (HTTPS tugi)</h2>
-  <a title="Cloudflare - The Web Performance & Security Company" href="https://www.cloudflare.com/"><img style="width: 25%;" src="https://www.cloudflare.com/img/logo-cloudflare-dark.svg"/></a>
   <p id="name">Tere, Anonüümne isik!</p>
         <a href="#/" id="myBtn" onclick="buttonClicked();" class="listitems">Sisesta nimi</a>
         <div id="myModal" class="modal">

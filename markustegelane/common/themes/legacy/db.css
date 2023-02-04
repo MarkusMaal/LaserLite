@@ -1,0 +1,43 @@
+td {
+	color: #000000;
+	background-color: #bbbbbb;
+	font-family: Arial;
+	font-size: 14;
+	text-align: center;
+}
+tr {
+	color: #000000;
+	background-color: #999999;
+	font-family: Arial;
+	font-size: 14;
+	text-align: center;
+}
+body {
+    background-color: #258432;
+	background-image: url("bg.svg");
+	background-size: 5% auto;
+}
+img {
+    width: 800px;
+    text-align: center;
+}
+.listitems {
+    position: relative;
+	background: linear-gradient(#000040, #000030);
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+	margin: auto;
+}
+.listitems:hover {
+    background: #0000f0;
+	color: #ffff00;
+	text-decoration: none;
+}
+img[alt="www.000webhost.com"]
+{
+    display:none;
+}
+

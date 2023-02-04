@@ -1,146 +1,166 @@
 <?php
 if(session_status()!=PHP_SESSION_ACTIVE) session_start();
-include("connect.php");
-include("../../mobcheck.php");
-if (empty($_POST)) {
-	die("Catastrophic error // Katastroofiline viga");
-} else {
-	$finish = false;
-	$error = "";
-	$invalidpass = false;
-	if (!empty($_POST["newcomment"])) {
-		// muuda kommentaari
-		$newcomment = mysqli_real_escape_string($connection, $_REQUEST['newcomment']);
-		$authuser = md5($_POST["name"] . ":" . $_POST["pass"]);
-		$good = false;
-		
-		$comment = mysqli_real_escape_string($connection, $_REQUEST['newcomment']);
-		$query1 = "SELECT ID, UPASS, RECOVERYCODE FROM managers WHERE UNAME = \"" . $_SESSION["usr"] . "\"";
-		$result = mysqli_query($connection, $query1);
-		$row = mysqli_fetch_array($result);
-		$uid = md5($row["ID"] . $_SESSION["usr"] . $row["UPASS"] . $row["RECOVERYCODE"] . $comment);
-		$usrname = "id" . $uid . "_" . $_SESSION["usr"];
-		
-		$query = "UPDATE general_comments SET COMMENT = \"" . $newcomment . "\" WHERE ID = " . $_GET["id"];
-		if ($connection->query($query) === TRUE) {
-			$finish = true;
-		} else {
-			$finish = false;
-			$error = $connection->error;
-		}
-		$query = "UPDATE general_comments SET NAME = \"" . $usrname . "\" WHERE ID = " . $_GET["id"];
-		if ($connection->query($query) === TRUE) {
-			$finish = true;
-		} else {
-			$finish = false;
-			$error = $connection->error;
-		}
-	}
-	else if (!empty($_POST["confirm"])) {
-		// muuda kommentaari
-		$finish1 = false;
-		$finish2 = false;
-		$query = "DELETE FROM client_ratings WHERE cid = " . $_GET["id"];
-		if ($connection->query($query) === TRUE) {
-			$finish1 = true;
-		} else {
-			$error = $connection->error;
-		}
-		$query = "DELETE FROM comment_managers WHERE cid = " . $_GET["id"];
-		if ($connection->query($query) === TRUE) {
-			$finish1 = true;
-		} else {
-			$error = $connection->error;
-		}
-		$query = "DELETE FROM general_comments WHERE ID = " . $_GET["id"];
-		if ($connection->query($query) === TRUE) {
-			$finish2 = true;
-		} else {
-			$error = $error . '<br/>' . $connection->error;
-		}
-		if (($finish1) && ($finish2)) {
-			$finish = true;
-		}
-	}
-	else if (!empty($_POST["newpass"])) {
-		// muuda parooli
-		$newpass = mysqli_real_escape_string($connection, $_REQUEST['newpass']);
-		$query = "UPDATE comment_managers SET code = MD5(CONCAT(" . $_GET["id"] . ", \"" . $newpass . "\")) WHERE cid = " . $_GET["id"];
-		if ($connection->query($query) === TRUE) {
-			$finish = true;
-		} else {
-			$error = $connection->error;
-		}
-	}
-	else {
-		// eelmisest sammust
-		if (!empty($_SESSION["usr"])) {			
-			$query = "SELECT * FROM general_comments WHERE ID = " . $_GET["id"];
-			$res = mysqli_query($connection, $query);
+	include($_SERVER["DOCUMENT_ROOT"] . "/connect.php");
+	include("../../mobcheck.php");
+	$badge = "";
+	if (empty($_POST)) {
+		die("Catastrophic error // Katastroofiline viga");
+	} else {
+		$finish = false;
+		$error = "";
+		$invalidpass = false;
+		if (!empty($_POST["newcomment"])) {
+			// muuda kommentaari
+			$newcomment = mysqli_real_escape_string($connection, $_REQUEST['newcomment']);
+			$authuser = md5($_POST["name"] . ":" . $_POST["pass"]);
+			$good = false;
 			
-			$mycomment = mysqli_fetch_array($res);
-			if (strpos($mycomment["NAME"], '_') !== false) {
-				$original_usr = explode("_", $mycomment["NAME"])[1];
-				if ($original_usr != $_SESSION["usr"]) {
-					$invalidpass = true;
-				} else {
-					$invalidpass = false;
-					$task = $_POST["action"];
-				}
+			$comment = mysqli_real_escape_string($connection, $_REQUEST['newcomment']);
+			$query1 = "SELECT ID, UPASS, RECOVERYCODE FROM managers WHERE UNAME = \"" . $_SESSION["usr"] . "\"";
+			$result = mysqli_query($connection, $query1);
+			$row = mysqli_fetch_array($result);
+			$uid = md5($row["ID"] . $_SESSION["usr"] . $row["UPASS"] . $row["RECOVERYCODE"] . $comment);
+			$usrname = "id" . $uid . "_" . $_SESSION["usr"];
+			
+			$query = "UPDATE general_comments SET COMMENT = \"" . $newcomment . "\" WHERE ID = " . $_GET["id"];
+			if ($connection->query($query) === TRUE) {
+				$finish = true;
 			} else {
-				$invalidpass = true;
+				$finish = false;
+				$error = $connection->error;
+			}
+			$query = "UPDATE general_comments SET NAME = \"" . $usrname . "\" WHERE ID = " . $_GET["id"];
+			if ($connection->query($query) === TRUE) {
+				$finish = true;
+			} else {
+				$finish = false;
+				$error = $connection->error;
 			}
 		}
-		if (($invalidpass) || (empty($_SESSION["usr"]))) {
-			$invalidpass = false;
-			$query = "SELECT * FROM comment_managers WHERE cid = " . $_GET["id"];
-			$result = mysqli_query($connection, $query);
-			$row = mysqli_fetch_array($result);
-			$pass = mysqli_real_escape_string($connection, $_REQUEST['pass']);
-			if (md5($_GET["id"] . $pass) != $row["code"]) {
-				$invalidpass = true;
-				$_POST = array();
+		else if (!empty($_POST["confirm"])) {
+			// muuda kommentaari
+			$finish1 = false;
+			$finish2 = false;
+			$query = "DELETE FROM client_ratings WHERE cid = " . $_GET["id"];
+			if ($connection->query($query) === TRUE) {
+				$finish1 = true;
 			} else {
-				$task = $_POST["action"];
-				$_POST = array();
+				$error = $connection->error;
+			}
+			$query = "DELETE FROM comment_managers WHERE cid = " . $_GET["id"];
+			if ($connection->query($query) === TRUE) {
+				$finish1 = true;
+			} else {
+				$error = $connection->error;
+			}
+			$query = "DELETE FROM general_comments WHERE ID = " . $_GET["id"];
+			if ($connection->query($query) === TRUE) {
+				$finish2 = true;
+			} else {
+				$error = $error . '<br/>' . $connection->error;
+			}
+			if (($finish1) && ($finish2)) {
+				$finish = true;
+			}
+		}
+		else if (!empty($_POST["newpass"])) {
+			// muuda parooli
+			$newpass = mysqli_real_escape_string($connection, $_REQUEST['newpass']);
+			$query = "UPDATE comment_managers SET code = MD5(CONCAT(" . $_GET["id"] . ", \"" . $newpass . "\")) WHERE cid = " . $_GET["id"];
+			if ($connection->query($query) === TRUE) {
+				$finish = true;
+			} else {
+				$error = $connection->error;
+			}
+		}
+		else {
+			// eelmisest sammust
+			if (!empty($_SESSION["usr"])) {			
+				$query = "SELECT * FROM general_comments WHERE ID = " . $_GET["id"];
+				$res = mysqli_query($connection, $query);
+				
+				$mycomment = mysqli_fetch_array($res);
+				if (strpos($mycomment["NAME"], '_') !== false) {
+					$original_usr = explode("_", $mycomment["NAME"])[1];
+					if ($original_usr != $_SESSION["usr"]) {
+						$invalidpass = true;
+					} else {
+						$invalidpass = false;
+						$task = $_POST["action"];
+					}
+				} else {
+					$invalidpass = true;
+				}
+			}
+			if (($invalidpass) || (empty($_SESSION["usr"]))) {
+				$invalidpass = false;
+				$query = "SELECT * FROM comment_managers WHERE cid = " . $_GET["id"];
+				$result = mysqli_query($connection, $query);
+				$row = mysqli_fetch_array($result);
+				$pass = mysqli_real_escape_string($connection, $_REQUEST['pass']);
+				if (md5($_GET["id"] . $pass) != $row["code"]) {
+					$invalidpass = true;
+					$_POST = array();
+				} else {
+					$task = $_POST["action"];
+					$_POST = array();
+				}
 			}
 		}
 	}
-}
+    ini_set('display_errors', 0);
+    ini_set('display_startup_errors', 0);
+    include($_SERVER["DOCUMENT_ROOT"] . "/maintenance.php");
+	function ms($en, $et) {
+		if ($_COOKIE["lang"] == "et-EE") {
+			return $et;
+		} else {
+			return $en;
+		}
+	}
+	$lang = "en-US";
+	$theme = "blue";
+	if (!empty($_COOKIE["theme"])) {
+		$theme = $_COOKIE["theme"];
+	}
+	if (!empty($_COOKIE["lang"]) && ($_COOKIE["lang"] == "et-EE")) { $lang = "et-EE"; }
 ?>
 <!DOCTYPE html>
-<html lang="<?php
-if ((!empty($_COOKIE["lang"])) && ($_COOKIE["lang"] == "et-EE")) {
-echo 'et';
-$lang = "et";
-} else {
-echo 'en';
-$lang = "en";
-}
-
-
-function ms($en, $et) {
-    if (!empty($_COOKIE["lang"])) {
- 	if ($_COOKIE["lang"] == "et-EE") {
- 		return $et;
- 	} else {
- 		return $en;
- 	}
-   } else {
-        return $en;
-   } 
-}
-
-?>">
-	<head>
-		<link rel="shortcut icon" type="image/x-icon" href="/favicons/main.ico" />
-		<title><?php echo ms("Manage comment", "Kommentaari haldamine")?></title>
-        <?php include("loadtheme.php"); ?>
-	</head>
-	<body>
-		<a href=".."><img center class="banner" src="../gfx/banner.png" alt="tere tulemast minu veebisaidile!"></a>
-		<div class="mainpage">
-			<h2><?php echo ms("Manage comment", "Kommentaari haldamine")?></h2>
+<html lang="<?php if ($lang == "et-EE") { echo "et"; } else { echo "en"; } ?>">
+<head><title><?php if ($lang == "et-EE") { echo "Markuse videod productions - avaleht"; } else { echo "Markus' videos productions - home page"; } ?></title>
+	<link rel="shortcut icon" type="image/x-icon" href="/favicons/main.ico" />
+<?php
+	  include($_SERVER["DOCUMENT_ROOT"] . "/markustegelane/common/config/getcookies.php");
+	  include($_SERVER["DOCUMENT_ROOT"] . "/markustegelane/common/themes/theme.php"); ?>
+</head>
+<body>
+		<table style="margin-left:0px; width: 100%;">
+		<tr style="float: left; width: 100%;">
+		<td>
+		<img style="width: 5em;" src="/markustegelane/common/config/gfx/gears.svg">
+		</td>
+		<td>
+		<h1 style="padding-top: 0px;"><?php echo ms("Manage comment", "Kommentaari haldamine"); ?></h1>
+		</td>
+		</tr>
+		</table>
+		<hr>
+		<hr style="border-color: <?php
+		
+		switch ($theme) {
+			case "blue":
+				echo '#00e';
+				break;
+			case "light":
+				echo '#eee';
+				break;
+			case "dark":
+				echo '#888';
+				break;
+		}
+				?>;">
+		<div class="cut">
+		<div class="cont">
 			<p>
 			<?php
 				if ($invalidpass) {
@@ -218,25 +238,25 @@ function ms($en, $et) {
 					echo ms("Change password", "Muuda parooli");
 				}
 				?></p>
-				<table style="width: 90%">
+				<table style="width: 90%; float: left;">
 				<tr><td>
 				<?php
 					if ($task == "mod") {
-						if ($lang == "et") {
+						if ($lang == "et-EE") {
 							echo 'Uus kommentaar';
 						} else {
 							echo 'New comment';
 						}
 					}
 					else if ($task == "del") {
-						if ($lang == "et") {
+						if ($lang == "et-EE") {
 							echo 'Kinnita kustutamine';
 						} else {
 							echo 'Confirm deletion';
 						}
 					}
 					else if ($task == "chp") {
-						if ($lang == "et") {
+						if ($lang == "et-EE") {
 							echo 'Muuda parooli';
 						} else {
 							echo 'Change password';
@@ -255,8 +275,8 @@ function ms($en, $et) {
 				?></td>
 				</tr>
 				</table><br/>
-				<input type="submit" value="<?php echo ms("Finish", "Lõpeta"); ?>"></input>
+				<div style="width: 100%; float: left;"><input type="submit" value="<?php echo ms("Finish", "Lõpeta"); ?>"></input></div>
 			</form>
 		</div>
-	</body>
-</html>
+		</div>
+</body>

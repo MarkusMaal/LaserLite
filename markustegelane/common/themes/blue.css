@@ -2,11 +2,11 @@ body {
 	color: white;
 	font-family: Arial;
 	font-size: 15;
-	background: url("../../gfx/bg.png") no-repeat center center fixed;
-	background-position: fixed;
+	background-color: #001188;
+	background: url("../../gfx/bg.svg") repeat;
+	background-position: 0% 0%;
 	z-index: -1;
-	background-size: cover;
- 	background-repeat: no-repeat;
+	background-size: 100%;
 }
 
 .modal {
@@ -189,5 +189,10 @@ img[alt="www.000webhost.com"]
 
 .disclaimer
 {
-    display:none;
+	display:none;
+}
+		
+div.broken
+{
+	display:none;
 }

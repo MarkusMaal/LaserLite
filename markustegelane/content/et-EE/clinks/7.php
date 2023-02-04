@@ -2,6 +2,6 @@
 	<ul>
 	<li>Veebilehe arhiveeritud versioonid: <a href="https://web.archive.org/web/20180101000000*/markustegelane.tk/et-EE_index.php">Wayback Machine veebiarhiiv</a></li>
     <li>Kasutajanimed mängudes: mmaal (TrackMania 2, Maniaplanet)/MarkusTegelane (Pou, Play Mängud)/markustegelane (Minecraft)</li>
-    <li>Veebilehe peegelversioon: <a href="http://picasso.markustegelane.ml:12942/">picasso.markustegelane.ml</a>
+    <li>Veebilehe peegelversioon: <a href="https://markustegelane.000webhostapp.com/">markustegelane.000webhostapp.com</a>
 	</ul>
 	<br/>

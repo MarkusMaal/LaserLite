@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title>500</title>
-	<link rel="stylesheet" href="theme/theme.css">
+	<link rel="stylesheet" href="/markustegelane/common/themes/blue.css">
 	<link rel="icon" href="images\favicon.png">
 	<script>
 		function getCookie(cname) {
@@ -38,15 +38,14 @@
 </script>
 </head>
 <body onload="clc()">
-	<a href="index.php"><img center class="banner" src="images\banner.svg" alt="Welcome to my website"></img></a>
 	<br>
 	<section class="container">
-	<div class="mainpage" style="word-wrap: break-word; text-align:left; width: 95%; margin-left: auto; margin-right: auto;">
+	<div class="mainpage" style="word-wrap: break-word; text-align:left; margin-left: auto; margin-right: auto;">
   <!-- Main page section --->
 		<table>
 			<tr>
 				<td style="vertical-align:top; width: 34%; ">
-					<img class="ge" style='width:90%' src='images/serious.svg'>
+					<img class="ge" style='width:90%' src='/markustegelane/images/serious.svg'>
 				</td>
 				<td>
 					<h1 style="text-align:left;" id="unfort">Well, this is embarrasing!</h1>

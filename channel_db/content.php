@@ -1,72 +1,49 @@
 
 <?php
 //ini_set('display_errors', '1');
-include("connect.php");
-
-function ms($en, $et) {
-    if (!empty($_COOKIE["lang"])) {
- 	if ($_COOKIE["lang"] == "et-EE") {
- 		return $et;
- 	} else {
- 		return $en;
- 	}
-   } else {
-        return $en;
-   } 
+if (!empty($_GET["id"])) {
+	die();
 }
-
-function y() {
-    if (!empty($_COOKIE["lang"])) {
- 	if ($_COOKIE["lang"] == "et-EE") {
- 		return "Jah";
- 	} else {
- 		return "Yes";
- 	}
-   } else {
-        return "Yes" ;
-   } 
-}
-function n() {
-    if (!empty($_COOKIE["lang"])) {
- 	if ($_COOKIE["lang"] == "et-EE") {
- 		return "Ei";
- 	} else {
- 		return "No";
- 	}
-    } else {
-        return "No" ;
-    } 
-}
-
-function GetHeader($original) {
-	if ((!empty($_COOKIE["lang"])) && ($_COOKIE["lang"] == "et-EE")) {
-		return $original;
-	} else {
-		if ($original == "Kanal") { return "Channel"; }
-		else if ($original == "Kuupäev") { return "Date"; }
-		else if ($original == "Kirjeldus") { return "Description"; }
-		else if ($original == "Ülekanne") { return "Live stream"; }
-		else if ($original == "Avalik") { return "Public"; }
-		else if ($original == "Subtiitrid") { return "Subtitles"; }
-		else if ($original == "Kustutatud") { return "Deleted"; }
-		else { return $original; }
-	}
-}
-function display_property($row, $item, $idx) {
+function display_property($row, $item, $idx, $fallback) {
 	if ((is_numeric($row[$item])) && ($item != 0)) {
 		echo '<td class="content">' . str_replace("1", ms("Yes", "Jah"), str_replace("0", ms("No", "Ei"), $row[$item])) . '</td>';
 	} else {
 		if (!filter_var($row[$item], FILTER_VALIDATE_URL)) {
-			echo '<td class="content">' . nl2br(wordwrap(substr($row[$item], 0, 100), 30, "\n", true));
-			if (substr($row[$item], 0, 100) != $row[$item]) {
-				echo '...';
+			if ($row[$item] == ".") {
+				$item = $fallback;
+			}
+			if ($row[$item] == "N/A") {
+				echo '<td class="content" style="color: #ff0">' . ms("No description", "Kirjeldus puudub") . '</td>';
+			} else {
+				echo '<td class="content">' . nl2br(wordwrap(substr($row[$item], 0, 100), 30, "\n", true));
+				if (substr($row[$item], 0, 100) != $row[$item]) {
+					echo '...';
+				}
+				echo '</td>';
+			}
+		} else {
+			echo '<td class="content">';
+			if ($row["URL"] != "N/A") {
+				echo '<a href="' . $row[$item] . '">YouTube link</a>';
+			}
+			if ($row["OdyseeURL"] != "N/A") {
+				echo '<br/><a href="' . $row["OdyseeURL"] . '">Odysee link</a>';
 			}
 			echo '</td>';
-		} else {
-			echo '<td class="content"><a href="' . $row[$item] . '">Link</a></td>';
 		}
 	}
 }
+
+
+$prefix = "&";
+if (empty($_GET)) {
+	$prefix = "?";
+}
+$perpage = str_replace("\"", "\\\"", str_replace("'", "\'", $results));
+
+
+$mui_et = array(22, 13, -1, 15, -1);
+$mui_en = array(21, 12, -1, 14, -1);
 
 if (empty($_GET["nopages"])) {
 	$disp_cols = array(1, 2, 4, 5, 10);
@@ -77,45 +54,59 @@ if (empty($_GET["nopages"])) {
 }
 $search = "";
 if (!empty($_GET["q"])) {
-	$search = $_GET["q"];
+	$search = str_replace("\"", "\\\"", str_replace("'", "\'", $_GET["q"]));
 }
 $order = "ID";
 if (!empty($_GET["ord"])) {
-	$order = $_GET["ord"];
+	$order = str_replace("\"", "\\\"", str_replace("'", "\'", $_GET["ord"]));
 }
 $otype = "ASC";
 if (!empty($_GET["dir"])) {
-	$otype = $_GET["dir"];
+	$otype = str_replace("\"", "\\\"", str_replace("'", "\'", $_GET["dir"]));
 }
+
+$category = "";
+if (!empty($_GET["category"])) {
+	$category = str_replace("\"", "\\\"", str_replace("'", "\'", $_GET["category"]));
+}
+
 $deleted = 0;
 $cases = 0;
 $hd = 0;
 $start = 0;
-if (!empty($_GET["stid"])) {
-	$start = $_GET["stid"];
+$done = 0;
+$class = 0;
+if (!empty($_GET["done"])) {
+	$done = $_GET["done"];
 }
-$end = $start + 20;
+if (!empty($_GET["class"])) {
+	$class = $_GET["class"];
+}
+if (!empty($_GET["stid"])) {
+	$start = str_replace("\"", "\\\"", str_replace("'", "\'", $_GET["stid"]));
+}
+$end = $start + $perpage;
 if (!empty($_GET["hd"])) {
-	$hd = $_GET["hd"];
+	$hd = str_replace("\"", "\\\"", str_replace("'", "\'", $_GET["hd"]));
 	$cases += 1;
 }
 $subtitles = 0;
 if (!empty($_GET["subtitles"])) {
-	$subtitles = $_GET["subtitles"];
+	$subtitles = str_replace("\"", "\\\"", str_replace("'", "\'", $_GET["subtitles"]));
 	$cases += 1;
 }
 $live = 0;
 if (!empty($_GET["live"])) {
-	$live = $_GET["live"];
+	$live = str_replace("\"", "\\\"", str_replace("'", "\'", $_GET["live"]));
 	$cases += 1;
 }
 $public = 0;
 if (!empty($_GET["public"])) {
-	$public = $_GET["public"];
+	$public = str_replace("\"", "\\\"", str_replace("'", "\'", $_GET["public"]));
 	$cases += 1;
 }
 if (!empty($_GET["deleted"])) {
-	$deleted = $_GET["deleted"];
+	$deleted = str_replace("\"", "\\\"", str_replace("'", "\'", $_GET["deleted"]));
 	$cases += 1;
 }
 
@@ -126,7 +117,7 @@ if (!empty($_GET["nopages"])) {
 
 $channel = "all";
 if (!empty($_GET["channel"])) {
-	$channel = $_GET["channel"];
+	$channel = str_replace("\"", "\\\"", str_replace("'", "\'", $_GET["channel"]));
 	$cases += 1;
 }
 
@@ -139,25 +130,47 @@ if(mysqli_connect_errno()){
 }
 
 $query = "SELECT * FROM channel_db";
-if (($cases > 0) || ($search != "")) {
-	$query = $query . " WHERE";
+if (!empty($_GET["gallery"])) {
+	$query = "SELECT * FROM channel_gallery";
 }
-$query = $query . ' CONCAT(ID, Video, Kirjeldus, Kuupäev) LIKE "%' . $search . '%"';
-if (($search != "") && ($channel != "all")) {
+if (!empty($_GET["ideas"])) {
+	$query = "SELECT * FROM channel_ideas";
+}
+$query = $query . " WHERE";
+if ($search != "") {
+	$query = $query . ' CONCAT(ID, Video, Kirjeldus, Kuupäev, Tags, Category, CategoryMUI_en, KirjeldusMUI_en, KirjeldusMUI_et, TitleMUI_en, TitleMUI_et, Filename) LIKE "%' . $search . '%"';
+}
+if (($search != "")) {
 	$query = $query . " AND";
 }
 
 if($channel != "all") {
 	$query = $query . " Kanal = '" . $channel . "'";
+} else {
+	$query = $query . " Kanal LIKE \"%\" ";
 }
-if ($deleted != "0") {
-	$query = $query . " AND ";
+if($category != "") {
+	if ($category == "New Year's Celebration videos") {
+		$query = $query . " AND Category = 'Uue aasta vastuvõtu videod'";
+	} else {
+		if (empty($_COOKIE["lang"]) || $_COOKIE["lang"] != "et-EE") {
+			$query = $query . " AND CategoryMUI_en = '" . $category . "'";
+		} else {
+			$query = $query . " AND Category = '" . $category . "'";
+		}
+	}
 }
-if($deleted == "2") {
-	$query = $query . " Kustutatud = 0";
-}
-else if($deleted == "1") {
-	$query = $query . " Kustutatud = 1";
+if (empty($_GET["ideas"])) {
+
+	if ($deleted != "0") {
+		$query = $query . " AND ";
+	}
+	if($deleted == "2") {
+		$query = $query . " Kustutatud = 0";
+	}
+	else if($deleted == "1") {
+		$query = $query . " Kustutatud = 1";
+	}	
 }
 if ($subtitles != "0") {
 	$query = $query . " AND ";
@@ -195,29 +208,96 @@ if ($hd == "1") {
 else if ($hd == "2") {
 	$query = $query . " HD = 0";
 }
+if ($done != "0") {
+	$query = $query . " AND ";
+}
+if ($done == "1") {
+	$query = $query . " Valmis = 1";
+}
+else if ($done == "2") {
+	$query = $query . " Valmis = 0";
+}
+if ($class != "0") {
+	$query = $query . " AND ";
+	$query = $query . " Klass = ${class}";
+}
 $query = $query . " ORDER BY(" . $order . ") " . $otype;
+$query = str_replace("FROM channel_db AND", "FROM channel_db", $query);
+$query = str_replace("FROM channel_gallery AND", "FROM channel_gallery", $query);
+$query = str_replace("FROM channel_ideas AND", "FROM channel_ideas", $query);
 $query = str_replace('CONCAT(ID, Video, Kirjeldus, Kuupäev) LIKE "%%" AND', '', $query);
 $query = str_replace('CONCAT(ID, Video, Kirjeldus, Kuupäev) LIKE "%%"', '', $query);
-
+echo '<div class="container text-center">';
 if ($ignorepages == false) {
-	if (($cases > 0) || ($search != "")) {
-		echo '<a href="index.php?ord=ID&dir=DESC">' . ms("Remove filters", "Eemalda filtrid") . '</a><br/>';
+	if (($cases > 0) || ($search != "") || ($channel != "all") || ($category != "")) {
+		echo '<a href="index.php?ord=ID&dir=DESC"><button type="button" class="btn btn-secondary mx-1 mt-4">' . ms("Remove filters", "Eemalda filtrid") . '</button></a>';
 	}
 	
-	if ($_SERVER["REQUEST_URI"] != str_replace("?", "", $_SERVER["REQUEST_URI"])) {
-		echo '<a href="index.php">' . ms("Hide all items", "Peida kõik üksused") . '</a>';
-		//get results from database
-		if (str_replace("ord=", "", $_SERVER["REQUEST_URI"]) != $_SERVER["REQUEST_URI"]) {
-			if ($otype == "ASC")
-			{
-				echo '<br/><a href="' . str_replace("&dir=ASC", "", $_SERVER["REQUEST_URI"]) . '&dir=DESC">' . ms("Descending order", "Tagurpidi järjestus") . '</a>';
-			} else {
-				echo '<br/><a href="' . str_replace("&dir=DESC", "", $_SERVER["REQUEST_URI"]) . '&dir=ASC">' . ms("Ascending order", "Õigetpidi järjestus") . '</a>';
-			}
+	if (empty($_GET["dir"]) || empty($_GET["ord"]) || ($_GET["dir"] != "DESC") && ($_GET["ord"] != "id")) { echo '<a href="index.php?ord=id&dir=DESC"><button type="button" class="btn btn-secondary mx-1 mt-4">' . ms("Restore defaults", "Algleht") . '</button></a>'; }
+	//get results from database
+	if ($otype == "ASC")
+	{
+		echo '<a href="' . str_replace($prefix . "dir=ASC", "", $_SERVER["REQUEST_URI"]) . $prefix . 'dir=DESC"><button type="button" class="btn btn-secondary mx-1 mt-4">' . ms("Descending order", "Tagurpidi järjestus") . '</button></a>';
+	} else {
+		echo '<a href="' . str_replace($prefix . "dir=DESC", "", $_SERVER["REQUEST_URI"]) . $prefix . 'dir=ASC"><button type="button" class="btn btn-secondary mx-1 mt-4">' . ms("Ascending order", "Õigetpidi järjestus") . '</button></a>';
+	}
+	
+}	
+	$cnt = mysqli_query($connection, $query);
+	$total = 0;
+	while ($row = mysqli_fetch_array($cnt)) {
+		$total++;
+	}
+	if ($total == 0) {
+		die(ms("No results found for this query", "Esitatud päring ei andnud tulemusi"));
+	}
+	$prev = $end - ($perpage * 2);
+	$next = $end + $perpage;
+	$possible = $total / $perpage + 1;
+	$origin = str_replace("&stid=" . $start, "", $_SERVER["REQUEST_URI"]);
+	echo '<br/><br/><div class="btn-group">';
+	if (($start >= $perpage) && ($total > 9 * $perpage)) {
+		echo '<a class="btn btn-primary" href="' . $origin . $prefix . 'stid=0">&lt;&lt;</a>';
+	}
+	if ($end > $perpage) {
+		echo '<a class="btn btn-primary" href="' . $origin . $prefix . 'stid=' . $prev . '">&lt;</a>';
+	} else {
+		echo '<span class="btn btn-primary active">&lt;</span>';
+	}
+	$final = $perpage * intval($possible - 1);
+	if ($possible > 10) {
+		$first = $start / $perpage;
+		while (($possible - $first) < 9) {
+			$first -= 1;
+		}
+		$endpos = $first + 8;
+		while ($first < 0) {
+			$first += 1;
+		}
+	} else {
+		$first = 0;
+		$endpos = $possible - 1;
+	}
+	for ($x = $first; $x <= $endpos; $x++) {
+		$c = $x + 1;
+		$pageid = $x * $perpage;
+		if ($pageid != $start) {
+			echo '<a class="btn btn-primary" href="' . $origin . $prefix . 'stid=' . $pageid . '">' . $c . '</a>';
+		} else {
+			echo '<span class="btn btn-primary active" >' . $c . '</span>';
 		}
 	}
-}
-if(($_SERVER["REQUEST_URI"] != "/channel_db/index.php") && ($_SERVER["REQUEST_URI"] != "/channel_db/")) {
+	if ($next - $perpage <= $total) {
+		echo '<a class="btn btn-primary" href="' . $origin . $prefix . 'stid=' . $end . '">&gt;</a>';
+	} else {
+		echo '<span class="btn btn-primary active">&gt;</span>';
+	}
+	if (($possible > 10) && (intval($start) != $final)) {
+	echo '<a class="btn btn-primary" href="' . $origin . $prefix . 'stid=' . $final . '">&gt;&gt;</a>';
+	}
+	echo '</div>';
+	
+	
 	$result = mysqli_query($connection, $query);
 	if (!empty($_GET["nopages"])) {
 	    echo '<p> ' . ms("Query", "Päring") . ': ' . $query . '</p>';
@@ -229,252 +309,117 @@ if(($_SERVER["REQUEST_URI"] != "/channel_db/index.php") && ($_SERVER["REQUEST_UR
 			  </script>';
 		die();
     }
-	if ($ignorepages == false) {
-		echo '<a class="filterbutton" href="#/" onclick="hideshowmenu();">' . ms("Advanced search", "Täpne otsing") . '</a>';
-		echo '<table id="filtermenu" class="filters"><tr>';
-		if ($channel == "all") {
-			$channels = mysqli_query($connection, "SELECT DISTINCT Kanal FROM channel_db");
-			echo '<td class="filterbar"><h2>' . ms("Channels", "Kanalid") . '</h2><ul>';
-			while ($row = mysqli_fetch_array($channels)) {
-				if (($cases > 0) || ($search != "")) {
-						echo '<li><a href="' . $_SERVER['REQUEST_URI'] . '&channel=' . str_replace('+', '%2B', $row[0]) . '">' . $row[0] . '</a></li>';
-				} else {
-					echo '<li><a href="index.php?channel=' . str_replace('#', '%23', $row[0]) . '">' . $row[0] . '</a></li>';
-				}
-			}
-			echo '</ul></td>';
-		} else {
-			echo '<td class="filterbar"><h2>' . ms("Channels", "Kanalid") . '</h2><p>' . $channel . '</p></td>';
-		}
-		
-		$deletes = mysqli_query($connection, "SELECT DISTINCT Kustutatud FROM channel_db");
-		if ($deleted == 0) {
-			echo '<td class="filterbar"><h2>' . ms("Deleted", "Kustutatud") . '?</h2><ul>';
-			while ($row = mysqli_fetch_array($deletes)) {
-				if (($cases > 0) || ($search != "")) {
-					echo '<li><a href="' . $_SERVER['REQUEST_URI'] . '&deleted=' . str_replace(0, 2, $row[0]) . '">' . str_replace("1", y(), str_replace("0", n(), $row[0])) . '</a></li>';
-				} else {
-					echo '<li><a href="index.php?deleted=' . str_replace(0, 2, $row[0]) . '">' . str_replace("1", y(), str_replace("0", n(), $row[0])) . '</a></li>';
-				}
-			}
-			echo '</ul></td>';
-		} else {
-			if ($deleted == 1) {
-				echo '<td class="filterbar"><h2>' . ms("Deleted", "Kustutatud") . '?</h2><p>'. y() . '</p></td>';
-			} else {
-				echo '<td class="filterbar"><h2>' . ms("Deleted", "Kustutatud") . '?</h2><p>' . n() . '</p></td>';
-			}
-		}
-		
-		$deletes = mysqli_query($connection, "SELECT DISTINCT Subtiitrid FROM channel_db");
-		if ($subtitles == 0) {
-			echo '<td class="filterbar"><h2>' . ms("Subtitles", "Subtiitrid") . '?</h2><ul>';
-			while ($row = mysqli_fetch_array($deletes)) {
-				if (($cases > 0) || ($search != "")) {
-					echo '<li><a href="' . $_SERVER['REQUEST_URI'] . '&subtitles=' . str_replace(0, 2, $row[0]) . '">' . str_replace("1", y(), str_replace("0", n(), $row[0])) . '</a></li>';
-				} else {
-					echo '<li><a href="index.php?subtitles=' . str_replace(0, 2, $row[0]) . '">' . str_replace("1", y(), str_replace("0", n(), $row[0])) . '</a></li>';
-				}
-			}
-			echo '</ul></td>';
-		} else {
-			if ($subtitles == 1) {
-				echo '<td class="filterbar"><h2>' . ms("Subtitles", "Subtiitrid") . '?</h2><p>' . y() . '</p></td>';
-			} else {
-				echo '<td class="filterbar"><h2>' . ms("Subtitles", "Subtiitrid") . '?</h2><p>' . n() . '</p></td>';
-			}
-		}
-		
-		$deletes = mysqli_query($connection, "SELECT DISTINCT Avalik FROM channel_db");
-		if ($public == 0) {
-		echo '<td class="filterbar"><h2>' . ms("Public", "Avalik") . '?</h2><ul>';
-		while ($row = mysqli_fetch_array($deletes)) {
-			if (($cases > 0) || ($search != "")) {
-				echo '<li><a href="' . $_SERVER['REQUEST_URI'] . '&public=' . str_replace(0, 2, $row[0]) . '">' . str_replace("1", y(), str_replace("0", n(), $row[0])) . '</a></li>';
-			} else {
-				echo '<li><a href="index.php?public=' . str_replace(0, 2, $row[0]) . '">' . str_replace("1", y(), str_replace("0", n(), $row[0])) . '</a></li>';
-			}
-		}
-		echo '</ul></td>';
-		} else {
-			if ($public == 1) {
-				echo '<td class="filterbar"><h2>' . ms("Public", "Avalik") . '?</h2><p>' . y() . '</p></td>';
-			} else {
-				echo '<td class="filterbar"><h2>' . ms("Public", "Avalik") . '?</h2><p>' . n() . '</p></td>';
-			}
-		}
-		
-		$deletes = mysqli_query($connection, "SELECT DISTINCT Ülekanne FROM channel_db");
-		if ($live == 0) {
-		echo '<td class="filterbox"><h2>' . ms("Live stream", "Otseülekanne") . '?</h2><ul>';
-		while ($row = mysqli_fetch_array($deletes)) {
-			if (($cases > 0) || ($search != "")) {
-				echo '<li><a href="' . $_SERVER['REQUEST_URI'] . '&live=' . str_replace(0, 2, $row[0]) . '">' . str_replace("1", y(), str_replace("0", n(), $row[0])) . '</a></li>';
-			} else {
-				echo '<li><a href="index.php?live=' . str_replace(0, 2, $row[0]) . '">' . str_replace("1", y(), str_replace("0", n(), $row[0])) . '</a></li>';
-			}
-		}
-		echo '</ul></td>';
-		} else {
-			if ($live == 1) {
-				echo '<td class="filterbox"><h2>' . ms("Live stream", "Otseülekanne") . '?</h2><p>' . y() . '</p></td>';
-			} else {
-				echo '<td class="filterbox"><h2>' . ms("Live stream", "Otseülekanne") . '?</h2><p>' . n() . '</p></td>';
-			}
-		}
-		$deletes = mysqli_query($connection, "SELECT DISTINCT HD FROM channel_db");
-		if ($hd == 0) {
-		echo '<td class="filterbar"><h2>' . ms("High definition", "Kõrge kvaliteet") . '?</h2><ul>';
-		while ($row = mysqli_fetch_array($deletes)) {
-			if (($cases > 0) || ($search != "")) {
-				echo '<li><a href="' . $_SERVER['REQUEST_URI'] . '&hd=' . str_replace(0, 2, $row[0]) . '">' . str_replace("1", y(), str_replace("0", n(), $row[0])) . '</a></li>';
-			} else {
-				echo '<li><a href="index.php?hd=' . str_replace(0, 2, $row[0]) . '">' . str_replace("1", y(), str_replace("0", n(), $row[0])) . '</a></li>';
-			}
-		}
-		echo '</ul></td>';
-		} else {
-			if ($hd == 1) {
-				echo '<td class="filterbar"><h2>' . ms("High definition", "Kõrge kvaliteet") . '?</h2><p>' . y() . '</p></td>';
-			} else {
-				echo '<td class="filterbar"><h2>' . ms("High definition", "Kõrge kvaliteet") . '?</h2><p>' . n() . '</p></td>';
-			}
-		}
-		$cnt = mysqli_query($connection, $query);
-		$total = 0;
-		while ($row = mysqli_fetch_array($cnt)) {
-			$total++;
-		}
-		$prev = $end - 40;
-		$next = $end + 20;
-		$possible = $total / 20 + 1;
-		$origin = str_replace("&stid=" . $start, "", $_SERVER["REQUEST_URI"]);
-		echo '<br/><br/><table><tr>';
-		if (($start >= 20) && ($total > 180)) {
-			echo '<td class="navbar"><a class="pagenav"  href="' . $origin . '&stid=0">&lt;&lt;</a></td>';
-		}
-		if ($end > 20) {
-			echo '<td class="navbar"><a class="pagenav" href="' . $origin . '&stid=' . $prev . '">&lt;</a></td>';
-		} else {
-			echo '<td class="navbar"><span class="activenav">&lt;</a></td>';
-		}
-		$final = 20 * intval($possible - 1);
-		if ($possible > 10) {
-			$first = $start / 20;
-			while (($possible - $first) < 9) {
-				$first -= 1;
-			}
-			$endpos = $first + 8;
-			while ($first < 0) {
-				$first += 1;
-			}
-		} else {
-			$first = 0;
-			$endpos = $possible - 1;
-		}
-		for ($x = $first; $x <= $endpos; $x++) {
-			$c = $x + 1;
-			$pageid = $x * 20;
-			if ($pageid != $start) {
-				echo '<td class="navbar"><a class="pagenav" href="' . $origin . '&stid=' . $pageid . '">' . $c . '</a></td>';
-			} else {
-				echo '<td class="navbar"><span class="activenav" >' . $c . '</span></td>';
-			}
-		}
-		if ($next - 20 <= $total) {
-			echo '<td class="navbar"><a class="pagenav" href="' . $origin . '&stid=' . $end . '">&gt;</a></td>';
-		} else {
-			echo '<td class="navbar"><span class="activenav">&gt;</span></td>';
-		}
-		if (($possible > 10) && (intval($start) != $final)) {
-		echo '<td class="navbar"><a class="pagenav" href="' . $origin . '&stid=' . $final . '">&gt;&gt;</a></td>';
-		}
-		echo '</tr></table></span>';
-	}
 	$padend = "t";
 	if (mysqli_num_rows($result) == 1) {
 	$padend = "";
 	}
 	if (mysqli_num_rows($result) != 0) {
 		if ((!empty($_COOKIE["lang"])) && ($_COOKIE["lang"] == "et-EE")) {
-			echo '<p>Leiti ' . mysqli_num_rows($result) . ' vaste' . $padend . '.</p>';
+			echo '<p class="mt-4">Leiti ' . mysqli_num_rows($result) . ' vaste' . $padend . '.</p>';
 		} else {
-			echo '<p>' . mysqli_num_rows($result) . ' matches found' . '.</p>';
+			echo '<p class="mt-4">' . mysqli_num_rows($result) . ' matches found' . '.</p>';
 		}
 	}
-	echo '<table>';
-	$all_property = array();  //declare an array for saving property
+	echo '</div>';
 	
-	//showing property
-	echo '<table class="data-table">
-        	<tr class="data-heading">';  //initialize table tag
- 	if (str_replace('report/', '', $_SERVER['REQUEST_URI']) == $_SERVER['REQUEST_URI']) {
- 		echo '<td>' . ms("Thumbnail", "Pisipilt") . '</td>';
- 	}
- 	$idx = 0;
-	while ($property = mysqli_fetch_field($result)) {
-		if (in_array($idx, $disp_cols)) {
-			if ($_SERVER["REQUEST_URI"] == str_replace("?", "", $_SERVER["REQUEST_URI"])) {
-    			echo '<td><a href="?ord=' . $property->name . '">' . $property->name . '</td></a>';	
-			} else {
-    			echo '<td><a href="'. str_replace('&ord=' . $order, '', $_SERVER["REQUEST_URI"]) . '&ord=' . $property->name . '">' . GetHeader($property->name) . '</td></a>';
-    		}  //get field name for header
-    	}
-    	array_push($all_property, $property->name);  //save those to array
-		$idx++;
-	}
-	if (empty($_GET["nopages"])) {
-		echo '<td>' . ms("Watch", "Vaata") . '</td>';
-	}
-	echo '</tr>'; //end tr tag
+	
+	
+	
+	
+	$all_property = array();  //declare an array for saving property
 	
 	//showing all data
 	$tot = 0;
-	$end = $start + 20;
-	while ($row = mysqli_fetch_array($result)) {
-    	$idx = 0;
-    	if (($tot >= $start) && ($tot < $end)) {
-    		echo "<tr>";
-    		if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/channel_db/thumbs/" . $row[0] . ".jpg")) {
-    			$img = $_SERVER['DOCUMENT_ROOT'] . "/channel_db/thumbs/" . $row[0] . ".jpg";
-    			$url = 'http://img.youtube.com/vi/' . str_replace('https://www.youtube.com/watch?v=', '', $row[10]) . '/sddefault.jpg';
-    			$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL, $url); 
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-				$output = curl_exec($ch);   
-				curl_close($ch);
-				$fp = fopen($img, "w");
-				fwrite($fp, $output);
-				fclose($fp);
-				
-    		}
-    		$prefix = "";
-    		if (str_replace('report/', '', $_SERVER['REQUEST_URI']) == $_SERVER['REQUEST_URI']) {
-	    		echo '<td class="content">
-	    		  	  <a href="thumbs/' . $row[0] . '.jpg"><img style="width: 150px;" src="thumbs/' . $row[0] . '.jpg"/></a>';
-	    		echo '</td>';
-    		}
-    		foreach ($disp_cols as &$i) {
-	   			display_property($row, $i, 1);
-	   		}
-	   		if (empty($_GET["nopages"])) {
-		   		echo '<td class="content"><a href="' . $_SERVER["REQUEST_URI"] . '&id=' . $row[0] . '">' . ms("More info", "Lisainfo") . '</a></td>';
-	   		}
-   			echo '</tr>';
-    	}
-    	if($ignorepages == false) {
-	    	$tot += 1;
-    	}
+	$end = $start + $perpage;
+	if (empty($_GET["ideas"])) {
+		echo '<div class="container"><div class="row mx-auto">';
+		while ($row = mysqli_fetch_array($result)) {
+			$idx = 0;
+			if (($tot >= $start) && ($tot < $end)) {
+				echo '<div class="col"><a href="' . $_SERVER["REQUEST_URI"] . '&id=' . $row[0] . '" style="text-decoration: none;"><div class="card my-5 mx-auto" style="width: 18rem;">';
+				if ($thumbnails == "true") {
+					if (empty($_GET["gallery"]) && empty($_GET["ideas"])) {
+						if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/channel_db/thumbs/" . $row[0] . ".jpg")) {
+							$img = $_SERVER['DOCUMENT_ROOT'] . "/channel_db/thumbs/" . $row[0] . ".jpg";
+							$url = 'http://img.youtube.com/vi/' . str_replace('https://www.youtube.com/watch?v=', '', $row[10]) . '/sddefault.jpg';
+							$ch = curl_init();
+							curl_setopt($ch, CURLOPT_URL, $url); 
+							curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+							$output = curl_exec($ch);   
+							curl_close($ch);
+							$fp = fopen($img, "w");
+							fwrite($fp, $output);
+							fclose($fp);
+							
+						}
+						$prefix = "";
+						if (str_replace('report/', '', $_SERVER['REQUEST_URI']) == $_SERVER['REQUEST_URI']) {
+							echo '<img class="card-img-top" style="width: 100%;" src="thumbs/' . $row[0] . '.jpg"/>';
+						}
+					} else {
+						if (str_replace('report/', '', $_SERVER['REQUEST_URI']) == $_SERVER['REQUEST_URI']) {
+							$i = 1;
+							while (file_exists($_SERVER['DOCUMENT_ROOT'] . "/channel_db/gallery/logos/" . $row[0] . "/" . $i . ".png")) {
+								$i++;
+							}
+							$i = $i - 1;
+							echo '<img class="card-img-top" style="width: 100%;" src="gallery/logos/' . $row[0] . '/' . $i . '.png"/>';
+						}
+					}
+				}
+				$enum = 0;
+				// 1 - Channel
+				// 2 - Title
+				echo '<div class="card-body">';
+				if (empty($_GET["gallery"]) && empty($_GET["ideas"])) {
+					echo "	<h5 class=\"card-title\">${row[2]}</h5>";
+					echo "	<p class=\"card-text\">${row[1]}</p>";
+				} else {
+					$names = explode(" / ", $row[1]);
+					$formernames = $names;
+					$lname = $names[count($names) - 1];
+					array_splice($formernames, count($formernames) - 1, 1);
+					echo "	<h5 class=\"card-title\">${lname}</h5>";
+					if (count($formernames) > 1) {
+						echo '   <p class=\"card-text\">' . ms("Former names: ", "Varasemad nimed: ");
+						$constructor = "";
+						foreach ($formernames as &$name) {
+							$constructor = $constructor . $name . ', ';
+						}
+						$constructor = substr($constructor, 0, -2);
+						echo $constructor;
+					}
+					else if (count($formernames) == 1) {
+						echo '   <p class=\"card-text\">' . ms("Former name: ", "Varasem nimi: ") . $formernames[0];
+					}
+					if (count($formernames) > 0) {
+						echo '   </p>';
+					}
+				}
+				echo '</div>';
+				echo '</div></a></div>';
+			}
+			if($ignorepages == false) {
+				$tot += 1;
+			}
+		}
+		echo "</div>";
+	} else {
+		echo '<ul class="list-group list-group-flush">';
+		while ($row = mysqli_fetch_array($result)) {
+			$idx = 0;
+			if (($tot >= $start) && ($tot < $end)) {
+				echo "<li class=\"list-group-item d-flex justify-content-between align-items-start\"><a href=\"${_SERVER["REQUEST_URI"]}&id=${row[0]}\" style=\"text-decoration: none;\">";
+					echo "<div class=\"ms-2 me-auto\">";
+						echo "<div class=\"fw-bold\">${row[2]}</div>${row[1]}";
+					echo "</div></a>";
+					echo "<span class=\"badge bg-primary rounded-pill\">${row[5]}</span>" ;
+				echo "</li>";
+			}
+			if($ignorepages == false) {
+				$tot += 1;
+			}
+		}
+		echo '</ul>';
 	}
-	echo "</table>";
-} else {
-echo '<a href="?ord=id&dir=DESC">' . ms("Show all items", "Kuva kõik üksused") . '</a>';
-echo '<script>var x = document.getElementById("back"); x.style.visibility = "hidden";</script>';
-}
 ?>
-<script>
-var x = document.getElementById("filtermenu");
-x.style.visibility = "hidden";
-var x = document.getElementById("back");
-x.style.visibility = "hidden";
-</script>

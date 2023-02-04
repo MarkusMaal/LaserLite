@@ -1,16 +1,17 @@
 <?php
 if(session_status()!=PHP_SESSION_ACTIVE) session_start();
-include("connect.php");
 include("../../mobcheck.php");
+include("connect.php");
 $badge = "none";
+include("loadtheme.php");
 $godmode = ((!empty($_SESSION)) && (($_SESSION["level"] == "owner") || ($_SESSION["level"] == "admin")));
 if (!$godmode) {
-	if (empty($_GET["auth"])) {
+	if (empty($_SESSION["auth"])) {
 		if ((!empty($_GET["th"])) && ($_GET["th"] == 4)) {
 			die("Access is denied. // Juurdepääs keelatud.");
 		}
 	} else {
-			$sql = "SELECT * FROM feedback_users WHERE CRYPTCODE=\"" . $_GET["auth"] . "\"";
+			$sql = "SELECT * FROM feedback_users WHERE CRYPTCODE=\"" . $_SESSION["auth"] . "\"";
 			$r1 = mysqli_query($connection, $sql);
 			if (!((mysqli_num_rows($r1) > 0))) {
 				die("Access is denied. // Juurdepääs keelatud.");
@@ -72,59 +73,76 @@ if (!empty($_POST)) {
 	}
 }
 ?>
+<?php
+function ms ($en, $et) {
+	if ((empty($_COOKIE["lang"])) || ($_COOKIE["lang"] == "en-US")) {
+		return $en;
+	} else {
+		return $et;
+	}
+
+}
+?>
+<title><?php echo ms("Post comment", "Kommentaari postitamine"); ?></title>
+<?php
+    include($_SERVER["DOCUMENT_ROOT"] . "/maintenance.php");
+	$lang = "en-US";
+	$theme = "blue";
+	if (!empty($_COOKIE["theme"])) {
+		$theme = $_COOKIE["theme"];
+	}
+	if (!empty($_COOKIE["lang"]) && ($_COOKIE["lang"] == "et-EE")) { $lang = "et-EE"; }
+?>
 <!DOCTYPE html>
-<html lang="<?php
-if ((!empty($_COOKIE["lang"])) && ($_COOKIE["lang"] == "et-EE")) {
-echo 'et';
-$lang = "et";
-} else {
-echo 'en';
-$lang = "en";
-}
-
-
-function ms($en, $et) {
-    if (!empty($_COOKIE["lang"])) {
- 	if ($_COOKIE["lang"] == "et-EE") {
- 		return $et;
- 	} else {
- 		return $en;
- 	}
-   } else {
-        return $en;
-   } 
-}
-
-?>">
-	<head>
-		<link rel="shortcut icon" type="image/x-icon" href="/favicons/main.ico" />
-		<title><?php echo ms("Post comment", "Kommentaari postitamine")?></title>
-		<?php
-            if (empty($_COOKIE["theme"])) {
-                $theme = 'light';
-            } else {
-                $theme = $_COOKIE["theme"];
-            }
-            ?>
-            <link rel="stylesheet" href="themes/<?php echo $theme;	if ($isMob) {  echo "_m"; 	} ?>.css">
-	</head>
-	<body>
-		<a href=".."><img center class="banner" src="../gfx/banner.png" alt="tere tulemast minu veebisaidile!"></a>
-		<div class="mainpage">
-			<h2><?php echo ms("Post comment", "Kommentaari postitamine")?></h2>
+<html lang="<?php if ($lang == "et-EE") { echo "et"; } else { echo "en"; } ?>">
+<head><title><?php if ($lang == "et-EE") { echo "Markuse videod productions - avaleht"; } else { echo "Markus' videos productions - home page"; } ?></title>
+	<link rel="shortcut icon" type="image/x-icon" href="/favicons/main.ico" />
+<?php
+	  include($_SERVER["DOCUMENT_ROOT"] . "/markustegelane/common/config/getcookies.php");
+	  include($_SERVER["DOCUMENT_ROOT"] . "/markustegelane/common/themes/theme.php"); ?>
+</head>
+<body>
+		<table style="margin-left:0px; width: 100%;">
+		<tr style="float: left; width: 100%;">
+		<td>
+		<img style="width: 5em;" src="/markustegelane/common/config/gfx/gears.svg">
+		</td>
+		<td>
+		<h1 style="padding-top: 0px;"><?php echo ms("Post comment", "Kommentaari postitamine"); ?></h1>
+		</td>
+		</tr>
+		</table>
+		<hr>
+		<hr style="border-color: <?php
+		
+		switch ($theme) {
+			case "blue":
+				echo '#00e';
+				break;
+			case "light":
+				echo '#eee';
+				break;
+			case "dark":
+				echo '#888';
+				break;
+		}
+				?>;">
+		<div class="cut">
+		<div class="cont">
+		
 			<p>
 			<?php
 				if (!empty($_POST)) {
 					if ($success) {
-						echo "<p style=\"color: #0f0;\">";
+						echo "<div class=\"setting\"><p style=\"color: #0f0;\">";
 						echo ms("Comment successfully posted", "Kommentaar postitati edukalt");
 						echo "</p>";
-						echo '<br/><br/><a href="#" onclick="javascript:window.history.back(-2);return false;">' . ms("Back", "Tagasi") . '</a>';
+						echo '<br/><br/><a href="#" onclick="javascript:window.history.back(-2);return false;"><div class="button">' . ms("Back", "Tagasi") . '</div></a></div>';
 					} else {
-						echo "<p style=\"color: #f00;\">";
+						echo "<div class=\"setting\"><p style=\"color: #f00;\">";
 						echo ms("Error posting comment", "Kommentaari postitamine nurjus");
 						echo "</p>";
-						echo '<br/><br/><a href="#" onclick="javascript:window.history.back(-2);return false;">' . ms("Back", "Tagasi") . '</a>';
+						echo '<br/><br/><a href="#" onclick="javascript:window.history.back(-2);return false;"><div class="button">' . ms("Back", "Tagasi") . '</div></a></div>';
 					}
 					die("<p>" . $error . "</p>");
 				}
@@ -233,18 +251,19 @@ function ms($en, $et) {
 					echo '<hr>';
 				}
 			?></p>
+			<div class="setting">
 			<form action="post.php?id=<?php echo $_GET["id"]; ?>&th=<?php echo $_GET["th"]; ?>&rid=<?php if (!empty($_GET["rid"])) { echo $_GET["rid"]; }?>&auth=<?php if (!empty($_GET["auth"])) { echo $_GET["auth"]; }?>" method="post" name="form1">
 			<table style="width: 90%">
 			<?php 
-				echo '<tr><td>';
+				echo '<tr><td class="normaltable">';
 				if ($lang == "et") {
 					echo 'Kasutajanimi';
 				} else {
 					echo 'Username';
 				}
-				echo ': </td><td>';
+				echo ': </td><td class="normaltable">';
 				if (empty($_SESSION["usr"])) {
-					echo '<input name="usrname" style="width: 100%;"></input></td>
+					echo '<input type="text" name="usrname" style="width: 100%;"></input></td>
 				 		  </tr>';
 				} else {
 					if ($_SESSION["level"] == "admin") {
@@ -262,7 +281,7 @@ function ms($en, $et) {
 			<?php
 			?>
 			<tr>
-			<td>
+			<td class="normaltable">
 			<?php
 				if ($lang == "et") {
 					echo 'Kommentaar';
@@ -273,13 +292,13 @@ function ms($en, $et) {
 			<textarea name="comment" style="width: 100%; height: 200px"></textarea></td>
 			</tr>
 			<?php
-				echo '<tr><td>';
+				echo '<tr><td class="normaltable">';
 				if ($lang == "et") {
 					echo 'Parool<br/>(hilisemaks muutmiseks<br/>või kustutamiseks)';
 				} else {
 					echo 'Password <br/>(for modifying<br/>or deleting the comment later)';
 				}
-				echo ': </td><td>';
+				echo ': </td><td class="normaltable">';
 				if (empty($_SESSION["usr"])) {
 					echo '<input type="password" name="pass" style="width: 100%;"></input></td></tr>';
 				} else {
@@ -297,7 +316,8 @@ function ms($en, $et) {
 					echo 'Post';
 				}
 			?>"></input>
+			</div>
 			</form>
 		</div>
-	</body>
-</html>
+		</div>
+</body>

@@ -1,9 +1,5 @@
 <?php
     if(session_status()!=PHP_SESSION_ACTIVE) session_start();
-?>
-<?php include("../head.php"); ?>
-<h1>Lisa kirje</h1>
-<?php
 	if (!empty($_POST["channel_name"])) {
 		echo $_POST["channel_name"];
 		echo "<br/>POST andmed kätte saadud!<br/>";
@@ -51,12 +47,9 @@
 		die("Peate sisse logima.");
 	}
 ?>
-<table>
-<tr>
-<td>Kanali nimi:</td>
-<td>
-<form method="post" action="index.php" name="form" id="form1" enctype="multipart/mixed">
-<select name="channel_name" id="channel">
+<form method="post" action="" name="form" id="form1" enctype="multipart/mixed">
+<div class="form-floating">
+<select class="form-select my-4" style="width: 97%;" type="text" name="channel_name" placeholder="Kanali nimi" id="channel">
 <?php
 	include("../../connect.php");
 	$channels = mysqli_query($connection, "SELECT DISTINCT Kanal FROM channel_db");
@@ -68,49 +61,47 @@
 			}
 	}
 ?>
-</td>
 </select>
-</tr>
-<tr>
-<td>Klass:</td>
+<label for="channel">Kanali nimi</label></div>
+<div class="form-floating">
 <?php
 if (!empty($_GET["temp_id"])) {
-echo '<td><input name="class" id="class" style="width: 1%;" type="text" value="' . $temp_class . '"/></td>';
+echo '<input class="form-control my-2" name="class" id="class" type="text" value="' . $temp_class . '"/>';
 } else {
-echo '<td><input name="class" id="class" style="width: 1%;" type="text"/></td>';
+echo '<input class="form-control my-2" name="class" id="class" type="text"/>';
 }
-?>
-</tr>
-<td>Video pealkiri</td>
+?><label for="class">Klass</label></div>
+<div class="form-floating">
 <?php
 if (!empty($_GET["temp_id"])) {
-echo '<td><input name="title" id="title" style="width: 97%;" type="text" value="' . $temp_video . '"/></td>';
+echo '<input class="form-control my-2" name="title" id="title" type="text" value="' . $temp_video . '"/>';
 } else {
-echo '<td><input name="title" id="title" style="width: 97%;" type="text"/></td>';
+echo '<input class="form-control my-2" name="title" id="title" type="text"/>';
 }
 ?>
-<tr>
-<td>Video kirjeldus</td>
+<label for="title">Video pealkiri</label>
+</div>
+<div class="form-floating">
 <?php
 if (empty($_GET["temp_id"])) {
-	echo '<td><textarea name="description" id="desc" rows="5" cols="100"></textarea></td>';
+	echo '<textarea class="form-control my-2" name="description" id="desc" rows="5" cols="100"></textarea>';
 } else {
-	echo '<td><textarea name="description" id="desc" rows="5" cols="100">' . $temp_description . '</textarea></td>';
+	echo '<textarea class="form-control my-2" name="description" id="desc" rows="5" cols="100">' . $temp_description . '</textarea>';
 }
 ?>
-</tr>
-</table>
+<label for="desc">Video kirjeldus</label>
+</div>
 
 <?php
 if (empty($_GET["temp_id"])) {
-	echo '<input name="bool-done" id="del" type="checkbox"/>Valmis<br/>';
-	echo '<input name="bool-livestr" id="live" type="checkbox"/>Otseülekanne<br/>';
+	echo '<div class="form-check"><input class="form-check-input" name="bool-done" id="del" type="checkbox"/><label class="form-check-label" for="bool-done">Valmis</label></div>';
+	echo '<div class="form-check"><input class="form-check-input" name="bool-livestr" id="live" type="checkbox"/><label class="form-check-label" for="bool-livestr">Otseülekanne</label></div><br/>';
 } else {
-	echo '<input name="bool-done" id="del" type="checkbox" '. $temp_done . '/>Kustutatud<br/>';
-	echo '<input name="bool-livestr" id="live" type="checkbox" '. $temp_stream . '/>Otseülekanne<br/>';
+	echo '<div class="form-check"><input class="form-check-input" name="bool-done" id="del" type="checkbox" '. $temp_done . '/><label class="form-check-label" for="bool-done">Valmis</label></div>';
+	echo '<div class="form-check"><input class="form-check-input" name="bool-livestr" id="live" type="checkbox" '. $temp_stream . '/><label class="form-check-label" for="bool-livestr">Otseülekanne</label></div><br/>';
 }
 ?>
-<br/><a href="#/" onclick="InsertRecord();">Lisa üksus</a><a href="..">Tagasi</a>
+<br/><input type="submit" class="btn btn-success mx-2" value="Lisa üksus"/><a class="btn btn-primary mx-2" href="..">Tagasi</a>
 </form>
 <script>
 	function InsertRecord() {

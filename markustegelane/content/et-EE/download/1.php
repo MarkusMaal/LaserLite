@@ -1,8 +1,9 @@
 <?php
-	include("common/comments.php");
-	ini_set('display_errors', 1);
+	/*ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
-	error_reporting(E_ALL);
+	error_reporting(E_ALL);*/
+	function ms3($en, $et) {		if (!empty($_COOKIE["lang"])) {		if ($_COOKIE["lang"] == "et-EE") {			return $et;		} else {			return $en;		}	   } else {			return $en;	   } 	}
+	include("common/comments.php");
 	$loggedin = FALSE;
 	if ((!empty($_SESSION)) && ($_SESSION["level"] == "owner")) {
 		$loggedin = TRUE;

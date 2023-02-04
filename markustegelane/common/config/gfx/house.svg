@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg2"
+   width="81.269844"
+   height="81.269844"
+   viewBox="0 0 81.269844 81.269844"
+   sodipodi:docname="mas_its_symmetric.png"
+   inkscape:export-filename="..\..\..\..\..\..\wamp64\www\markustegelane\common\config\gfx\house.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs6" />
+  <sodipodi:namedview
+     id="namedview4"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false" />
+  <path
+     id="path245"
+     style="fill:#001741;fill-opacity:1;stroke-width:3.75403"
+     d="M 11.434642,43.675426 V 62.010793 80.235934 H 71.215417 V 62.010793 43.898781 Z" />
+  <path
+     id="path237"
+     style="fill:#0a3391;fill-opacity:1;stroke-width:3.73631"
+     d="M 41.323593,0.66903041 23.045992,20.995357 4.7655161,41.321682 8.0986427,42.56873 11.434642,43.812906 v 0.206884 l 59.780775,0.221251 v -0.428135 l 0.81604,-0.304579 2.517086,-0.939597 3.333127,-1.247048 -18.277602,-20.326325 z" />
+</svg>

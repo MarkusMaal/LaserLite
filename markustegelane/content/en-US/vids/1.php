@@ -5,10 +5,10 @@ $name = $_GET['channel'];
 $maxResults = 10;
 $channel = 'null';
 if ($name == "mt") {
-    $channel  = 'markustegelane';
+    $channel  = 'MarkusTegelane';
 }
 else if ($name == "mtp") {
-    $channel  = 'markustegelane x';
+    $channel  = 'MarkusTegelane+';
 }
 else if ($name == "hmt") {
     $channel  = '#markusTegelane';
@@ -27,7 +27,7 @@ if ($channel == "null") {
 } else {
     echo '<tr style="background-color:#333333; text-align:center; color:#ffffff;"><td>Thumbnail</td><td>Title</td><td>Link</td></tr>';
     include("common/connect.php");
-    $query = 'SELECT * FROM channel_db WHERE Kanal = "' . $channel . '" AND Avalik = TRUE AND Kustutatud = FALSE ORDER BY Kuupäev DESC LIMIT 10';
+    $query = 'SELECT * FROM channel_db WHERE Kanal = "' . $channel . '" AND Avalik = TRUE AND Kustutatud = FALSE ORDER BY Kuupäev DESC, ID DESC LIMIT 10';
     $result = mysqli_query($connection, $query);
     while ($row = mysqli_fetch_array($result)){
         echo '<tr class="secrow" >';

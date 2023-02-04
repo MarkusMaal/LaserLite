@@ -60,7 +60,7 @@
 </tr>
 <tr>
 <td>Aasta</td>
-<td><input name="year" type="text" style="width: 5%;"></input></td>
+<td><input name="year" type="text" style="width: 5%;" value="<?php echo date('Y'); ?>"></input></td>
 </tr>
 </table>
 <input name="bool-mini" id="del" type="checkbox"/>Miniversioon<br/>

@@ -1,43 +1,89 @@
 <?php
-	session_start();
+	if (empty($_COOKIE["old_theme"]) || ($_COOKIE["old_theme"] == "false")) {
+		include("index_stable.php");
+		die();
+	} else if ($_COOKIE["old_theme"] == "true") {
+		include("index_legacy.php");
+		die();
+	}
+    if(session_status()!=PHP_SESSION_ACTIVE) session_start();
+	$hacking_time = '<head><style>body { background: #000; color: #0f0; font-family: "Hack", "Mono", "Lucida Console"; }</style></head><body><p>You\'re just a dirty hacker, aren\'t you?</p><iframe width="100%" height="75%" src="https://www.youtube-nocookie.com/embed/pgl37R7hILE?autoplay=1&amp;showinfo=0&amp;loop=1&amp;start=2&amp;list=PL6WkVx7vhlogvj4kxSizthqQgxq3j0BmD&amp;rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></body>';
+	if (!((!empty($_SESSION["level"])) && ($_SESSION["level"] == "owner"))) {
+		foreach($_GET as $key => $value) {
+		    if (str_contains($value, "<script>") || str_contains($value, "';") || str_contains($value, "\";")) {
+				die($hacking_time);
+		    }
+		}
+		if (!empty($_POST)) {
+			foreach($_POST as $key => $value) {
+				if (str_contains($value, "<script>") || str_contains($value, "';") || str_contains($value, "\";")) {
+					die($hacking_time);
+				}
+			}
+		}
+		if (!empty($_SESSION)) {
+			foreach($_SESSION as $key => $value) {
+				if (str_contains($value, "<script>") || str_contains($value, "';") || str_contains($value, "\";")) {
+					die($hacking_time);
+				}
+			}
+		}
+		if (!empty($_COOKIE)) {
+			foreach($_COOKIE as $key => $value) {
+				if (str_contains($value, "<script>") || str_contains($value, "';") || str_contains($value, "\";")) {
+					die($hacking_time);
+				}
+			}
+		}
+	}
+	if (empty($_COOKIE["theme"])) { $_COOKIE["theme"] = "blue"; }
+	if (empty($_COOKIE["lang"])) { $_COOKIE["lang"] = "en-US"; }
     $fullaccess = FALSE;
     include("../maintenance.php");
     include("../mobcheck.php");
-    if ((!empty($_SESSION)) && ($_SESSION["level"] == "owner")) { $fullaccess = TRUE; }
+	if (empty($_COOKIE["mobile_mode"])) {
+		$_COOKIE["mobile_mode"] = "false";
+		if ($isMob) { $_COOKIE["mobile_mode"] = "true"; }
+	}
+    if ((!empty($_SESSION["level"])) && ($_SESSION["level"] == "owner")) { $fullaccess = TRUE; }
 ?>
 <!DOCTYPE html>
 <html lang="et">
 	<head>
 		<title>markustegelane</title>
 		<?php
-			$theme = "light";
+			$theme = "blue";
 			if (!empty($_COOKIE["theme"])) {
 				$theme = $_COOKIE["theme"];	
+				if ($theme == "") {
+					$theme = "blue";
+				}
 			}
 		?>
-		
-<?php
-if ($isMob) {
-        echo '<link rel="stylesheet" href="common/themes/' . $_COOKIE["theme"] . '_m.css"/>';
-    } else {
-        echo '<link rel="stylesheet" href="common/themes/' . $_COOKIE["theme"] . '.css"/>';
-    }?>
+		<script>
+			function bypass_message() {
+				document.getElementById("themeprompt").innerHTML = "";
+				document.getElementById("themeprompt").style.display = "none";
+			}
+		</script>
+	<?php include($_SERVER["DOCUMENT_ROOT"] . "/markustegelane/common/themes/theme.php"); ?>
 	</head>
 	<body onkeydown="keydown_handle(event)" onkeyup="keyup_handle(event)">
+	
+	<?php include($_SERVER["DOCUMENT_ROOT"] . "/markustegelane/common/head.php"); ?>
 	<a href="#Liigu_sisu_juurde" tabindex="1" title="Liigu põhisisu juurde"></a>
-	<a href="#Navigatsiooniriba" tabindex="2" title="Navigatsiooniriba"></a>
-	<a href="#Vasakud_alumised_nupud" tabindex="2" title="Vasakud alumised nupud"></a>
-		<a href="index.php"><img center class="banner" src="gfx/banner.png" alt="tere tulemast minu veebisaidile!"></a>
+	<!--<a href="#Navigatsiooniriba" tabindex="2" title="Navigatsiooniriba"></a>-->
 	<br>
 		<?php 
 		ini_set('display_errors', '0');
 		$lang = "en-US";
 		if (!empty($_COOKIE["lang"])) {
 			$lang = $_COOKIE["lang"];
-		}
-		include("content/" . $lang . "/navbar.php");?>
+		}?>
 		<section id="Liigu_sisu_juurde">
-		<div class="mainpage">
+		<div class="cut">
+		<div class="cont">
+		<div class="inline-cont">
 			<?php
 				$pages = "123456789";
 				$page = "home";
@@ -48,7 +94,7 @@ if ($isMob) {
 					$pages = $_GET["s"];
 				}
 				if (($pages == "123456789") && ($page == "home")) {
-					$pages = "145";
+					$pages = "4";
 				}
 				if ($page == "home") {
 					include("common/connect.php");
@@ -143,7 +189,12 @@ if ($isMob) {
 				for ($i = 1; $i < 10; $i++) {
 					if (preg_match('/' . $i . '/i', $pages)) {
 						if (file_exists("content/" . $lang . "/" . $page . "/" . $i . ".php")) {
+							$theme_backup = $theme;
+							if ($theme == "blue") {
+								$theme = "light";
+							}
 							include("content/" . $lang . "/" . $page . "/" . $i . ".php");
+							$theme = $theme_backup;
 						} else {
 							if ($i == 1) {
 								include("errors/" . $lang . "/notfound.php");
@@ -180,6 +231,8 @@ if ($isMob) {
                 }
 			?>
 		</div>
+		</div>
+		</div>
 		</section>
 		<?php
             if ($isMob) {
@@ -192,5 +245,6 @@ if ($isMob) {
                 echo "</a></div>";
             }
 		?>
+
 	</body>
 </html>

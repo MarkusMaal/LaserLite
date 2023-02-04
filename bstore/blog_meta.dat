@@ -1,0 +1,97 @@
+::
+:: Data for blog posts for batch store and viewer
+::
+:: Do not change or remove sharing information
+::
+:: Local edits are completely safe
+::
+set pcolor=0a
+set post0=When am I going to release a new video?
+set inpost0=You may have noticed that my channel hasn't been really active recently. That's because I've been working on a new PowerPoint OS. It is something big.... Second reason is that I haven't had time to post on YouTube. I hope to get my channel going more active on April.
+set post1=TrackMania track: Labyrinth (MarkuStation)
+set inpost1=https://www.youtube.com/embed/P1mk1Sm3guU
+set post2=Markus computer entertainment: Android Oreo overview and Firefox roast (Part I)
+set inpost2=Google released a new Android version named Oreo. But is it better than the older version? Keep watching to find out!
+set inpost2ahttps://www.youtube.com/embed/mhDIZfkwfvM
+set post3=This blog is now set up with a new domain^^!
+set inpost3=The domain of this blog is now changed. That means that the new address is http://www.themarkusguy.tk. If you enter the old address (http://markustegelane-en.blogspot.com/), you'll be redirected to new address. /xxxx adressses also work (e.g. http://www.themarkusguy.tk/downloads).
+set post4=HTTPS is now enabled in TheMarkusGuy's blog
+set inpost4=Due to security holes in WPA2, I enabled secure connection, ie HTTPS in this blog. Minecraft blog doesn't have this feature right now. It is not a temporary change and I'll be using it from now on, as I found no widgets that are incompatible with HTTPS.
+set post5=There will be no live stream on October and December
+set inpost5=No live stream will be coming this October and December. Live stream won't be happening on both, TheMarkusGuy+ and TheMarkusGuy++ channels. This year's last live stream will be on November.
+set post6=100 subscribers^^!
+set inpost6=I am happy, that my channel has reached 100 subscribers. I'll be making a video about it very soon. Also, my channel now has a better URL (http://youtube.com/MarkusTegelane).
+set post7=New autumn themed intro
+set inpost7=I made a new intro that should fit more with this the design of this blog. It is only 2.5 seconds long!
+set inpost7a=EMBED: https://www.youtube-nocookie.com/embed/xVap0wX2d2M
+set post8=Welcome back^^!
+set inpost8=I am working on a very special video. I hope to finish it on 1st September.
+set post9=I am working on something new...
+set inpost9=I am working on the improved version of my older game that I created in Visual Basic a few years ago. Now it is coming back... and it is now created in C#!
+set "inpost9a= "
+set "inpost9b=Here is a screenshot:"
+set inpost9c=EMBED: https://4.bp.blogspot.com/-zdXr3cZ3yrc/WZCW3No-zNI/AAAAAAAADUo/nuSXX-b8uP0suKauSmxol4F2ftSu_VHuwCLcBGAs/s640/new_us.png
+set post10=New viewing system
+set inpost10=Now every view doesn't get influenced by my views. That basically means that only views I get are from my viewers, or those who search for me.
+set post11=This blog any my YouTube channel active starting from June 1st
+set inpost11=I will let everyone know that starting from June 1st, I won't upload any videos until September. More information from the video below.
+set inpost11a=EMBED: https://www.youtube.com/embed/hprQAk1-a1E
+set post12=Poll results (March 2017)
+set inpost12=I asked you this: do you like the new design of this blog? These were the results:
+set "inpost12a= "
+set inpost12b=100%% Yes
+set inpost12c=0%% No
+set "inpost12d= "
+set inpost12e=Total 2 votes
+set "inpost12f= "
+set inpost12g=But next poll will be about my channel. So vote if you can^^!
+set post13=[Video] My new intro!
+set inpost13=I made a new intro that should fit in with my new channel design. I hope you all like it.
+set inpost13a=EMBED: https://www.youtube.com/embed/8-JYFFgAE1E
+set post14=Help me by translating my videos!
+set inpost14=I have now enabled community translations for all of my videos on my channel. You can translate the videos to any language you may know. For example: if you know Russian and English, you can make Russian subtitles by translating English subtitles. You can go ahead and translate videos right now, by clicking this link: http://www.youtube.com/timedtext_cs_panel?tab=2&c=UCQzg4k_aF2BPQJpEx4PX9UQ
+set "inpost14a= "
+set inpost14b=If you stumble across the video, that hasn't been translated, you can translate it right away, if you click gear icon and then subtitles and then add subtitles. Select your language and add the subtitles. You can make a part of it, because you don't have to do it all alone. You can let others review the subtitles or accept them if they seem right.
+set post15=[Video] I restored old files from my first computer
+set inpost15=A long time ago I made a Markus Computer Entertainment video about my first computer. In that video I said that I can definately do some data recovery on it. I wasn't joking. I really used a data recovery tool to restore some *.asf files (*.asf is same as *.wma and *.wmv) and found 3 videos (I actually found more, but I had them somewere else already).
+set post16=[Video] Windows Vista support will end soon
+set inpost16=Long lived Microsoft operating system, Windows Vista, support ends on April 11th in 2017. If you want to know what does it mean and what to do, watch the video below:
+set inpost16a=EMBED: https://www.youtube.com/embed/JPk4JlQ0s-k
+set post17=[Video] What happens when you delete System32 in ReactOS?
+set inpost17=I made a video about what happens when you delete System32 in ReactOS. It is interesting because it is a standalone operating system that is meant to be compatible with Windows applications and also look and function like Windows.
+set inpost17a=EMBED: https://www.youtube.com/embed/rJxSpWdSIm0
+set post18=New theme and features in this blog
+set inpost18=I am happy to tell you that, due to the updates with Blogger, this blog has a new theme. Because of this there are some updates:
+set inpost18a= - All old stuff is still available in the left corner hamburger menu (three lines on top-left)
+set inpost18b= - You can search posts by clicking the magnifier icon on top-right
+set inpost18c= - Featured posts will always be at the most top, which I can change depending on what is the most important
+set inpost18d= - All posts that contain a video, have a tag [Video] and to view the video, click the "Read more" button
+set inpost18e= - All posts that have downloadable content have a tag [Link]
+set inpost18f= - To comment, click "Post a comment"
+set "inpost18g= "
+set inpost18h=Other plans/Notes:
+set inpost18i= - Soon there will be hashes for download links, which means you can verify if the file is really what I say it to be (I'll be using MD5 and CRC32 hashes)
+set inpost18j= - Blog cover image should soon change and contain my name
+set inpost18k= - This version of the blog doesn't contain all the functions the Estonian version has, but it is as similar as possible
+set post19=New poll^^! Please vote^^!
+set inpost19=As my goal is to make both Estonian and English blog as similar, as possible, I made a new poll in this blog. Poll is actually same as in Estonian blog. So, please vote for it. Previous poll didn't have any results.
+set post20=[Video] Visiting goggle.com!
+set inpost20=EMBED: https://www.youtube.com/embed/cbh1ZvZD1iU
+set inpost20a=I made a video about me visiting a website, goggle.com. This video shows if this site is dangerous or not.
+set post21=Comments work now^^!
+set inpost21=Now you should see the button to view comments. The problem was caused by the options for every post getting comments disabled.
+set post22=The new video will be coming... the video that I have worked for a long time
+set inpost22=EMBED: https://2.bp.blogspot.com/-FqB2SrYW1Cs/WI2lmpPagMI/AAAAAAAACsQ/4Z0LrRH6LZYP7ljLrBpQuBYKgbztK8TxACLcB/s1600/tmalltime_en.png
+set inpost22a=This video contains over 100 different TrackMania tracks. Tracks are from the game TrackMania United Forever (some are also from Nations Forever, but this is all in United). Video should be released in March, but it may take even longer.
+set post23=URL change for English blog
+set inpost23=To avoid confusion, I changed the URL for the English blog (this blog here). If you enter the old URL, you'll be automatically redirected to the new URL.
+set "inpost23a= "
+set inpost23b=Same update also came for Estonian version of this blog: If you go to the old URL, you'll be automatically redirected.
+set "inpost23c= "
+set inpost23d=You can test what happens, if you go visit these URLs:
+set inpost23e=http://markusmaal.blogspot.com
+set inpost23f=http://markusmaalen.blogspot.com
+set post24=[Video] TrackMania editor mod: TMUnlimiter 1.1  -  Less limitations, more fun!
+set inpost24=EMBED: https://www.youtube.com/embed/AwtSk1IJBpQ
+set inpost24a=In December 2016, TMUnlimiter version 1.1 was released. With it came much less limitations and more interesting ways to customize your tracks.
+set screen=0

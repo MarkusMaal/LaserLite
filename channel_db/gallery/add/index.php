@@ -1,9 +1,5 @@
 <?php
     if(session_status()!=PHP_SESSION_ACTIVE) session_start();
-?>
-<?php include("../head.php"); ?>
-<h1>Lisa kirje</h1>
-<?php
 	if (!empty($_POST["channel"])) {
 		echo "<br/>POST andmed kätte saadud!<br/>";
 		include("../../connect.php");
@@ -34,71 +30,67 @@
 		include("../../connect.php");
 		$query = "SELECT * FROM channel_gallery WHERE id = " . $_GET["temp_id"];
 		$result = mysqli_query($connection, $query);
-		$row = mysqli_fetch_array($result);
-		$temp_channel = $row["Kanal"];
-		$temp_url = $row["URL"];
-		$temp_kustutatud = str_replace("1", "checked", str_replace("0", "", $row["Kustutatud"]));
-		$temp_description = $row["Kirjeldus"];
+		if ($result != null) {
+			$row = mysqli_fetch_array($result);
+			$temp_channel = $row["Kanal"];
+			$temp_url = $row["URL"];
+			$temp_kustutatud = str_replace("1", "checked", str_replace("0", "", $row["Kustutatud"]));
+			$temp_description = $row["Kirjeldus"];
+			$temp_date = $row["Loomiskuupäev"];
+			$temp_deleted = $row["Kustutatud"];
+		}
 	}
 	if (!((!empty($_SESSION["usr"])) && ($_SESSION["level"] == "owner"))) {
 		die("Peate sisse logima.");
 	}
 ?>
-<table>
-<tr>
-<td>Kanal</td>
-<td>
-<form method="post" action="index.php" name="form" id="form1" enctype="multipart/mixed">
+<form method="post" action="" name="form" id="form1" enctype="multipart/mixed">
+<div class="form-floating my-2">
 <?php
 if (empty($_GET["temp_id"])) {
-    echo '<input name="channel" style="width: 97%" type="text"/>';
+    echo '<input class="form-control" id="channel" name="channel" type="text"/>';
 } else {
-   echo '<input name="channel" style="width: 97%" type="text" value="' . $temp_channel . '"/>';
+   echo '<input class="form-control" id="channel" name="channel" type="text" value="' . $temp_channel . '"/>';
 }?>
-</td>
-</tr>
-<tr>
-<td>Loomiskuupäev (AAAA-KK-PP)</td>
+<label for="channel">Kanal</label>
+</div>
+<div class="form-floating my-2">
 <?php
 if (empty($_GET["temp_id"])) {
-echo '<td><input name="date-year" style="width: 5%;" type="text" id="year" value="2020"/><input name="date-month" style="width: 2%;" id="month" type="text"  value="11"/><input name="date-day" id="day" style="width: 2%;" type="text" value="01"/></td>';
+echo '<input class="form-control" type="date" name="date" style="width: 25%;" type="text" id="ymd" value="2020-11-01"/>';
 } else {
-echo '<td>';
-echo '<input name="date-year" style="width: 5%;" type="text" id="year" value="' . $temp_date[0] . '"/>';
-echo '<input name="date-month" style="width: 2%;" id="month" type="text"  value="' . $temp_date[1] . '"/>';
-echo '<input name="date-day" id="day" style="width: 2%;" type="text" value="' . $temp_date[2] . '"/>';
-echo '</td>';
+echo '<input class="form-control" type="date" name="date" style="width: 25%;" type="text" id="ymd" value="';
+echo "${temp_date}";
+echo '"/>';
 }
-?>
-</tr>
-<td>URL</td>
+?><label for="ymd">Loomiskuupäev</label><div>
+<div class="form-floating my-2">
 <?php
 if (!empty($_GET["temp_id"])) {
-echo '<td><input name="url" id="url" style="width: 97%;" type="text" value="' . $temp_url . '"/></td>';
+echo '<input class="form-control" name="url" id="url" type="text" value="' . $temp_url . '"/>';
 } else {
-echo '<td><input name="url" id="url" style="width: 97%;" type="text"/></td>';
+echo '<input class="form-control" name="url" id="url" type="text"/>';
 }
-?>
-<tr>
-<td>Kanali kirjeldus</td>
+?><label for="url">URL</label>
+</div>
+<div class="form-floating my-2">
 <?php
 if (empty($_GET["temp_id"])) {
-	echo '<td><textarea name="description" id="desc" rows="5" cols="100"></textarea></td>';
+	echo '<textarea class="form-control" name="description" id="desc" rows="5" cols="100"></textarea>';
 } else {
-	echo '<td><textarea name="description" id="desc" rows="5" cols="100">' . $temp_description . '</textarea></td>';
+	echo '<textarea class="form-control" name="description" id="desc" rows="5" cols="100">' . $temp_description . '</textarea>';
 }
 ?>
-</tr>
-</table>
-
+<label for="desc">Kanali kirjeldus</label>
+</div>
 <?php
 if (empty($_GET["temp_id"])) {
-	echo '<input name="bool-done" id="del" type="checkbox"/>Kustutatud<br/>';
+	echo '<div class="form-check"><input class="form-check-input" name="bool-done" id="del" type="checkbox"/><label class="form-check-label" for="del">Kustutatud</label></div>';
 } else {
-	echo '<input name="bool-done" id="del" type="checkbox" '. $temp_deleted . '/>Kustutatud<br/>';
+	echo '<div class="form-check"><input class="form-check-input" name="bool-done" id="del" type="checkbox" '. $temp_deleted . '/><label class="form-check-label" for="del">Kustutatud</label></div>';
 }
 ?>
-<br/><a href="#/" onclick="InsertRecord();">Lisa üksus</a><a href="..">Tagasi</a>
+<br/><input class="btn btn-success mx-2" type="submit" value="Lisa üksus"/><a class="btn btn-primary mx-2" href="..">Tagasi</a>
 </form>
 <script>
 	function InsertRecord() {

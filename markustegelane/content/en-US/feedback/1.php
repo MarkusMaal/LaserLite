@@ -1,3 +1,14 @@
+<?php 
+	if (!empty($_GET["logout"])) {
+		$_SESSION["name"] = null;
+		$_SESSION["auth"] = null;
+	}
+	if (!empty($_SESSION["name"]))
+	{
+		include($_SERVER["DOCUMENT_ROOT"] . "/markustegelane/content/en-US/feedback/2.php");
+		die();
+	}
+?>
 <h1>Feedback</h1>
 <p>Here you can send feedback and questions about the web site to admins. Your name and
 password will be sent to the server and get encrypted before saving. This means that you

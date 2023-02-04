@@ -1,7 +1,9 @@
 
 # HTID:8480915: DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES BELOW Redirect 301 /blog http://markustegelane.blogspot.com Redirect 301 /777 http://markustegelane.tk/joy.php Redirect 301 /info http://markustegelane.blogspot.com/info Redirect 301 /about /about.php
+ErrorDocument 401 /markustegelane/errors/401.php
 ErrorDocument 404 /markustegelane/errors/404.php
 ErrorDocument 403 /markustegelane/errors/403.php
+ErrorDocument 500 /markustegelane/errors/500.php
 ErrorDocument 503 /markustegelane/errors/503.php
-php_flag display_errors 1
+
 # DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES ABOVE HTID:8480915:

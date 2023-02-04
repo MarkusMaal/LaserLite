@@ -1,17 +1,42 @@
 body {
     font-family: "Lucida Console", "Hack", "Monospace";
     color: #0ff;
-    background: linear-gradient(90deg, #002 33%, #020 33%, #020 66%, #200 66%);
+    background: #000;
     margin: 0px;
     margin-bottom: 50px;
     opacity: 0px;
 }
 
+div.disclaimer {
+	display: none;
+}
+
 div.navbar {
+	position: block;
+	width: 100%;
+}
+
+
+div.symbolbar {
 	position: absolute;
-	top: 15px;
-	left: 12%;
-	width: 20%;
+	padding: 18px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	background: rgba(220, 220, 220, 0.35);
+	top: 20px;
+	right: 20px;
+}
+
+
+.funsymbols {
+	font-family: "Lucida Console";
+	font-size: 25pt;
+	padding: 7px;
+	text-decoration: none;
+}
+.funsymbols:hover {
+	text-decoration: none;
+	background: rgba(255, 255, 0, 0.25);
 }
 
 hr {
@@ -45,36 +70,33 @@ a.link {
 }
 
 div.parent {
-	background: linear-gradient(90deg, #008 33%, #080 33%, #080 66%, #800 66%);
+	background: #000;
 	padding: 20px;
 }
 div.container {
-	display: flex;
+	display: block;
 	padding-bottom: 20px;
 }
 div.blue {
+	padding-top: 20px;
 	background: linear-gradient(#00f 0px, #00f 10px, #002 10px);
-	width: 33%;
+	width: 100%;
 	color: #ccc;
-	flex-basis: 33%;
-    animation: colorswitch1 0.5s linear 1;
 }
 
 div.green {
+	padding-top: 20px;
 	background: linear-gradient(#0f0 0px, #0f0 10px, #020 10px);
-	width: 33%;
+	width: 100%;
 	color: #ccc;
-	flex-basis: 33%;
-    animation: colorswitch2 0.5s linear 1;
 }
 
 
 div.red {
+	padding-top: 20px;
 	background: linear-gradient(#f00 0px, #f00 10px, #200 10px);
-	width: 34%;
+	width: 100%;
 	color: #ccc;
-	flex-basis: 34%;
-    animation: colorswitch3 0.5s linear 1;
 }
 
 a {
@@ -85,8 +107,13 @@ a:active {
 	color: #00f;
 }
 
+img {
+	width: 100%;
+	margin: auto;
+}
+
 h1 {
-	margin-left: 20px;
+	margin-left: 0px;
 	font-weight: normal;
 }
 h2 {
@@ -95,6 +122,10 @@ h2 {
 h3 {
     font-weight: normal;
     text-align: center;
+}
+
+.logo {
+	 width: 100px;
 }
 
 span.blinky {

@@ -8,6 +8,8 @@
     <a href="#" onclick="pausegame()" id="pausnupp" class="listitems">Pause</a>
     <p id="pts">Score: 0</p>
     <p id="hs">Press start to begin</p>
-	<script>newgame();</script>
+	<script>document.addEventListener("keydown", keydown_handle);
+	document.addEventListener("keyup", keyup_handle);
+	newgame();</script>
   <!-- END OF Main page section --->
 </div>

@@ -10,10 +10,10 @@ if (!empty($_GET["del"])) {
 $deleted = $_GET["del"];
 }
 if ($_GET["c"] == "mt") {
-	$channel = "markustegelane";
+	$channel = "MarkusTegelane";
 }
 else if ($_GET["c"] == "mtp") {
-	$channel = "markustegelane x";
+	$channel = "MarkusTegelane+";
 }
 else if ($_GET["c"] == "hmt") {
 	$channel = "#markusTegelane";

@@ -1,15 +1,11 @@
 <?php
     if(session_status()!=PHP_SESSION_ACTIVE) session_start();
-?>
-<?php include("../head.php"); ?>
-<h1>Kustuta idee kirje</h1>
-<?php
 	if (!empty($_POST["record-id"])) {
 		echo "<br/>POST andmed kätte saadud!<br/>";
 		include("../../connect.php");
 		if ($connection->connect_error) {
 			die('<span style="color: #ff0000">Andmebaasiga ühendumine nurjus.
-			Olge kindlad, et andmebaas toimib ja et olete sisse logitud</span><br/><a href="index.php">Tagasi andmebaasi</a>');
+			Olge kindlad, et andmebaas toimib ja et olete sisse logitud</span><br/><a class="btn btn-primary" href="index.php">Tagasi andmebaasi</a>');
 		}
 		// sql päring
 		$sql = 'DELETE FROM channel_ideas WHERE ID=' . $_POST["record-id"];
@@ -20,31 +16,48 @@
 			echo '<span style="color: #ff0000; ">Viga: ' . $sql . '<br>' . $connection->error;
 		}
 		$connection->close();
-		echo '<br/><a href="..">Tagasi andmebaasi</a>';
+		echo '<br/><a class="btn btn-primary" href="..">Tagasi andmebaasi</a>';
 		die();
 	}
 	if (!((!empty($_SESSION["usr"])) && ($_SESSION["level"] == "owner"))) {
 		die("Peate sisse logima.");
 	}
 ?>
-<table>
-<form method="post" action="index.php" name="form" id="form1" enctype="multipart/mixed">
-<td>Kirje ID: </td>
+<form method="post" action="" name="form" id="form1" enctype="multipart/mixed">
+<div class="form-floating">
 <?php
 if (empty($_GET["id"])) {
-	echo '<td><input name="record-id" style="width: 25%;" type="text"/></td>';
+	echo '<select class="form-select" id="record-id" name="record-id" type="text">';
+	$query = "SELECT * FROM channel_ideas";
+	$result = mysqli_query($connection, $query);
+	while ($row = mysqli_fetch_array($result)) {
+		echo '<option value="' . $row["id"] . '">' . $row["id"] . ' &lt;-&gt; ' . $row["Video"] . '</option>';
+	}
+	echo '</select>';
 } else {
 	if (!empty($_GET["failsafeuserconfirmdelete"]) && ($_GET["failsafeuserconfirmdelete"] == "1")) {
-		echo '<td><input name="record-id" style="width: 25%;" type="text" value="' . $_GET["id"] . '"/></td>';
+		echo '<select class="form-select" id="record-id" name="record-id" type="text" value="' . $_GET["id"] . '">';
+		
+		$query = "SELECT * FROM channel_ideas";
+		$result = mysqli_query($connection, $query);
+		while ($row = mysqli_fetch_array($result)) {
+			echo '<option value="' . $row["id"] . '"';
+			if ($row["id"] == $_GET["id"]) {
+				echo ' selected';
+			}
+			echo '>' . $row["id"] . ' &lt;-&gt; ' . $row["Video"] . '</option>';
+		}
+		echo '</select>';
 	} else {
-		echo '<td>' . $_GET["id"] . '</td>';
+		echo $_GET["id"];
 		echo '<p>Palun lisage veebiaadressile "&failsafeuserconfirmdelete=1", et kustutamine kinnitada</p>';
 		die();
 	}
 }
 ?>
-</table>
-<br/><a href="#/" onclick="Delete();">Kustuta üksus</a><a href="..">Tagasi</a>
+<label for="record-id">Kirje ID</label>
+</div>
+<br/><a class="btn btn-danger" href="#/" onclick="Delete();">Kustuta üksus</a><a class="btn btn-primary mx-2" href="..">Tagasi</a>
 </form>
 <script>
 	function Delete() {

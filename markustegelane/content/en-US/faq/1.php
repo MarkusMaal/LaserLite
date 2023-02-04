@@ -18,7 +18,7 @@ Asking this will make the video release date delay by one day. So don't ask this
 <li>The shape. All channels use a diamond shape with a glow effect. The reason for this is an internal channel secret and will not be revealed until I recieve 1000 subscribers.</li>
 <li>The decoration inside the diamond shape. For the main channel, it can be interpreted in 2 ways. First interpretation is the command line caret cursor symbol that blinks. Second interpretation is the home folder on Linux systems (e.g. ~/.config would point to .config folder on your home folder). On the second (extra) channel, it's an X symbol. The X symbol highlights the X part of the channel name, which is short for "extra". It also turns into a + symbol, if rotated 45 degrees. On the development channel, it's a hash symbol, which symbolises a common symbol in programming (in Python, for example, this symbol is used for comments).</li>
 <li>The text. For main and second channel, they have added noise and a glow effect. The meaning behind this is also an internal secret and will not be revealed until I reach 1000 subscribers. On the development channel, there is nothing special about the text.</li></ol><br />
-<strong>Why do I see you as markustegelane?</strong><br />
+<strong>Why do I see you as MarkusTegelane?</strong><br />
 <strong><br /></strong>Your YouTube language is probably not a variation of English.<br />
 <br />
 <strong>What happened with the Markus Maal channel?</strong><br />

@@ -4,7 +4,7 @@ if ($isMob == null) {
     include($_SERVER["DOCUMENT_ROOT"] . "/mobcheck.php");
 }
 if (empty($_COOKIE["theme"])) {
-    $theme = 'light';
+    $theme = 'blue';
 } else {
     $theme = $_COOKIE["theme"];
 }

@@ -1,12 +1,13 @@
-		<?php
-		if (!empty($_COOKIE["lang"])) {
-			$lang = $_COOKIE["lang"];
-		} else {
-			$lang = "en-US";
-		}
-    	include($_SERVER["DOCUMENT_ROOT"] . "/maintenance.php");
-    	include($_SERVER["DOCUMENT_ROOT"] . "/mobcheck.php");
-		?>
+<?php
+session_start();
+if (!empty($_COOKIE["lang"])) {
+	$lang = $_COOKIE["lang"];
+} else {
+	$lang = "en-US";
+}
+include($_SERVER["DOCUMENT_ROOT"] . "/maintenance.php");
+include($_SERVER["DOCUMENT_ROOT"] . "/mobcheck.php");
+?>
 <html lang="<?php
     if ($lang == "et-EE") {
         echo "et";
@@ -33,9 +34,9 @@
 			<a class="pages" href="?p=channel"><?php if ($lang == "et-EE") { echo 'kanalist'; } else { echo 'about channel'; }?></a>
 			<a class="pages" href="?p=streams"><?php if ($lang == "et-EE") { echo 'kavad ja otseülekanded'; } else { echo 'schedules and live streams'; }?></a>
 			<a class="pages" href="https://www.youtube.com/channel/UCGGMWFwRnLjTKRLtnO6KRFg"><?php if ($lang == "et-EE") { echo 'külasta kanalit'; } else { echo 'visit channel'; }?></a>
-			<a class="pages" href="/plus"><?php if ($lang == "et-EE") { echo 'vana kujundus'; } else { echo 'old design'; }?></a>
+			<a class="pages" href="/lite"><?php if ($lang == "et-EE") { echo 'uus kujundus'; } else { echo 'new design'; }?></a>
 		</div>
-        <a class="returnhome" href="../markustegelane">&lt;- 
+        <a class="returnhome" href="../">&lt;- 
         <?php
             if ($lang == "et-EE") {
                 echo "tagasi";
@@ -62,7 +63,7 @@
                             break;
                     }
                     include("connect.php");
-                    $query = 'SELECT ID, Video, URL, Kuupäev FROM channel_db WHERE Kanal="markustegelane x" AND Kustutatud=FALSE AND Avalik=TRUE ORDER BY (Kuupäev) DESC LIMIT 10';
+                    $query = 'SELECT ID, Video, URL, Kuupäev FROM channel_db WHERE Kanal="MarkusTegelane+" AND Kustutatud=FALSE AND Avalik=TRUE ORDER BY (Kuupäev) DESC LIMIT 10';
                     $result = mysqli_query($connection, $query);
                     
                     while ($row = mysqli_fetch_array($result)) {
@@ -104,7 +105,7 @@
                     $query = 'SELECT ename, etime, echannel, eurl FROM schedules';
                     $result = mysqli_query($connection, $query);
                     $cy = date("Y");
-                    $cm = date("m");
+                    $cm = date("n");
                     $cd = date("d");
                     $th = date("H");
                     $tm = date("i");
@@ -115,6 +116,7 @@
                     $dd = explode("-", explode(" ", $row[1])[0])[2];
                     $dm = explode("-", explode(" ", $row[1])[0])[1];
                     $dy = explode("-", explode(" ", $row[1])[0])[0];
+				 	$d_mon = explode("-", explode(" ", $row[1])[0])[1];
                     $delta_h = explode(":", explode(" ", $row[1])[1])[0] - $th;
                     $delta_m = explode(":", explode(" ", $row[1])[1])[1] - $tm;
                     $delta_s = explode(":", explode(" ", $row[1])[1])[2] - $ts;
@@ -135,8 +137,10 @@
                             } else {
                                 $state = "soon";
                             }
-                        } else {
+                        } else if ($d_mon - $cm == 0){
                             $state = "upcoming";
+                        } else {
+                        	$state = "later";
                         }
                     }
                     $exp = explode(":", explode(" ", $row[1])[1]);
@@ -155,6 +159,9 @@
                             switch ($state) {
                                 case "notlive":
                                     echo 'hetkel voogedastusi ei toimu';
+                                    break;
+                                case "later":
+                                    echo 'ülekanne algab mõne kuu pärast';
                                     break;
                                 case "upcoming":
                                     echo 'lähiajal on tulemas otseülekanne';
@@ -177,6 +184,9 @@
                             switch ($state) {
                                 case "notlive":
                                     echo 'there are currently no live broadcasts';
+                                    break;
+                                case "later":
+                                    echo 'live stream scheduled to start in a few months';
                                     break;
                                 case "upcoming":
                                     echo 'live stream scheduled to start in a few days';
@@ -204,6 +214,9 @@
                                 case "notlive":
                                     echo '<p>kui algab voogedastus, teavitatakse sellest markustegelane veebilehe avalehel</p>';
                                     break;
+                                case "later":
+                                    echo '<p>kui algab voogedastus, teavitatakse sellest markustegelane veebilehe avalehel</p>';
+                                    break;
                                 case "ending":
                                     echo '<p>ülekannet saab järelvaadata lingiga avalehel</p>';
                                     break;
@@ -215,6 +228,9 @@
                         case "en-US":
                             switch ($state) {
                                 case "notlive":
+                                    echo '<p>if a broadcast is started, you will get notified at the front page of this web site</p>';
+                                    break;
+                                case "later":
                                     echo '<p>if a broadcast is started, you will get notified at the front page of this web site</p>';
                                     break;
                                 case "ending":

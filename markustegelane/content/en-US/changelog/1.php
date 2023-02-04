@@ -61,7 +61,7 @@ for ($i = 2019; $i <= date('Y'); $i++) {
 			else if ($day == "32") { $day = "32nd"; }
 			else if ($day == "33") { $day = "33rd"; }
 			else { $day = $day . "th"; }
-			echo '<h2>' . $day . ' of ' . $monthstr . ' ' . $year . '</h2>';
+			echo '<h2>' . $day . ' ' . $monthstr . ' ' . $year . '</h2>';
 		}
 		$subquery = "SELECT CONTENT_EN FROM changelog_change WHERE PARNT_ID = " . $row[0] . " ORDER BY(ID) DESC";
 		$subresult = mysqli_query($connection, $subquery);

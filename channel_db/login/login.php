@@ -1,5 +1,5 @@
 <?php
-if (! empty($_POST["loginuser"])) {
+if (!empty($_POST["loginuser"])) {
     if(session_status()!=PHP_SESSION_ACTIVE) session_start();
     $_SESSION = array();
     $username = filter_var($_POST["loginuser"], FILTER_SANITIZE_STRING);
@@ -19,15 +19,11 @@ if (! empty($_POST["loginuser"])) {
 			} else {
 				$_SESSION["usr"] = $username;
 				$_SESSION["level"] = str_replace("1", "owner", str_replace("0", "moderator", $row[3]));
-				header("location: update_pass.php");
+				header("location: ../../markustegelane/common/config/update_pass.php");
 			}
 		}
 	}
-	if ($login_success == true) {
-		header("location: ..");
-	} else {
-		header("location: login.php");
-	}
+	include($_SERVER["DOCUMENT_ROOT"] . "/channel_db/index.php");
     exit();
 }
 ?>

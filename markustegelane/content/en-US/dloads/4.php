@@ -35,6 +35,7 @@
 					</td>
 				  </tr>';
 		}
+		echo '</table>';
 	} else {
 		echo '';
 	}

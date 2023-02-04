@@ -5,13 +5,13 @@ $name = $_GET['channel'];
 $maxResults = 10;
 $channel = 'null';
 if ($name == "mt") {
-    $channel  = 'markustegelane';
+    $channel  = 'MarkusTegelane';
 }
 else if ($name == "mtp") {
-    $channel  = 'markustegelane x';
+    $channel  = 'MarkusTegelane+';
 }
 else if ($name == "hmt") {
-    $channel = '#markusTegelane';
+    $channel  = '#markusTegelane';
 }
 else if ($name == "mas") {
     $channel = 'Markuse asjad';
@@ -23,11 +23,11 @@ else if ($name == "cqvmix") {
     $channel = 'cqvmix';
 }
 if ($channel == "null") {
-    echo '<span style="color: red">Viga: </span>Tundmatu $_GET väljakutse. Palun kontrollige veebilehe aadressi.';
+    echo '<span style="color: red">Tõrge: </span>Tundmatu GET väljakutse. Kontrollige veebilehe aadressi.';
 } else {
-    echo '<tr style="background-color:#333333; text-align:center; color:#ffffff;"><td>Pilt</td><td>Pealkiri</td><td>Link</td></tr>';
+    echo '<tr style="background-color:#333333; text-align:center; color:#ffffff;"><td>Pisipilt</td><td>Pealkiri</td><td>Link</td></tr>';
     include("common/connect.php");
-    $query = 'SELECT * FROM channel_db WHERE Kanal = "' . $channel . '" AND Avalik = TRUE AND Kustutatud = FALSE ORDER BY Kuupäev DESC LIMIT 10';
+    $query = 'SELECT * FROM channel_db WHERE Kanal = "' . $channel . '" AND Avalik = TRUE AND Kustutatud = FALSE ORDER BY Kuupäev DESC, ID DESC LIMIT 10';
     $result = mysqli_query($connection, $query);
     while ($row = mysqli_fetch_array($result)){
         echo '<tr class="secrow" >';

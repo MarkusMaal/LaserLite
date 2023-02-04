@@ -82,8 +82,18 @@
 			  this.beginforce = 0;
 			  this.speed = 0.5;
 			  this.stop = false;
-			  this.gradient = game.context.createLinearGradient(0, 0, 0, this.canvas.height);
-			  this.plr_gradient = game.context.createLinearGradient(0, 0, this.canvas.width, this.canvas.height);
+			  <?php
+				$gfx = "nice";
+				if (!empty($_COOKIE["gfx"])) {
+					$gfx = $_COOKIE["gfx"];
+				}
+				if ($gfx == "nice") {
+				  echo 'this.gradient = game.context.createLinearGradient(0, 0, 0, this.canvas.height);
+				  this.plr_gradient = game.context.createLinearGradient(0, 0, this.canvas.width, this.canvas.height);';
+				} else {
+					echo 'this.gradient = null; this.plr_gradient = null; ';
+				}
+			  ?>
 			  var r = Math.floor(Math.random() * 255);
 			  var g = Math.floor(Math.random() * 255);
 			  var b = Math.floor(Math.random() * 255);
@@ -203,6 +213,7 @@
 		  }*/
 		},
 		screen : function() {
+			<?php if ($gfx == "nice") { echo '
 			game.gradient.addColorStop(0, game.background);
 			game.gradient.addColorStop(1, game.midground);
 			
@@ -215,34 +226,49 @@
 			game.context.fillStyle = "#fff6";
 			for (var i = 0; i < game.clouds.length; i++) {
 			  game.context.fillRect(this.clouds[i][0], this.clouds[i][1], 20, 10);
-			}
+			}'; } else { echo '
+				game.context.fillStyle = game.background;
+				game.context.fillRect(0, 0, game.canvas.width, game.canvas.height);
+				game.context.fillStyle = "#fff";
+			'; } ?>
+			<?php if ($gfx == "nice") { echo '
 			game.gradient.addColorStop(0, game.midground);
 			game.gradient.addColorStop(1, game.foreground);
-			game.context.fillStyle = game.gradient;
+			game.context.fillStyle = game.gradient;'; }
+			?>
 			for (var i = 0; i < game.boxes.length; i++) {
 			  if (game.boxes[i] == 1) {
 				game.context.fillRect(Math.floor(i * game.single - game.offset), game.canvas.height - 30, game.single, 30);
 			  }
 			}
-
 			game.context.fillStyle = 'black';
 			for (var i = 0; i < 2; i++) {
 				if (i == 1) {
 					game.context.fillStyle = '#fff';
 				}
-				game.context.fillText(game.score, 10 - i, 26 - i);
+				<?php if ($gfx == "nice") {
+					echo 'game.context.fillText(game.score, 10 - i, 26 - i);';
+				} ?>
 			}
 			if (game.stop) {
+				<?php if ($gfx == "fast") {
+					echo 'game.context.fillText(game.score, 10 - i, 26 - i);';
+				} ?>
 				game.context.fillStyle = 'black';
 				game.context.font = "16px Arial";
 				for (var i = 0; i < 2; i++) {
 					if (i == 1) {
-						game.context.fillStyle = '#f00';
+						<?php if ($gfx == "fast") { echo 'break;'; } else { echo "game.context.fillStyle = '#f00';"; } ?>
 					}
 					game.context.fillText("Game over", game.canvas.width / 2 - 38 - i, game.canvas.height / 2 - i);
 				}
 			} else {
-				game.context.fillStyle = game.plr_gradient;
+				
+				<?php if ($gfx == "nice") { 
+				echo 'game.context.fillStyle = game.plr_gradient;'; } else {
+					echo 'game.context.fillStyle = "lightgray";';
+				}
+				?>
 				game.context.fillRect(game.char_x, game.char_y, 15, 30);
 			}
 			 
@@ -278,4 +304,7 @@
 	</ul>
 	
 	<p>During the game, your score is displayed at the top left corner. If the game ends, a message
-	   saying &quot;Game over&quot; appears and you'll no longer be able to move the character.</p>
+	   saying "Game over" appears and you'll no longer be able to move the character.</p>
+        <p><span style="color: #f00;">Note</span>: If you are using the Microsoft Edge web browser, please turn off &quot;Efficency mode&quot; before playing this game.</span>
+	<script>document.addEventListener("keydown", keydown_handle);
+	document.addEventListener("keyup", keyup_handle);</script>

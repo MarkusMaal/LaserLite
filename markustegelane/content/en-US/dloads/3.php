@@ -2,7 +2,7 @@
 	if (!empty($_GET["s"])) {
 		echo '<table><tr>
 		<td style="width: 25%;">
-		<img src="images/kat/software.svg" style="width: 100%;">
+		<img src="images/kat/software.svg" style="width: 95%; background-clip: content-box; background: linear-gradient(#0000 0%, #0000 7%, #018f 7%, #018f 16%, #ffff 16%, #ffff 75%, #0000 75%); background-position: 20px 20px;">
 		</td>
 		<td style="vertical-align: top; padding-top: 15px;">
 		<h2 id="Software">Markus software</h2>
@@ -36,6 +36,7 @@
 					</td>
 				  </tr>';
 		}
+		echo '</table>';
 	} else {
 		echo '';
 	}

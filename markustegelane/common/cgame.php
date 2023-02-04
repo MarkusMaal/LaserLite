@@ -1,4 +1,18 @@
-
+<?php 
+function ms2($et, $en) {
+	if (empty($_COOKIE["lang"]) || ($_COOKIE["lang"] != "et-EE")) {
+		return $en;
+	} else {
+		return $et;
+	}
+}
+$gfx = "nice";
+$sfx = "all";
+if (!empty($_COOKIE["gfx"])) { $gfx = $_COOKIE["gfx"]; }
+if (!empty($_COOKIE["soundmode"])) { $sfx = $_COOKIE["soundmode"]; }
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors','1');
+?>
 	<h1>Crazygame</h1>
 	<script>
 		class BgElement {
@@ -130,7 +144,7 @@
 							this.pos_y = y;
 							this.sub_x = 0;
 							this.sub_y = 0;
-							sfx[5].play();
+							if (sfx[1] != null) { sfx[5].play(); }
 						}
 					}
 				}
@@ -166,7 +180,7 @@
 		var packsel = 0;
 		var sel = 0;
 		var onedone = false;
-		var fancy = true;
+		var fancy = <?php if ($gfx == "nice") { echo 'true'; } else { echo 'false'; }?>;
 		var cc = 0;
 		var editblock = 0;
 		var dev = 0;
@@ -174,7 +188,12 @@
 		var keylock = false;
 		var offset;
 		var bg = [];
-		var sfx = [new Audio("images/shootme/move3.wav"), new Audio("images/shootme/coin.wav"), new Audio("images/shootme/box.wav"), new Audio("images/shootme/switch.wav"), new Audio("images/shootme/stuck.wav"), new Audio("images/shootme/teleport.wav"), new Audio("images/shootme/explosion.wav"), new Audio("images/shootme/help.wav"), new Audio("images/shootme/glass.wav"), new Audio("images/shootme/dbox.wav"), new Audio("images/shootme/ladder.wav")];
+		var smooth = <?php if ($gfx == "nice") { echo 'true'; } else { echo 'false'; } ?>;
+		<?php if ($sfx != "none") { echo '
+		var sfx = [new Audio("images/shootme/move3.wav"), new Audio("images/shootme/coin.wav"), new Audio("images/shootme/box.wav"), new Audio("images/shootme/switch.wav"), new Audio("images/shootme/stuck.wav"), new Audio("images/shootme/teleport.wav"), new Audio("images/shootme/explosion.wav"), new Audio("images/shootme/help.wav"), new Audio("images/shootme/glass.wav"), new Audio("images/shootme/dbox.wav"), new Audio("images/shootme/ladder.wav")];';
+		} else {
+			echo 'var sfx = [null, null, null, null, null, null, null, null, null, null];';
+		}?>
 		/* direction:
 		 * 0 - idle
 		 *     1
@@ -492,24 +511,24 @@
 					if (chars[i].locked) {
 						switch (map[chars[i].pos_y][chars[i].pos_x]) {
 							case "c":
-								sfx[1].play();
+								if (sfx[1] != null) { sfx[1].play(); }
 								map[chars[i].pos_y][chars[i].pos_x] = " ";
 								cc++;
 								break;
 							case "-":
-								alert("<?php echo ms('Mäng läbi: Kukkusite auku', 'Game over: Fell into hole'); ?>!");
+								alert("<?php echo ms2('Mäng läbi: Kukkusite auku', 'Game over: Fell into hole'); ?>!");
 								document.getElementById("selector").style.display = "block";
-								document.getElementById("leveldisp").innerHTML = "<span style=\"color: red;\"><?php echo ms('Mäng läbi', 'Game over'); ?></span>";
+								document.getElementById("leveldisp").innerHTML = "<span style=\"color: red;\"><?php echo ms2('Mäng läbi', 'Game over'); ?></span>";
 								chars = []
 								break;
 							case "^":
 								chars[i].direction = 1;
-								sfx[3].play();
+								if (sfx[1] != null) { sfx[3].play(); }
 								chars[i].remap();
 								break;
 							case "<":
 								chars[i].direction = 2;
-								sfx[3].play();
+								if (sfx[1] != null) { sfx[3].play(); }
 								chars[i].remap();
 								break;
 							case "H":
@@ -534,19 +553,19 @@
 								break;
 							case "V":
 								chars[i].direction = 3;
-								sfx[3].play();
+								if (sfx[1] != null) { sfx[3].play(); }
 								chars[i].remap();
 								break;
 							case "+":
-                                sfx[6].play();
-								alert("<?php echo ms('Mäng läbi: Astusite tuleblokile', 'Game over: Stepped on death block'); ?>");
+                                if (sfx[1] != null) { sfx[6].play(); }
+								alert("<?php echo ms2('Mäng läbi: Astusite tuleblokile', 'Game over: Stepped on death block'); ?>");
 								document.getElementById("selector").style.display = "block";
-								document.getElementById("leveldisp").innerHTML = "<span style=\"color: red;\"><?php echo ms('Mäng läbi', 'Game over'); ?></span>";
+								document.getElementById("leveldisp").innerHTML = "<span style=\"color: red;\"><?php echo ms2('Mäng läbi', 'Game over'); ?></span>";
 								chars = []
 								break;
 							case ">":
 								chars[i].direction = 4;
-								sfx[3].play();
+								if (sfx[1] != null) { sfx[3].play(); }
 								chars[i].remap();
 								break;
 							case "_":
@@ -554,13 +573,13 @@
 									chars[i].direction = 0;
 									chars[i].locked = false;
 									//map[chars[i].pos_y][chars[i].pos_x] = "*";
-									sfx[4].play();
+									if (sfx[1] != null) { sfx[4].play(); }
 									chars[i].beenhere = true;
 									break;
 								} else { chars[i].beenhere = false; break; }
 							case "f":
 								chars.splice(i, 1);
-								sfx[5].play();
+								if (sfx[1] != null) { sfx[5].play(); }
 								if (chars.length == 0) {
 									var hascoin = false;
 									for (var y = 0; y < lines; y++) {
@@ -579,7 +598,7 @@
 								break;
 							case "x":
 								if ((chars[i].sub_x == 0) && (chars[i].sub_y == 0)) {
-									sfx[3].play();
+									if (sfx[1] != null) { sfx[3].play(); }
 									switch (chars[i].direction) {
 										case 1:
 											chars[i].direction = 3;
@@ -597,7 +616,7 @@
 								}
 								break;
 							case "g":
-								sfx[8].play();
+								if (sfx[1] != null) { sfx[8].play(); }
 								var t_x = chars[i].pos_x;
 								var t_y = chars[i].pos_y;
 								switch (chars[i].direction) {
@@ -623,7 +642,7 @@
 							case "b":
 								var t_x = chars[i].pos_x;
 								var t_y = chars[i].pos_y;
-								sfx[2].play();
+								if (sfx[1] != null) { sfx[2].play(); }
 								switch (chars[i].direction) {
 									case 1:
 										t_y--;
@@ -666,7 +685,7 @@
 									}
 									chars[i].stop();
 								} else if (map[t_y][t_x] == "-") {
-									sfx[9].play();
+									if (sfx[1] != null) { sfx[9].play(); }
 									map[chars[i].pos_y][chars[i].pos_x] = " ";
 									map[t_y][t_x] = ".";
 									chars[i].stop();
@@ -696,6 +715,7 @@
 						var ts_x = chars[i].sub_x;
 						var ts_y = chars[i].sub_y;
 						switch (chars[i].direction) {
+							<?php if ($gfx == "nice") { echo '
 							case 1:
 								ts_y -= 0.3;
 								break;
@@ -707,7 +727,21 @@
 								break;
 							case 4:
 								ts_x += 0.3;
+								break;';
+							} else { echo '
+							case 1:
+								ts_y -= 1;
 								break;
+							case 2:
+								ts_x -= 1;
+								break;
+							case 3:
+								ts_y += 1;
+								break;
+							case 4:
+								ts_x += 1;
+								break;';
+							} ?>
 						}
 						chars[i].sub_x += ts_x;
 						chars[i].sub_y += ts_y;
@@ -745,7 +779,7 @@
 							}
 							if (map[t_y][t_x] != "#") {
 								if ((map[t_y][t_x] == "h") && (chars[i].direction % 2 == 0)) {
-									sfx[10].play();
+									if (sfx[1] != null) { sfx[10].play(); }
 									chars[i].stop();
 								} else {
 									chars[i].pos_x = t_x;
@@ -756,7 +790,7 @@
 							} else {
 								chars[i].direction = 0;
 								chars[i].locked = false;
-								sfx[0].play();
+								if (sfx[1] != null) { sfx[0].play(); }
 							}
 						}
 					} else {
@@ -764,9 +798,9 @@
 					}
 				}
 				if (CheckCollide() == true) {
-					alert("<?php echo ms('Mäng läbi: Vähemalt kaks tegelast põrkusid kokku', 'Game over: Two or more characters collided'); ?>");
+					alert("<?php echo ms2('Mäng läbi: Vähemalt kaks tegelast põrkusid kokku', 'Game over: Two or more characters collided'); ?>");
 					document.getElementById("selector").style.display = "block";
-					document.getElementById("leveldisp").innerHTML = "<span style=\"color: red;\"><?php echo ms('Mäng läbi', 'Game over'); ?></span>";
+					document.getElementById("leveldisp").innerHTML = "<span style=\"color: red;\"><?php echo ms2('Mäng läbi', 'Game over'); ?></span>";
 					chars = new Array();
 				}
 				game.checkfinish();
@@ -782,9 +816,9 @@
 				}
 				c_lvl += 1;
 				if (c_lvl == levelpack.length) {
-					alert("<?php echo ms('Õnnitleme! Lõpetasite kõik tasandid selles tasandipakis!', 'Congratulations! You finished all levels in this level pack!'); ?>");
+					alert("<?php echo ms2('Õnnitleme! Lõpetasite kõik tasandid selles tasandipakis!', 'Congratulations! You finished all levels in this level pack!'); ?>");
 					document.getElementById("selector").style.display = "block";
-					document.getElementById("leveldisp").innerHTML = "<?php echo ms('Te võitsite', 'You win'); ?>!";
+					document.getElementById("leveldisp").innerHTML = "<?php echo ms2('Te võitsite', 'You win'); ?>!";
 					return;
 				}
 				for (var i = 0; i < chars.length; i++) {
@@ -794,7 +828,7 @@
 				document.getElementById("selector").style.display = "none";
 				level = levelpack[c_lvl][0];
 				keylock = true;
-				document.getElementById("leveldisp").innerHTML = "<?php echo ms('Tasand', 'Level'); ?> " + String(c_lvl + 1) + "/" + String(levelpack.length);
+				document.getElementById("leveldisp").innerHTML = "<?php echo ms2('Tasand', 'Level'); ?> " + String(c_lvl + 1) + "/" + String(levelpack.length);
 				LoadLevel(level, levelpack[c_lvl][1], levelpack[c_lvl][2]);
 				sel = 0;
 				document.getElementById("igc").style.display = "block";
@@ -1125,9 +1159,9 @@
 							game.context.fillStyle = "#fff";
 						}
 						game.context.font = '12px Segoe UI Semibold';
-						game.context.fillText("<?php echo ms('Kaamera', 'Camera'); ?> " + (sel + 1) + "/" + chars.length, 10 - i, 20 - i);
+						game.context.fillText("<?php echo ms2('Kaamera', 'Camera'); ?> " + (sel + 1) + "/" + chars.length, 10 - i, 20 - i);
 						game.context.font = '20px Segoe UI Semibold';
-						game.context.fillText("<?php echo ms('Tasand', 'Level'); ?> " + (c_lvl + 1) + "/" + levelpack.length, 10 - i, height - 30 - i);
+						game.context.fillText("<?php echo ms2('Tasand', 'Level'); ?> " + (c_lvl + 1) + "/" + levelpack.length, 10 - i, height - 30 - i);
 						game.context.font = '12px Segoe UI Semibold';
 						var coinleft = 0;
 						for (var y = 0; y < map.length; y++) {
@@ -1138,9 +1172,9 @@
 							}
 						}
 						if (coinleft > 0) {
-							game.context.fillText(coinleft + " <?php echo ms('allesolevat münti', 'coins remaining'); ?>", 10 - i, height - 15 - i);
+							game.context.fillText(coinleft + " <?php echo ms2('allesolevat münti', 'coins remaining'); ?>", 10 - i, height - 15 - i);
 						} else {
-							game.context.fillText("<?php echo ms('Liikuge finišisse', 'Finish now'); ?>!", 10 - i, height - 15 - i);
+							game.context.fillText("<?php echo ms2('Liikuge finišisse', 'Finish now'); ?>!", 10 - i, height - 15 - i);
 						}
 					}
 				} else {
@@ -1153,12 +1187,12 @@
 								}
 								game.context.font = '12px Segoe UI Semibold';
 								if (chars.length > 0) {
-									game.context.fillText("<?php echo ms('Vaba kaamera', 'Free camera'); ?>", 10 - i, 20 - i);
+									game.context.fillText("<?php echo ms2('Vaba kaamera', 'Free camera'); ?>", 10 - i, 20 - i);
 								} else {
 									if (c_lvl >= levelpack.length) {
-										game.context.fillText("<?php echo ms('Te võitsite', 'You win'); ?>", 10 - i, 20 - i);
+										game.context.fillText("<?php echo ms2('Te võitsite', 'You win'); ?>", 10 - i, 20 - i);
 									} else {
-										game.context.fillText("<?php echo ms('Mäng läbi', 'Game over'); ?>", 10 - i, 20 - i);
+										game.context.fillText("<?php echo ms2('Mäng läbi', 'Game over'); ?>", 10 - i, 20 - i);
 									}
 								}
 							}
@@ -1170,8 +1204,8 @@
 									game.context.fillStyle = "#fff";
 								}
 								game.context.font = '12px Segoe UI Semibold';
-								game.context.fillText("<?php echo ms('Tasandiredigeerija', 'Level Editor'); ?>", 10 - i, 20 - i);
-								game.context.fillText("<?php echo ms('Saadavalolevad blokid', 'Block selection'); ?>:", 1 - i, height - 20 - i);
+								game.context.fillText("<?php echo ms2('Tasandiredigeerija', 'Level Editor'); ?>", 10 - i, 20 - i);
+								game.context.fillText("<?php echo ms2('Saadavalolevad blokid', 'Block selection'); ?>:", 1 - i, height - 20 - i);
 							}
 							for (var i = 0; i < 16; i++) {
 								if (i > 8) {
@@ -1208,11 +1242,11 @@
 									game.context.fillStyle = "#fff";
 								}
 								game.context.font = '12px Segoe UI Semibold';
-								game.context.fillText("<?php echo ms('Arendamine', 'Development'); ?>", 10 - i, 20 - i);
-								game.context.fillText("<?php echo ms('Tasandi andmed', 'Level data'); ?>:" + level, 10 - i, 40 - i);
-								game.context.fillText("<?php echo ms('Tekkekohad', 'Spawn locations'); ?>: [" + charstarts + "]", 10 - i, 50 - i);
-								game.context.fillText("<?php echo ms('Väljaku suurus', 'Map size'); ?>: [" + cols + ", " + lines + "]", 10 - i, 60 - i);
-								game.context.fillText("<?php echo ms('Tasandi andmed väljutati allolevasse tekstivälja', 'Level data outputted below'); ?>", 10 - i, 80 - i);
+								game.context.fillText("<?php echo ms2('Arendamine', 'Development'); ?>", 10 - i, 20 - i);
+								game.context.fillText("<?php echo ms2('Tasandi andmed', 'Level data'); ?>:" + level, 10 - i, 40 - i);
+								game.context.fillText("<?php echo ms2('Tekkekohad', 'Spawn locations'); ?>: [" + charstarts + "]", 10 - i, 50 - i);
+								game.context.fillText("<?php echo ms2('Väljaku suurus', 'Map size'); ?>: [" + cols + ", " + lines + "]", 10 - i, 60 - i);
+								game.context.fillText("<?php echo ms2('Tasandi andmed väljutati allolevasse tekstivälja', 'Level data outputted below'); ?>", 10 - i, 80 - i);
 								document.getElementById("data").value = level;
 								document.getElementById("width").value = cols;
 								document.getElementById("height").value = lines;
@@ -1226,7 +1260,7 @@
 									game.context.fillStyle = "#fff";
 								}
 								game.context.font = '12px Segoe UI Semibold';
-								game.context.fillText("<?php echo ms('Väljaku suurus', 'Map size'); ?> (" + (cols + add_x) + "x" + (lines + add_y) + ")", 10 - i, height - 20 - i);
+								game.context.fillText("<?php echo ms2('Väljaku suurus', 'Map size'); ?> (" + (cols + add_x) + "x" + (lines + add_y) + ")", 10 - i, height - 20 - i);
 							}
 							break;
 						case -5:
@@ -1236,11 +1270,11 @@
 								if (i == 1) {
 									game.context.fillStyle = "#fff";
 								}
-								game.context.fillText("<?php echo ms('Tasandi valik', 'Level select'); ?>", 10 - i, 20 - i);
-								game.context.fillText("<?php echo ms('Tasand', 'Level'); ?> " + (packsel + 1), 10 - i, 50 - i);
-								var exist = "<?php echo ms('ei', 'no'); ?>";
-								if (packsel < levelpack.length) { exist = "<?php echo ms('jah', 'yes'); ?>"; }
-								game.context.fillText("<?php echo ms('Eksisteerib', 'Exists'); ?>: " + exist, 10 - i, 70 - i);
+								game.context.fillText("<?php echo ms2('Tasandi valik', 'Level select'); ?>", 10 - i, 20 - i);
+								game.context.fillText("<?php echo ms2('Tasand', 'Level'); ?> " + (packsel + 1), 10 - i, 50 - i);
+								var exist = "<?php echo ms2('ei', 'no'); ?>";
+								if (packsel < levelpack.length) { exist = "<?php echo ms2('jah', 'yes'); ?>"; }
+								game.context.fillText("<?php echo ms2('Eksisteerib', 'Exists'); ?>: " + exist, 10 - i, 70 - i);
 							}
 					}
 				}
@@ -1349,7 +1383,7 @@
 					if (i != j) {
 						if ((chars[j].pos_x == chars[i].pos_x) && (chars[j].pos_y == chars[i].pos_y)) {
 							collide = true;
-							sfx[7].play();
+							if (sfx[1] != null) { sfx[7].play(); }
 						}
 					}
 				}
@@ -1457,14 +1491,14 @@
 					case 49:
 						document.getElementById("igc").style.display = "block";
 						document.getElementById("devoption").style.display = "none";
-						document.getElementById("leveldisp").innerHTML = "<?php echo ms('Tasand', 'Level'); ?> " + String(c_lvl + 1) + "/" + levelpack.length;
+						document.getElementById("leveldisp").innerHTML = "<?php echo ms2('Tasand', 'Level'); ?> " + String(c_lvl + 1) + "/" + levelpack.length;
 						sel = 0;
 						break;
 					case 50:
 						document.getElementById("igc").style.display = "block";
 						document.getElementById("devoption").style.display = "none";
 						if (chars.length > 1) {
-							document.getElementById("leveldisp").innerHTML = "<?php echo ms('Tasand', 'Level'); ?> " + String(c_lvl + 1) + "/" + levelpack.length;
+							document.getElementById("leveldisp").innerHTML = "<?php echo ms2('Tasand', 'Level'); ?> " + String(c_lvl + 1) + "/" + levelpack.length;
 							sel = 1;
 						}
 						break;
@@ -1472,7 +1506,7 @@
 						document.getElementById("igc").style.display = "block";
 						document.getElementById("devoption").style.display = "none";
 						if (chars.length > 2) {
-							document.getElementById("leveldisp").innerHTML = "<?php echo ms('Tasand', 'Level'); ?> " + String(c_lvl + 1) + "/" + levelpack.length;
+							document.getElementById("leveldisp").innerHTML = "<?php echo ms2('Tasand', 'Level'); ?> " + String(c_lvl + 1) + "/" + levelpack.length;
 							sel = 2;
 						}
 						break;
@@ -1480,13 +1514,13 @@
 						document.getElementById("igc").style.display = "block";
 						document.getElementById("devoption").style.display = "none";
 						if (chars.length > 3) {
-							document.getElementById("leveldisp").innerHTML = "<?php echo ms('Tasand', 'Level'); ?> " + String(c_lvl + 1) + "/" + levelpack.length;
+							document.getElementById("leveldisp").innerHTML = "<?php echo ms2('Tasand', 'Level'); ?> " + String(c_lvl + 1) + "/" + levelpack.length;
 							sel = 3;
 						}
 						break;
 					case 55:
 						if (dev > 6) {
-							document.getElementById("leveldisp").innerHTML = "<?php echo ms('Väljaku suurus', 'Map size'); ?>";
+							document.getElementById("leveldisp").innerHTML = "<?php echo ms2('Väljaku suurus', 'Map size'); ?>";
 							add_x = 0;
 							game.context.font = '15px Arial';
 							add_y = 0;
@@ -1499,7 +1533,7 @@
 						dev++;
 						if (dev == 7) {
 							document.getElementById("dtest").style.display = "block";
-							alert("<?php echo ms('Arendaja valikud sisse lülitatud', 'Developer options enabled'); ?>\n<?php echo ms('Kasutage neid valikuid vastutustundlikult', 'Please use these options responsibly'); ?> ;)");
+							alert("<?php echo ms2('Arendaja valikud sisse lülitatud', 'Developer options enabled'); ?>\n<?php echo ms2('Kasutage neid valikuid vastutustundlikult', 'Please use these options responsibly'); ?> ;)");
 						}
 					case 13:
 						if (sel == -6) {
@@ -1516,7 +1550,7 @@
 							} else {
 								levelpack.push(["    ", [0,0], [2, 2]]);
 								c_lvl = levelpack.length - 2;
-								document.getElementById("leveldisp").innerHTML = "<?php echo ms('Väljaku suurus', 'Map size'); ?>";
+								document.getElementById("leveldisp").innerHTML = "<?php echo ms2('Väljaku suurus', 'Map size'); ?>";
 								add_x = 0;
 								game.context.font = '15px Arial';
 								add_y = 0;
@@ -1538,7 +1572,7 @@
 						}
 					case 54:
 						if (dev > 6) {
-							document.getElementById("leveldisp").innerHTML = "<?php echo ms('Tasandivalik', 'Level select'); ?>";
+							document.getElementById("leveldisp").innerHTML = "<?php echo ms2('Tasandivalik', 'Level select'); ?>";
 							packsel = c_lvl;
 							document.getElementById("igc").style.display = "none";
 							document.getElementById("devoption").style.display = "none";
@@ -1565,7 +1599,7 @@
 							var width = Math.floor(game.canvas.width / block) * block - 6;
 							var height = Math.floor(game.canvas.height / block) * block - 6;
 							offset = [-(width) / 2 + (block / 2), -(height) / 2 + (block / 2)];
-							document.getElementById("leveldisp").innerHTML = "<?php echo ms('Tasandi redigeerija', 'Level editor'); ?>";
+							document.getElementById("leveldisp").innerHTML = "<?php echo ms2('Tasandi redigeerija', 'Level editor'); ?>";
 							game.context.font = '25px Arial';
 							sel = -2;
 							document.getElementById("igc").style.display = "none";
@@ -1787,114 +1821,114 @@
             </tr>
         </table>
 	</div>
-	<p id="leveldisp"><?php echo ms('Palun valige tasandipakk', 'Please select a level pack'); ?></p>
+	<p id="leveldisp"><?php echo ms2('Palun valige tasandipakk', 'Please select a level pack'); ?></p>
 	<div id="igc" style="display: none;">
-	<a href="#/" onclick="SwitchFancy();"><?php echo ms('Uhke taust', 'Fancy background'); ?></a><br/>
-	<a href="#/" onclick="GoFs();"><?php echo ms('Täisekraan', 'Fullscreen'); ?></a>
-	<p><?php echo ms('Kaamera', 'Camera'); ?>:</p>
+	<a href="#/" onclick="SwitchFancy();"><?php echo ms2('Uhke taust', 'Fancy background'); ?></a><br/>
+	<a href="#/" onclick="GoFs();"><?php echo ms2('Täisekraan', 'Fullscreen'); ?></a>
+	<p><?php echo ms2('Kaamera', 'Camera'); ?>:</p>
 	<a href="#/" onclick="sel = 0;">1</a>
 	<a href="#/" onclick="sel = 1;">2</a>
 	<a href="#/" onclick="sel = 2;">3</a>
 	<a href="#/" onclick="sel = 3;">4</a>
-	<a href="#/" onclick="sel = -1;">Free</a>
-	<br/><a onclick="c_lvl--; game.next();"><?php echo ms('Laadi tasand uuesti', 'Reset level'); ?></a></div>
+	<a href="#/" onclick="sel = -1;"><?php echo ms2("Vaba", "Free"); ?></a>
+	<br/><a onclick="c_lvl--; game.next();"><?php echo ms2('Laadi tasand uuesti', 'Reset level'); ?></a></div>
 	<div id="devoption" style="display: none;">
 		
-		<p><span style="color: red;"><?php echo ms('Hoiatus', 'Warning'); ?>: </span><?php echo ms('Kopeerige tasandi andmed enne lehekülje uuesti laadimist, kui te seda ei tee, siis tasandi andmed kustutatakse', 'Copy level data before refreshing this page, otherwise level data will be lost'); ?>.</p>
-		<h2><?php echo ms('Klahviseosed', 'Key bindings'); ?></h2>
+		<p><span style="color: red;"><?php echo ms2('Hoiatus', 'Warning'); ?>: </span><?php echo ms2('Kopeerige tasandi andmed enne lehekülje uuesti laadimist, kui te seda ei tee, siis tasandi andmed kustutatakse', 'Copy level data before refreshing this page, otherwise level data will be lost'); ?>.</p>
+		<h2><?php echo ms2('Klahviseosed', 'Key bindings'); ?></h2>
 		<ul>
-			<li>Insert - <?php echo ms('Paiguta blokk', 'Place block'); ?></li>
-			<li>Delete - <?php echo ms('Eemalda blokk/Eemalda teleport/Asenda õhuga', 'Remove block/Remove teleport/Replace with air'); ?></li>
-			<li>WASD/PEUI/ZQSD - <?php echo ms('Liiguta blokki', 'Move block'); ?></li>
-			<li>C - <?php echo ms('Vali järgmine blokk', 'Switch to next block'); ?></li>
-			<li>X - <?php echo ms('Vali eelmine blokk', 'Switch to previous block'); ?></li>
-			<li>Enter - <?php echo ms('Blokivõtja', 'Block picker'); ?></li>
-			<li>1/2/3/4 - <?php echo ms('Testi väljakut', 'Test map'); ?></li>
-			<li>Numpad 1-4 - <?php echo ms('Sea tekkekohad iga tegelase jaoks', 'Set spawn points for each character'); ?></li>
-			<li>Numpad +/- - <?php echo ms('Lisa/eemalda tegelane', 'Add/remove character'); ?></li>
-			<li>Numpad 5/6 - <?php echo ms('Lisa telpordi allikas/sihtpunkt', 'Add source/destination to teleport'); ?> A</li>
-			<li>Numpad 7/8 - <?php echo ms('Lisa telpordi allikas/sihtpunkt', 'Add source/destination to teleport'); ?> C</li>
-			<li>Numpad [/]/[*] - <?php echo ms('Lisa telpordi allikas/sihtpunkt', 'Add source/destination to teleport'); ?> E</li>
-			<li>Numpad 9 - <?php echo ms('Lisa teleport finišisse', 'Add a teleport to finish block'); ?></li>
-			<li>R - <?php echo ms('Laadi väljak uuesti', 'Reload map'); ?></li>
-			<li>6 - <?php echo ms('Tasandi valija', 'Level chooser'); ?></li>
-			<li>7 - <?php echo ms('Muuda väljaku suurust (kasutage liikumisklahve ja vajutage Enter, et suurust muuta)', 'Change map size (use move keys and press Enter to change size)'); ?></li>
-			<li>8 - <?php echo ms('Väljasta väljakuandmed (arendamiseks)', 'Output map data (for development)'); ?></li>
-			<li>9 - <?php echo ms('Väljakuredigeerija', 'Level editor'); ?></li>
-			<li>0 - <?php echo ms('Vaatle tasandit', 'Spectate level'); ?></li>
+			<li>Insert - <?php echo ms2('Paiguta blokk', 'Place block'); ?></li>
+			<li>Delete - <?php echo ms2('Eemalda blokk/Eemalda teleport/Asenda õhuga', 'Remove block/Remove teleport/Replace with air'); ?></li>
+			<li>WASD/PEUI/ZQSD - <?php echo ms2('Liiguta blokki', 'Move block'); ?></li>
+			<li>C - <?php echo ms2('Vali järgmine blokk', 'Switch to next block'); ?></li>
+			<li>X - <?php echo ms2('Vali eelmine blokk', 'Switch to previous block'); ?></li>
+			<li>Enter - <?php echo ms2('Blokivõtja', 'Block picker'); ?></li>
+			<li>1/2/3/4 - <?php echo ms2('Testi väljakut', 'Test map'); ?></li>
+			<li>Numpad 1-4 - <?php echo ms2('Sea tekkekohad iga tegelase jaoks', 'Set spawn points for each character'); ?></li>
+			<li>Numpad +/- - <?php echo ms2('Lisa/eemalda tegelane', 'Add/remove character'); ?></li>
+			<li>Numpad 5/6 - <?php echo ms2('Lisa telpordi allikas/sihtpunkt', 'Add source/destination to teleport'); ?> A</li>
+			<li>Numpad 7/8 - <?php echo ms2('Lisa telpordi allikas/sihtpunkt', 'Add source/destination to teleport'); ?> C</li>
+			<li>Numpad [/]/[*] - <?php echo ms2('Lisa telpordi allikas/sihtpunkt', 'Add source/destination to teleport'); ?> E</li>
+			<li>Numpad 9 - <?php echo ms2('Lisa teleport finišisse', 'Add a teleport to finish block'); ?></li>
+			<li>R - <?php echo ms2('Laadi väljak uuesti', 'Reload map'); ?></li>
+			<li>6 - <?php echo ms2('Tasandi valija', 'Level chooser'); ?></li>
+			<li>7 - <?php echo ms2('Muuda väljaku suurust (kasutage liikumisklahve ja vajutage Enter, et suurust muuta)', 'Change map size (use move keys and press Enter to change size)'); ?></li>
+			<li>8 - <?php echo ms2('Väljasta väljakuandmed (arendamiseks)', 'Output map data (for development)'); ?></li>
+			<li>9 - <?php echo ms2('Väljakuredigeerija', 'Level editor'); ?></li>
+			<li>0 - <?php echo ms2('Vaatle tasandit', 'Spectate level'); ?></li>
 
 		</ul>
 	</div>
 	<div id="selector">
         <div id="dsel" style="display: none;">
-		<h1><?php echo ms('Tasandipakid', 'Level packs'); ?></h1>
-        <a href="#" onclick="LoadPack([['############# c  ##    ##  #c      ##   #c _<  ##      ^   ##    c   b ## c#  #  F #############', [6, 4, 8, 2, 3, 1, 1, 3], [12, 8]], ['#############     c   b## #      c ## b  #     ## ##   b   ####  #   # ##ccc  # c  ######F######', [1, 1, 1, 4], [12, 8]], ['#############c c   _  ### _c   c   ##c c >_c<  ##  _   c   ##  _   ^  c## _ _ c #F #############', [3, 6, 2, 6, 10, 6], [12, 8]], ['_ ###########  V  c   ### # #  c   ##_ >     V_##     >b_< ## #  #   # ##Fc>_<# c  #############', [0, 0, 9, 6], [12, 8]], ['# ########### ## # _< ###V> V# V  V##>^#>b  ^# ### # c   c ##   _###^ <##F #c # #c #############', [1, 0], [12, 8]], ['###########   c  _ ## #### # ##c  V   <##### ##  ##  _ _ c###F# # #  ###########', [1, 1, 5, 3, 6, 5, 3, 6], [10, 8]], ['####################  c     b    c   ##        _  _     <# ###  >     b    ##     c   < _     <# #c             c## b       #F_  b  <############_######', [2, 2, 5, 5], [19, 8]], ['################  c          ##     b  _  _ ## ###         ##    >c  ^ <_ ##     b       ##        #  _ ##   b c  c# _ ##    #        ##F b      _   ################', [1, 1], [15, 11]], ['#############  #c  # cF### #  b  V ##  >>  cb <##c## c  # ### # c## # ### c  # ^  <#############', [1, 1], [12, 8]]]);"><?php echo ms('Algus', 'The Beginning'); ?></a><br/>
-        <a href="#" onclick="LoadPack([['#  B        +#F          ##_#         ##_#         ##_#         ##_*        A##_#          ', [10, 5], [13, 7]], ['##+++++++++++#+##c_F#          ##c_ _      H   ##c#_##         ## #_#          ## #_#          ## #            #### +           ', [13, 7], [16, 8]], ['#F+++++++++A## ++#++++++_##  B#++#+++_##+++       _##+++ #+ +++_##+++    #  _##+++  #++++_##+++ ++++++_##+++ ++++++_##+++#++++++_#', [4, 8], [13, 10]], ['################F        ###### ############## ###+++  ###### ###+D+######## #E#+++######## #B############ #C#####C#A#### #######_#_####G#######_#_############   ##################', [10, 10], [15, 12]], ['################# ########### ###             F## # ######### ### # ######### ### # ######### ### # ######### ### # ######### ### # ######### ### #  ######## ### +#          ##### #########+##', [13, 10], [16, 12]], ['####################A#H#A#F#A#A#A#A#A## # # ### # # # # ## # # ### # # # # ## # # ### # # # # ## # # ### # # # # ## #B# ### # # # # ## # # ### # # # # ## # # ### # # # # ## # # ### # # # # ####################', [17, 9], [19, 11]]]);"><?php echo ms('Klassikalised tasandid', 'Classic levels'); ?></a><br/>
-        <a href="#" onclick="LoadPack([['######################HcD ccc<F###C###A###### ####c###c## ##c#####c###c  _  c###+ c    +##########B#############', [8, 4, 10, 4], [16, 7]], ['################# _ _#  D cccAF### # c c c  #  ##  # # ## # c# ### ###   _  c# ## _   C_## #   ###B#############', [14, 5, 4, 2, 13, 2, 1, 3], [16, 7]], ['#A###########B##Ac#       <#V##A^< b     ^ <##Ac<  C       ##A##        D #####F##########', [9, 2, 9, 4], [15, 6]], ['+++++++ +++ +++ ++++++# F #   #   #   #  ++# c # c # c # c # c++   #  _#  _#  _#  #++  ^ <#^ <#  <#  <# ++++++++++++++++++++++', [19, 1, 15, 0, 16 ,1], [21, 6]], ['#########Ec G#F##B  C  ##bc bc###D    #### bc  ## c#AcH#########', [3,3,6,5,1,6,4,1], [8, 8]], ['# ########b # bbb##V_ >   ##b b_b b##ccccc< ##F#######', [2,1,3,2,4,1,6,2], [9, 6]], ['############## _G####ccc#cH#### BC#######+++#+E++#####  D A###  #   H###F ################', [6,1,2,3,6,5,3,6], [10, 9]], ['#+##D     ### c#  ##c_ E #B#+##G# ##A#cc# #c#+#A# #C # c##cc  ##+##ccccc # ##### #c<#F##ccc##+c#Accccc^  +H#', [0,2,5,1], [12, 9]], ['########## b   b ##   b   ## b   b ##   b   ## b   bF##########', [2,2,5,5,4,3,1,5], [9,7]], ['#############cccccccccc##c Vcc<_cc_##c_c  c   c##c>cccccccc##c c_ccc_cc##ccccc^ccccF############', [4,4,8,2,7,6,2,2], [12,8]]]);"><?php echo ms('Kogemus', 'Le Experience'); ?></a><br/>
-        <a href="#" onclick="LoadPack([['# ccccc#####b##h#c#gg##-#- b<#gg## # ########   ccccF#############', [4,2,1,0], [11, 6]], [' cgggccchggggc hhcccccghhgf  Fghhccc _cc', [0,0,3,3,6,1,4,4], [8,5]], [' cc-ch hccb h hcg gh hc bch h c-ccF', [3,2,4,1,2,3,1,4], [7,5]], ['cccc c>_ccbcgb^ccx#-#gb<#cF_c ######', [1,1,4,0,5,4], [6, 6]], ['  > VV <  #- -cc- -##f.fccf.f##g-gccg.g##c cccc c##        ##bbb  bbb##b b  b b##bbb  bbb#####FF####', [2,7,7,7], [10, 10]], ['         # #    #                         ## E # #  G    #     #  #            #  # #   #    ##            #   #     #   #     #  ####    #         ##      #         #     #  #         #       # #         #     #       #   #       #  #      #  #    ##     #           ##   ##    ##  #     ##                 #          #  #    #       ##          #  ##      #  #     #     # #          #   #      #  #     ##  #          # ###   #     #   #       #           #        ##    #   #    #        #   #   #D      #    #   #  #       ##   ##  # ####    #     #  #   ##    #     #      C#     #     #  #       #        #   ##       #    #   #  #  F h    ## # ##          #    ##  #  ### h    #   ##        #   #     #  #     h     #           ###   #        #    h      ##  ####  #  #    #      # #   h     ##  #   ## # ##     #      ###  h    ######     #   #      #        # h          ##        #      #    #   V   <    #    #       #       #    ##  ###    #  #   #       #       #          #  #   #    #       #       #        ####   #      #       ##      #   ##   ##   #        #        #      #    ###A # #         #         #  B # #   #     #                     #  #   #  #                            ###    #     ', [5,2,10,3,8,8,16,8], [38, 32]], ['## V<###F## > ^c ch##ccbcb ch##cc cc - ###########', [1,1,6,1], [10, 5]], ['#############b bb   bb ##c c ccbx b##c  ccc    ##b b ccb# b### ##F######', [4,4,3,3,6,1], [12, 6]], ['F< c >cccc^  c# # +  CB^ # >DAc +G# # E c    >cccc', [6,2,4,2,5,3,5,1], [10, 5]], ['Fc cccccccccF c_###_c#_  # c__#__c_#_## c_ _ _c#_# # c_ # _c# _ #FcccccccccccF', [2,0,8,2,11,1,5,3], [13, 6]], ['#    b- #  g c#  #c   #g x+ x  #  c#g  # c ##gcccccc g  #  xF  ## ', [1,0,2,2,7,3,2,5], [11, 6]], ['F  b-   bE Cc    -b    cb -bB -bD c-b-b c- - c    -bb bAccccc-b GA', [1, 0], [11, 6]]]);"><?php echo ms('Väljaku Pardal', 'Aboard The Board'); ?></a><br/>
-        <a href="#" onclick="LoadPack([['++b+++b+++b+++b+++b+b+++++fbfffbfffbfffbfffbfbfff++f.ccccccc.............f++f.ggg.ggg.ggg.ggg.g.g.f++f..g-.gb-cg.g.g..cg.g.f++f..g--ggbcggg.gg.cg.g.f+bb..g-.gb cgg..g..c....bb+f..g..ggg.g.g.ggg.g.g.f++fbfffbfffbfffbfffbfbfbf+++b+++b+++b+++b+++b+b+b++', [21,6,17,4,13,6,9,6], [25,10]], ['#x#x#x#x##gggggg xxgggg gg## ggggggxxgg gggg##gggggggxxggggggg###x#F#x##', [1,3,3,4,5,2,7,1], [9,8]], ['################g ggg        ##g gcccccccc<F##ggggggggggggg##ggggggg xggg ##ccg      g g ##ggg c   cggg ## gg cgggc    ##ggg cg gcg < F###############', [2,2,7,8,11,5,1,7], [15,10]], ['ggggggggggggg c  gg    gg  gc      gg   gc _<  gg      ^   gg    c   b gg cg  g  F ggggggggggggg', [6,4,8,2,3,1,1,3], [12,8]], ['ggggggggggg   c  _ gg gggg g ggc  V   <ggggg gg  gg  _ _ cgggFg g g  ggggggggggg', [1,1,5,3,6,5,3,6], [10,8]], ['ggggggggggggg     c   bgg g      c gg b  g     gg gg   b   gggg  g   g ggccc  g c  ggggggFgggggg', [1,1,1,4], [12,8]], ['FFFFFFFgcgcgcgcgcgcgcg_g g_gcgcgcgcgcgcgcgFFFFFFF', [3,3,1,3,5,3], [7,7]], ['gggggggggggggggggggggggggggggggggggggggggggccccgFFggggg ccccg  ggggggccccg  gggggcc ^cg  ggggggccccg  ggggg >cccg  ggggggccccgFFgggggcccVcgggggggggggccggggggggggggcggggggggggggcgggggggggggggggggg', [5,6,3,8,3,4], [13,15]], [' cgcgcgc _gFgggFg_gcgcgcgcgggggggggggcgcgcgcg_gFgggFg_ cgcgcgc ', [0,0,8,0,8,6,0,6], [9,7]], ['gggggggggggggccccccccccggc Vcc<_cc_ggc_c  c   cggc>ccccccccggc c_ccc_ccggccccc^ccccFgggggggggggg', [4,4,8,2,7,6,2,2], [12,8]]]);"><?php echo ms('Klaas', 'Glass'); ?></a><br/>
-        <?php echo ms('Uued väljakupakid peagi tulemas', 'More level packs coming soon'); ?>!
+		<h1><?php echo ms2('Tasandipakid', 'Level packs'); ?></h1>
+        <a href="#" onclick="LoadPack([['############# c  ##    ##  #c      ##   #c _<  ##      ^   ##    c   b ## c#  #  F #############', [6, 4, 8, 2, 3, 1, 1, 3], [12, 8]], ['#############     c   b## #      c ## b  #     ## ##   b   ####  #   # ##ccc  # c  ######F######', [1, 1, 1, 4], [12, 8]], ['#############c c   _  ### _c   c   ##c c >_c<  ##  _   c   ##  _   ^  c## _ _ c #F #############', [3, 6, 2, 6, 10, 6], [12, 8]], ['_ ###########  V  c   ### # #  c   ##_ >     V_##     >b_< ## #  #   # ##Fc>_<# c  #############', [0, 0, 9, 6], [12, 8]], ['# ########### ## # _< ###V> V# V  V##>^#>b  ^# ### # c   c ##   _###^ <##F #c # #c #############', [1, 0], [12, 8]], ['###########   c  _ ## #### # ##c  V   <##### ##  ##  _ _ c###F# # #  ###########', [1, 1, 5, 3, 6, 5, 3, 6], [10, 8]], ['####################  c     b    c   ##        _  _     <# ###  >     b    ##     c   < _     <# #c             c## b       #F_  b  <############_######', [2, 2, 5, 5], [19, 8]], ['################  c          ##     b  _  _ ## ###         ##    >c  ^ <_ ##     b       ##        #  _ ##   b c  c# _ ##    #        ##F b      _   ################', [1, 1], [15, 11]], ['#############  #c  # cF### #  b  V ##  >>  cb <##c## c  # ### # c## # ### c  # ^  <#############', [1, 1], [12, 8]]]);"><?php echo ms2('Algus', 'The Beginning'); ?></a><br/>
+        <a href="#" onclick="LoadPack([['#  B        +#F          ##_#         ##_#         ##_#         ##_*        A##_#          ', [10, 5], [13, 7]], ['##+++++++++++#+##c_F#          ##c_ _      H   ##c#_##         ## #_#          ## #_#          ## #            #### +           ', [13, 7], [16, 8]], ['#F+++++++++A## ++#++++++_##  B#++#+++_##+++       _##+++ #+ +++_##+++    #  _##+++  #++++_##+++ ++++++_##+++ ++++++_##+++#++++++_#', [4, 8], [13, 10]], ['################F        ###### ############## ###+++  ###### ###+D+######## #E#+++######## #B############ #C#####C#A#### #######_#_####G#######_#_############   ##################', [10, 10], [15, 12]], ['################# ########### ###             F## # ######### ### # ######### ### # ######### ### # ######### ### # ######### ### # ######### ### #  ######## ### +#          ##### #########+##', [13, 10], [16, 12]], ['####################A#H#A#F#A#A#A#A#A## # # ### # # # # ## # # ### # # # # ## # # ### # # # # ## # # ### # # # # ## #B# ### # # # # ## # # ### # # # # ## # # ### # # # # ## # # ### # # # # ####################', [17, 9], [19, 11]]]);"><?php echo ms2('Klassikalised tasandid', 'Classic levels'); ?></a><br/>
+        <a href="#" onclick="LoadPack([['######################HcD ccc<F###C###A###### ####c###c## ##c#####c###c  _  c###+ c    +##########B#############', [8, 4, 10, 4], [16, 7]], ['################# _ _#  D cccAF### # c c c  #  ##  # # ## # c# ### ###   _  c# ## _   C_## #   ###B#############', [14, 5, 4, 2, 13, 2, 1, 3], [16, 7]], ['#A###########B##Ac#       <#V##A^< b     ^ <##Ac<  C       ##A##        D #####F##########', [9, 2, 9, 4], [15, 6]], ['+++++++ +++ +++ ++++++# F #   #   #   #  ++# c # c # c # c # c++   #  _#  _#  _#  #++  ^ <#^ <#  <#  <# ++++++++++++++++++++++', [19, 1, 15, 0, 16 ,1], [21, 6]], ['#########Ec G#F##B  C  ##bc bc###D    #### bc  ## c#AcH#########', [3,3,6,5,1,6,4,1], [8, 8]], ['# ########b # bbb##V_ >   ##b b_b b##ccccc< ##F#######', [2,1,3,2,4,1,6,2], [9, 6]], ['############## _G####ccc#cH#### BC#######+++#+E++#####  D A###  #   H###F ################', [6,1,2,3,6,5,3,6], [10, 9]], ['#+##D     ### c#  ##c_ E #B#+##G# ##A#cc# #c#+#A# #C # c##cc  ##+##ccccc # ##### #c<#F##ccc##+c#Accccc^  +H#', [0,2,5,1], [12, 9]], ['########## b   b ##   b   ## b   b ##   b   ## b   bF##########', [2,2,5,5,4,3,1,5], [9,7]], ['#############cccccccccc##c Vcc<_cc_##c_c  c   c##c>cccccccc##c c_ccc_cc##ccccc^ccccF############', [4,4,8,2,7,6,2,2], [12,8]]]);"><?php echo ms2('Kogemus', 'Le Experience'); ?></a><br/>
+        <a href="#" onclick="LoadPack([['# ccccc#####b##h#c#gg##-#- b<#gg## # ########   ccccF#############', [4,2,1,0], [11, 6]], [' cgggccchggggc hhcccccghhgf  Fghhccc _cc', [0,0,3,3,6,1,4,4], [8,5]], [' cc-ch hccb h hcg gh hc bch h c-ccF', [3,2,4,1,2,3,1,4], [7,5]], ['cccc c>_ccbcgb^ccx#-#gb<#cF_c ######', [1,1,4,0,5,4], [6, 6]], ['  > VV <  #- -cc- -##f.fccf.f##g-gccg.g##c cccc c##        ##bbb  bbb##b b  b b##bbb  bbb#####FF####', [2,7,7,7], [10, 10]], ['         # #    #                         ## E # #  G    #     #  #            #  # #   #    ##            #   #     #   #     #  ####    #         ##      #         #     #  #         #       # #         #     #       #   #       #  #      #  #    ##     #           ##   ##    ##  #     ##                 #          #  #    #       ##          #  ##      #  #     #     # #          #   #      #  #     ##  #          # ###   #     #   #       #           #        ##    #   #    #        #   #   #D      #    #   #  #       ##   ##  # ####    #     #  #   ##    #     #      C#     #     #  #       #        #   ##       #    #   #  #  F h    ## # ##          #    ##  #  ### h    #   ##        #   #     #  #     h     #           ###   #        #    h      ##  ####  #  #    #      # #   h     ##  #   ## # ##     #      ###  h    ######     #   #      #        # h          ##        #      #    #   V   <    #    #       #       #    ##  ###    #  #   #       #       #          #  #   #    #       #       #        ####   #      #       ##      #   ##   ##   #        #        #      #    ###A # #         #         #  B # #   #     #                     #  #   #  #                            ###    #     ', [5,2,10,3,8,8,16,8], [38, 32]], ['## V<###F## > ^c ch##ccbcb ch##cc cc - ###########', [1,1,6,1], [10, 5]], ['#############b bb   bb ##c c ccbx b##c  ccc    ##b b ccb# b### ##F######', [4,4,3,3,6,1], [12, 6]], ['F< c >cccc^  c# # +  CB^ # >DAc +G# # E c    >cccc', [6,2,4,2,5,3,5,1], [10, 5]], ['Fc cccccccccF c_###_c#_  # c__#__c_#_## c_ _ _c#_# # c_ # _c# _ #FcccccccccccF', [2,0,8,2,11,1,5,3], [13, 6]], ['#    b- #  g c#  #c   #g x+ x  #  c#g  # c ##gcccccc g  #  xF  ## ', [1,0,2,2,7,3,2,5], [11, 6]], ['F  b-   bE Cc    -b    cb -bB -bD c-b-b c- - c    -bb bAccccc-b GA', [1, 0], [11, 6]]]);"><?php echo ms2('Väljaku Pardal', 'Aboard The Board'); ?></a><br/>
+        <a href="#" onclick="LoadPack([['++b+++b+++b+++b+++b+b+++++fbfffbfffbfffbfffbfbfff++f.ccccccc.............f++f.ggg.ggg.ggg.ggg.g.g.f++f..g-.gb-cg.g.g..cg.g.f++f..g--ggbcggg.gg.cg.g.f+bb..g-.gb cgg..g..c....bb+f..g..ggg.g.g.ggg.g.g.f++fbfffbfffbfffbfffbfbfbf+++b+++b+++b+++b+++b+b+b++', [21,6,17,4,13,6,9,6], [25,10]], ['#x#x#x#x##gggggg xxgggg gg## ggggggxxgg gggg##gggggggxxggggggg###x#F#x##', [1,3,3,4,5,2,7,1], [9,8]], ['################g ggg        ##g gcccccccc<F##ggggggggggggg##ggggggg xggg ##ccg      g g ##ggg c   cggg ## gg cgggc    ##ggg cg gcg < F###############', [2,2,7,8,11,5,1,7], [15,10]], ['ggggggggggggg c  gg    gg  gc      gg   gc _<  gg      ^   gg    c   b gg cg  g  F ggggggggggggg', [6,4,8,2,3,1,1,3], [12,8]], ['ggggggggggg   c  _ gg gggg g ggc  V   <ggggg gg  gg  _ _ cgggFg g g  ggggggggggg', [1,1,5,3,6,5,3,6], [10,8]], ['ggggggggggggg     c   bgg g      c gg b  g     gg gg   b   gggg  g   g ggccc  g c  ggggggFgggggg', [1,1,1,4], [12,8]], ['FFFFFFFgcgcgcgcgcgcgcg_g g_gcgcgcgcgcgcgcgFFFFFFF', [3,3,1,3,5,3], [7,7]], ['gggggggggggggggggggggggggggggggggggggggggggccccgFFggggg ccccg  ggggggccccg  gggggcc ^cg  ggggggccccg  ggggg >cccg  ggggggccccgFFgggggcccVcgggggggggggccggggggggggggcggggggggggggcgggggggggggggggggg', [5,6,3,8,3,4], [13,15]], [' cgcgcgc _gFgggFg_gcgcgcgcgggggggggggcgcgcgcg_gFgggFg_ cgcgcgc ', [0,0,8,0,8,6,0,6], [9,7]], ['gggggggggggggccccccccccggc Vcc<_cc_ggc_c  c   cggc>ccccccccggc c_ccc_ccggccccc^ccccFgggggggggggg', [4,4,8,2,7,6,2,2], [12,8]]]);"><?php echo ms2('Klaas', 'Glass'); ?></a><br/>
+        <?php echo ms2('Uued väljakupakid peagi tulemas', 'More level packs coming soon'); ?>!
         <div id="dtest" style="display: none;">
-			<h2><?php echo ms('Arendamine', 'Development'); ?></h2>
-			<p><?php echo ms('Erimenüüd', 'Special menus'); ?></p>
+			<h2><?php echo ms2('Arendamine', 'Development'); ?></h2>
+			<p><?php echo ms2('Erimenüüd', 'Special menus'); ?></p>
 			<ul>
-			<li>9 - <?php echo ms('Sisemine väljakuredigeerija', 'Internal level editor'); ?></li>
-			<li>8 - <?php echo ms('Silumisinfo', 'Debug info'); ?></li>
-			<li>7 - <?php echo ms('Väljaku suurus', 'Map size'); ?></li>
-			<li>6 - <?php echo ms('Tasandi valik', 'Level select'); ?></li>
-			<li>5 - <?php echo ms('Taustakuva/valija (vajutage Enter, et muuta tausta)', 'Background viewer/selector (press Enter to switch background)'); ?></li></ul>
-			<p><?php echo ms('Laadi tasand teksti kaudu', 'Load level with text data'); ?></p>
+			<li>9 - <?php echo ms2('Sisemine väljakuredigeerija', 'Internal level editor'); ?></li>
+			<li>8 - <?php echo ms2('Silumisinfo', 'Debug info'); ?></li>
+			<li>7 - <?php echo ms2('Väljaku suurus', 'Map size'); ?></li>
+			<li>6 - <?php echo ms2('Tasandi valik', 'Level select'); ?></li>
+			<li>5 - <?php echo ms2('Taustakuva/valija (vajutage Enter, et muuta tausta)', 'Background viewer/selector (press Enter to switch background)'); ?></li></ul>
+			<p><?php echo ms2('Laadi tasand teksti kaudu', 'Load level with text data'); ?></p>
 			<form autocomplete="off">
-				<ul><li><?php echo ms('Tasandiandmed', 'Level data'); ?>: <input style="width: 100%;" id="data" type="text"></input></li>
-				<li><?php echo ms('Mõõtmed', 'Dimensions'); ?>: <input style="width: 40px;" id="width"></input><input style="width: 40px;" id="height"></input></li>
-				<li><?php echo ms('Tekkekohad', 'Spawn locations'); ?>: <input id="starts"></input></input></li>
+				<ul><li><?php echo ms2('Tasandiandmed', 'Level data'); ?>: <input style="width: 100%;" id="data" type="text"></input></li>
+				<li><?php echo ms2('Mõõtmed', 'Dimensions'); ?>: <input style="width: 40px;" id="width"></input><input style="width: 40px;" id="height"></input></li>
+				<li><?php echo ms2('Tekkekohad', 'Spawn locations'); ?>: <input id="starts"></input></input></li>
 				</ul>
 			</form>
-			<a href="#/" onclick="DevTest();"><?php echo ms('Testi tasandit', 'Test level'); ?></a>
+			<a href="#/" onclick="DevTest();"><?php echo ms2('Testi tasandit', 'Test level'); ?></a>
 		</div>
-        <h2><?php echo ms('Kuidas mängida', 'How to play'); ?>?</h2>
-        <p><?php echo ms("See on nuputamismäng, kus on teie eesmärgiks koguda kõik säravad mündid ja liigutada kõik robotid finišisse. Roboteid nimetatakse Ieemideks. Nende jalgade küljes on ka sensorid ning neile on võimalik saata käsk minna, kuid nad peavad kasutama endi sensoreid, et peatuda. See tähendab tavaliselt seda, et nad ei peatu enne seina vastu minemist (teatud eranditega)",
+        <h2><?php echo ms2('Kuidas mängida', 'How to play'); ?>?</h2>
+        <p><?php echo ms2("See on nuputamismäng, kus on teie eesmärgiks koguda kõik säravad mündid ja liigutada kõik robotid finišisse. Roboteid nimetatakse Ieemideks. Nende jalgade küljes on ka sensorid ning neile on võimalik saata käsk minna, kuid nad peavad kasutama endi sensoreid, et peatuda. See tähendab tavaliselt seda, et nad ei peatu enne seina vastu minemist (teatud eranditega)",
 						 "This is a puzzle game, where your goal is to collect all shiny coins and get all robots to the finish line. The robots are called Iems. They also have sensors attached to their legs and can recieve a command to go, but they'll need to use their own sensors to stop. This usually means that they won't stop until hitting a wall (with certain exceptions)"); ?>.
         
-        <p><?php echo ms('Et Ieeme juhtida, saate kasutada järgnevaid klahve', 'To command Iems, you can use the following keys'); ?>:</p>
+        <p><?php echo ms2('Et Ieeme juhtida, saate kasutada järgnevaid klahve', 'To command Iems, you can use the following keys'); ?>:</p>
         <ul>
-            <li>&larr;&uarr;&darr;&rarr; (<?php echo ms('Nooleklahvid', 'Arrow keys'); ?>)</li>
+            <li>&larr;&uarr;&darr;&rarr; (<?php echo ms2('Nooleklahvid', 'Arrow keys'); ?>)</li>
             <li>WASD (QWERTY)</li>
             <li>ZQSD (AZERTY)</li>
             <li>PEUI (Dvorak)</li>
-            <li><a href="#/" onclick="if (document.getElementById('touchpad').style.visibility == 'hidden') { document.getElementById('touchpad').style.visibility = 'visible';} else { document.getElementById('touchpad').style.visibility = 'hidden';}"><?php echo ms('Puuteklahvid', 'Touch controls'); ?></a></li>
+            <li><a href="#/" onclick="if (document.getElementById('touchpad').style.visibility == 'hidden') { document.getElementById('touchpad').style.visibility = 'visible';} else { document.getElementById('touchpad').style.visibility = 'hidden';}"><?php echo ms2('Puuteklahvid', 'Touch controls'); ?></a></li>
         </ul>
-        <p><?php echo ms('Kiirklahvid', 'Shortcut keys'); ?>:</p>
+        <p><?php echo ms2('Kiirklahvid', 'Shortcut keys'); ?>:</p>
         <ul>
-			<li>1 - <?php echo ms('Kaamera', 'Camera'); ?> 1</li>
-			<li>2 - <?php echo ms('Kaamera', 'Camera'); ?> 2</li>
-			<li>3 - <?php echo ms('Kaamera', 'Camera'); ?> 3</li>
-			<li>4 - <?php echo ms('Kaamera', 'Camera'); ?> 4</li>
-			<li>0 - <?php echo ms('Vaba kaamera', 'Free camera'); ?> (<?php echo ms('kasutage liikumisklahve, et ringi vaadata', 'use movement keys to look around'); ?>)</li>
-			<li>R - <?php echo ms('Laadi tasand uuesti', 'Reset level'); ?></li>
-			<li>F11 - <?php echo ms('Täisekraan', 'Fullscreen mode'); ?></li>
-        </ul><?php echo ms("Kõik Ieemid liiguvad üheaegselt ning ei saa üksteise vastu minna. Ieemid näevad välja sellised",
+			<li>1 - <?php echo ms2('Kaamera', 'Camera'); ?> 1</li>
+			<li>2 - <?php echo ms2('Kaamera', 'Camera'); ?> 2</li>
+			<li>3 - <?php echo ms2('Kaamera', 'Camera'); ?> 3</li>
+			<li>4 - <?php echo ms2('Kaamera', 'Camera'); ?> 4</li>
+			<li>0 - <?php echo ms2('Vaba kaamera', 'Free camera'); ?> (<?php echo ms2('kasutage liikumisklahve, et ringi vaadata', 'use movement keys to look around'); ?>)</li>
+			<li>R - <?php echo ms2('Laadi tasand uuesti', 'Reset level'); ?></li>
+			<li>F11 - <?php echo ms2('Täisekraan', 'Fullscreen mode'); ?></li>
+        </ul><?php echo ms2("Kõik Ieemid liiguvad üheaegselt ning ei saa üksteise vastu minna. Ieemid näevad välja sellised",
 						   "Also, all Iems move at the same and can't hit each other. Iems look like this"); ?>
         :</p>
         <img id="charactertextures" onload="chrs = PrepareTexture('character.png', 1, 4);" src="images/shootme/character.png">
-        <p><?php echo ms('Selles mängus on erilised blokid, mis mõjutavad seda, kuidas tegelased liiguvad. Need blokid on järgmised',
+        <p><?php echo ms2('Selles mängus on erilised blokid, mis mõjutavad seda, kuidas tegelased liiguvad. Need blokid on järgmised',
 						 'This game has special blocks, which affect how characters move. They are the following'); ?>:</p>
         <ul>
-            <li><span style="color: #00f;"><?php echo ms('Suunajad', 'Pointers'); ?></span> - <?php echo ms('Need on sinised nooled, mis sunniviisiliselt muudavad tegelase liikumissuunda', 'These are blue arrows, which forcibly change the direction of a character it touches'); ?></li>
-            <li><span style="color: #fe0;"><?php echo ms('Säravad mündid', 'Shiny coins'); ?></span> - <?php echo ms('Te peate koguma kõik säravad mündid, et tasand lõpetada', 'You must collect all of these before you can finish the puzzle'); ?></li>
-            <li><span style="color: #f4f;"><?php echo ms('Kleepuv blokk', 'Goo block'); ?></span> - <?php echo ms('Peatab tegelase, mis võimaldab tal liikuda ükskõik millises uues suunas', 'Stops the character movement, allowing you to move in any direction'); ?></li>
-            <li><span style="color: #ea0;"><?php echo ms('Kast', 'Box'); ?></span> - <?php echo ms('See on liigutatav blokk. Kast lõpetab liikumise, kui see puudutab ükskõik millist muud blokki', 'This is a movable block. If you touch it while moving, it moves as well and it stops moving when it hits any other block'); ?></li>
-            <li><span style="color: #888;"><?php echo ms('Auk', 'Hole'); ?></span> - <?php echo ms("Sellesse blokki ei saa tegelasi liigutada, kuid siia saab liigutada kasti, et muuta blokk läbitavaks", "You can't move characters into this block, but you can move a box into a hole to make it passable"); ?></li>
-            <li><span style="color: #0af;"><?php echo ms('Klaas', 'Glass'); ?></span> - <?php echo ms("Selle bloki vastu saab minna, kuid pärast vastu põrkumist läheb see katki", "You can hit this block, but it'll break once hit"); ?></li>
-            <li><span style="color: #f80;"><?php echo ms('Redel', 'Ladder'); ?></span> - <?php echo ms('Seda blokki saab läbida ainult vertikaalselt', 'You can pass this block vertically'); ?></li>
-            <li><span style="color: #555;"><?php echo ms('Must auk', 'Black hole'); ?></span> - <?php echo ms("See eemaldab tegelase väljakult, ilma kontrollimata, kas mündid on kogutud. Kui kõik tegelased siia liigutada ilma münte kogumata, siis kaotate", "This will remove a character from the board, without checking if all coins are collected. If you move all characters here without collecting all coins, you'll lose"); ?>.</li>
-            <li><?php echo ms('Finiš', 'Finish'); ?> - <?php echo ms('Siia peate kõik Ieemid liigutama pärast müntide kogumist', 'This is the block you must move all Iems to after collecting all coins'); ?></li>
-            <li><span style="color: #90f;"><?php echo ms('Portaal', 'Portal'); ?></span> - <?php echo ms('See liigutab tegelase kindlasse asukohta', 'This moves the character into a designated spot. This can be different depending on the portal'); ?>.</li>
-            <li><span style="color: #f00;"><?php echo ms('Tuleblokk', 'Death block'); ?></span> - <?php echo ms("Te ei saa selle bloki vastu minna, sest muidu see plahvata, mis põhjustab mängu lõppemise", "You cannot hit this block, because it'll explode when hit by a character, which causes the game to end"); ?></li>
+            <li><span style="color: #00f;"><?php echo ms2('Suunajad', 'Pointers'); ?></span> - <?php echo ms2('Need on sinised nooled, mis sunniviisiliselt muudavad tegelase liikumissuunda', 'These are blue arrows, which forcibly change the direction of a character it touches'); ?></li>
+            <li><span style="color: #fe0;"><?php echo ms2('Säravad mündid', 'Shiny coins'); ?></span> - <?php echo ms2('Te peate koguma kõik säravad mündid, et tasand lõpetada', 'You must collect all of these before you can finish the puzzle'); ?></li>
+            <li><span style="color: #f4f;"><?php echo ms2('Kleepuv blokk', 'Goo block'); ?></span> - <?php echo ms2('Peatab tegelase, mis võimaldab tal liikuda ükskõik millises uues suunas', 'Stops the character movement, allowing you to move in any direction'); ?></li>
+            <li><span style="color: #ea0;"><?php echo ms2('Kast', 'Box'); ?></span> - <?php echo ms2('See on liigutatav blokk. Kast lõpetab liikumise, kui see puudutab ükskõik millist muud blokki', 'This is a movable block. If you touch it while moving, it moves as well and it stops moving when it hits any other block'); ?></li>
+            <li><span style="color: #888;"><?php echo ms2('Auk', 'Hole'); ?></span> - <?php echo ms2("Sellesse blokki ei saa tegelasi liigutada, kuid siia saab liigutada kasti, et muuta blokk läbitavaks", "You can't move characters into this block, but you can move a box into a hole to make it passable"); ?></li>
+            <li><span style="color: #0af;"><?php echo ms2('Klaas', 'Glass'); ?></span> - <?php echo ms2("Selle bloki vastu saab minna, kuid pärast vastu põrkumist läheb see katki", "You can hit this block, but it'll break once hit"); ?></li>
+            <li><span style="color: #f80;"><?php echo ms2('Redel', 'Ladder'); ?></span> - <?php echo ms2('Seda blokki saab läbida ainult vertikaalselt', 'You can pass this block vertically'); ?></li>
+            <li><span style="color: #555;"><?php echo ms2('Must auk', 'Black hole'); ?></span> - <?php echo ms2("See eemaldab tegelase väljakult, ilma kontrollimata, kas mündid on kogutud. Kui kõik tegelased siia liigutada ilma münte kogumata, siis kaotate", "This will remove a character from the board, without checking if all coins are collected. If you move all characters here without collecting all coins, you'll lose"); ?>.</li>
+            <li><?php echo ms2('Finiš', 'Finish'); ?> - <?php echo ms2('Siia peate kõik Ieemid liigutama pärast müntide kogumist', 'This is the block you must move all Iems to after collecting all coins'); ?></li>
+            <li><span style="color: #90f;"><?php echo ms2('Portaal', 'Portal'); ?></span> - <?php echo ms2('See liigutab tegelase kindlasse asukohta', 'This moves the character into a designated spot. This can be different depending on the portal'); ?>.</li>
+            <li><span style="color: #f00;"><?php echo ms2('Tuleblokk', 'Death block'); ?></span> - <?php echo ms2("Te ei saa selle bloki vastu minna, sest muidu see plahvata, mis põhjustab mängu lõppemise", "You cannot hit this block, because it'll explode when hit by a character, which causes the game to end"); ?></li>
         </ul>
         </div>
         <div id="loader" style="display: block;">
-            <p><?php echo ms('Palun oota', 'Please wait'); ?>...</p>
+            <p><?php echo ms2('Palun oota', 'Please wait'); ?>...</p>
         </div>
 	</div>
     <img id="normaltextures" onload="textures = PrepareTexture('text2.png', 8, 8);" src="images/shootme/text2.png" style="display: none;"> 

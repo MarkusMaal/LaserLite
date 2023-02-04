@@ -1,7 +1,9 @@
 <?php
 
-ini_set('display_errors', '0');
-function ms ($en, $et) {
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+function ms2 ($en, $et) {
 	if ((empty($_COOKIE["lang"])) || ($_COOKIE["lang"] == "en-US")) {
 		return $en;
 	} else {
@@ -38,7 +40,7 @@ function DisplayComments($connection, $comment, $page, $depth, $thread) {
 	$suf = "";
 	if (($thread == 4) && (empty($_SESSION["level"])) && ($_SESSION["level"] != "owner") && ($_SESSION["level"] != "admin")) {
 		if (empty($_POST)) {
-			die(ms("Access is denied", "Juurdepääs on keelatud"));
+			die(ms2("Access is denied", "Juurdepääs on keelatud"));
 		} else {
 			$authuser = md5($_POST["name"] . ":" . $_POST["pass"]);
 		}
@@ -95,17 +97,17 @@ function DisplayComments($connection, $comment, $page, $depth, $thread) {
 	if ($badge != "") {
 		echo '<a style="margin-left: 5px;" href="../../../../../markustegelane/index.php?doc=about&s=2" target="_blank">?</a>';
 	}
-	echo ' <a style=' . $custstyle . ' href="../../../../../markustegelane/common/manage.php?cid=' . $comment["ID"] . '">' . ms("manage", "halda") . '</a>';
+	echo ' <a style=' . $custstyle . ' href="../../../../../markustegelane/common/manage.php?cid=' . $comment["ID"] . '">' . ms2("manage", "halda") . '</a>';
 	if (!empty($_SESSION)) 
 	{
 		if ($comment["hide"] == 1) {
-			echo ' <a style=' . $custstyle . ' href="../../../../../markustegelane/common/moderate.php?cid=' . $comment["ID"] . '&s=3">' . ms("restore", "taasta") . '</a>';	
+			echo ' <a style=' . $custstyle . ' href="../../../../../markustegelane/common/moderate.php?cid=' . $comment["ID"] . '&s=3">' . ms2("restore", "taasta") . '</a>';	
 		} else {
-			echo ' <a style=' . $custstyle . ' href="../../../../../markustegelane/common/moderate.php?cid=' . $comment["ID"] . '&s=1">' . ms("hide", "peida") . '</a>';	
+			echo ' <a style=' . $custstyle . ' href="../../../../../markustegelane/common/moderate.php?cid=' . $comment["ID"] . '&s=1">' . ms2("hide", "peida") . '</a>';	
 		}
 		if (($_SESSION["level"] == "admin") || ($_SESSION["level"] == "owner")) {
-			echo ' <a style=' . $custstyle . ' href="../../../../../markustegelane/common/moderate.php?cid=' . $comment["ID"] . '&s=2">' . ms("delete", "kustuta") . '</a>';	
-			echo ' <a style=' . $custstyle . ' href="../../../../../markustegelane/common/moderate.php?cid=' . $comment["ID"] . '&s=4">' . ms("reset password", "paroolitaaste") . '</a>';	
+			echo ' <a style=' . $custstyle . ' href="../../../../../markustegelane/common/moderate.php?cid=' . $comment["ID"] . '&s=2">' . ms2("delete", "kustuta") . '</a>';	
+			echo ' <a style=' . $custstyle . ' href="../../../../../markustegelane/common/moderate.php?cid=' . $comment["ID"] . '&s=4">' . ms2("reset password", "paroolitaaste") . '</a>';	
 		}
 	}
 	echo '<br/>';
@@ -118,11 +120,11 @@ function DisplayComments($connection, $comment, $page, $depth, $thread) {
 	$re2 = mysqli_query($connection, $q2);
 	$dislikes = mysqli_num_rows($re2) + $comment["dislikes"];
 	
-	echo '<a style=' . $custstyle2 . ' href="../../../../../markustegelane/common/post.php?th=' . $thread . '&id=' . $page . '&rid=' . $comment["ID"] . '&auth=' . $authuser . '">' . ms("Reply", "Vasta") . '</a>';
+	echo '<a style=' . $custstyle2 . ' href="../../../../../markustegelane/common/post.php?th=' . $thread . '&id=' . $page . '&rid=' . $comment["ID"] . '&auth=' . $authuser . '">' . ms2("Reply", "Vasta") . '</a>';
 	if ($comment["heart"] == 1) {
 		echo '<span style=' . $custstyle2 . '>&#128159;</span>';
 	}
-	echo '<a style=' . $custstyle2 . ' href="../../../../../markustegelane/common/like.php?id=' . $comment["ID"] . '"><span style=' . $custstyle2 . '>&#128077;</span>' . $likes . '</a><a style=' . $custstyle2 . ' href="../../../../../markustegelane/common/dislike.php?id=' . $comment["ID"] . '"><span style=' . $custstyle2 . '>&#128078;</span>' . $dislikes . '</a>';
+	echo '<a style=' . $custstyle2 . ' href="../../../../../markustegelane/common/like.php?id=' . $comment["ID"] . '"><span class="ratebutton"><span style=' . $custstyle2 . '>&#128077;</span>' . $likes . '</a></span><span class="ratebutton"><a style=' . $custstyle2 . ' href="../../../../../markustegelane/common/dislike.php?id=' . $comment["ID"] . '"><span class="ratebutton" style=' . $custstyle2 . '>&#128078;</span>' . $dislikes . '</a></span>';
 	echo '</p><br/><br/>';
 	echo '</div>';
 	$r2 = mysqli_query($connection, "SELECT * FROM general_comments WHERE PAGE_ID = " . $page . " AND THREAD = " . $thread . " AND REPLY = 1 AND REPLY_PARENT = " . $comment["ID"]);

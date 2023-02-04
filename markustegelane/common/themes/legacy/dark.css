@@ -1,0 +1,241 @@
+h1 {
+	color: #ffffff;
+	font-family: Arial;
+	font-size: 35;
+	text-align: center;
+}
+.banner {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 700px;
+	
+}
+.container {
+	width: 90%;
+    height: 200px;
+    margin: auto;
+    padding: 0px;
+}
+.belowpage {
+    height: auto;
+    float: left;
+	margin-left: 0%;
+    width: 68%;
+	text-align: left;
+	font-size: 15;
+	font-family: Arial;
+	vertical-align: top;
+	margin-top: 30px;
+	background-color: #e00000;
+	padding-top: 30px;
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-bottom: 30px;
+}
+.mainpage{
+    height: auto;
+    float: left;
+	margin-left: 0%;
+    width: 68%;
+	text-align: left;
+	font-size: 15;
+	font-family: Arial;
+	vertical-align: top;
+	background-color: #1c1c1c;
+	padding-top: 30px;
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-bottom: 100px;
+	background-position: bottom;
+	background-size: 100% auto;
+	background-repeat: no-repeat;
+}
+.sidepanel3{
+    height: auto;
+	background-color: #141914;
+    width: 25%;
+	float: right;
+	margin-right: 0%;
+	padding-bottom: 1%;
+	margin-bottom: 15px;
+	vertical-align: top;
+	color: white;
+	font-family: Arial;
+	font-size: 20;
+}
+.sidepanel2{
+    height: auto;
+	background-color: #11100a;
+    width: 25%;
+	float: right;
+	margin-right: 0%;
+	vertical-align: top;
+	color: white;
+	font-family: Arial;
+	font-size: 20;
+}
+.sidepanel{
+    margin-right: 0%;
+    height: auto;
+	background-color: #11100a;
+    width: 25%;
+	margin-bottom: 15px;
+	float: right;
+	vertical-align: top;
+	color: white;
+	font-family: Arial;
+	font-size: 20;
+}
+.activepage {
+    background-color: #2c2c2c;
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+.linklist {
+    list-style-type: none;
+    overflow: hidden;
+	background: linear-gradient(#0f0f0f, #0f0f0f);
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 0;
+	padding-right: 0;
+	font-family: Arial;
+	text-decoration: none;
+}
+.listitems {
+    position: relative;
+	background: linear-gradient(#0f0f0f, #0f0f0f);
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+	margin: auto;
+}
+.linklist ul {
+    margin: 0;
+    padding: 0;
+    text-align:center;
+}
+.linklist ul li {
+	margin-left: auto;
+	margin-right: auto;
+    padding: 0;
+    display:inline-block;
+    position: relative;
+}
+.linklist ul li a {
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    color: #FFF;
+    text-align: center;     
+}
+.listitems:hover {
+	background: linear-gradient(#4c4c4c, #1c1c1c);
+	color: #eeeeee;
+	text-decoration: none;
+}
+.activepage:hover {
+	background: linear-gradient(#4c4c4c, #1c1c1c);
+	color: #ffffff;
+	text-decoration: none;
+}
+.maintable {
+	padding:0 100px 0 70px;
+}
+body {
+	color: #C7D9FF;
+	font-family: Arial;
+	font-size: 15;
+	background: linear-gradient(#cc027c, #ea0000);
+	background-image: url("bgdark.svg");
+	background-size: 5% auto;
+}
+img {
+	text-align: center;
+    width: 100%;
+}
+a {
+	color: #b7d7ff;
+	text-decoration: none;
+}
+a:hover {
+	color: #e8f8ff;
+	text-decoration: none;
+}
+p {
+	color: #f9f9f9
+}
+.ge {
+	width: 75%;
+	text-align: left;
+}
+img[alt="www.000webhost.com"]
+{
+    display:none;
+}
+
+@media screen and (max-width:1000px) {
+    .mainpage{
+        width: 62%;
+    }
+}
+@media screen and (max-width:680px) {
+    .banner {
+	    width: 110%;
+        margin: auto;
+	}
+    .linklist ul li {
+        display:block;
+        position: absolute;
+    }
+    body {
+	    font-size: 20;
+    }
+    .mainpage{
+        width: 89%;
+        margin: auto;
+        margin-bottom: 10px;
+    }
+    .sidepanel3{
+        height: auto;
+        width: 100%;
+	    float: left;
+	    font-size: 20;
+    }
+    .sidepanel2{
+        height: auto;
+        width: 100%;
+	    float: left;
+	    font-size: 20;
+    }
+    .sidepanel{
+        height: auto;
+        width: 100%;
+	    float: left;
+	    font-size: 20;
+    }
+    h1 {
+        font-size: 32;
+    }
+    h2 {
+        font-size: 24;
+    }
+    
+    .linklist{
+        width: 190px;
+    }
+}
+@media screen and (min-width:1280px) {
+    .banner {
+	    width: 800px;
+	}
+    body {
+	    font-size: 18;
+    }
+)

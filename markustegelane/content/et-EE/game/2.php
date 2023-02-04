@@ -8,6 +8,8 @@
     <a href="#" onclick="pausegame()" id="pausnupp" class="listitems">Paus</a>
     <p id="pts">Punkte: 0</p>
     <p id="hs">Vajuta alusta, et mäng käivitada</p>
-	<script>newgame();</script>
+	<script>document.addEventListener("keydown", keydown_handle);
+	document.addEventListener("keyup", keyup_handle);
+	newgame();</script>
   <!-- END OF Main page section --->
 </div>

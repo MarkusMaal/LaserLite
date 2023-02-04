@@ -4,7 +4,11 @@ body {
     background: linear-gradient(90deg, #002 33%, #020 33%, #020 66%, #200 66%);
     margin: 0px;
     margin-bottom: 50px;
-    opacity: 0px;
+    opacity: 1;
+}
+
+div.disclaimer {
+	display: none;
 }
 
 div.navbar {
@@ -12,6 +16,28 @@ div.navbar {
 	top: 15px;
 	left: 12%;
 	width: 20%;
+}
+
+div.symbolbar {
+	position: absolute;
+	padding: 18px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	background: rgba(220, 0, 0, 0.35);
+	top: 20px;
+	right: 20px;
+}
+
+
+.funsymbols {
+	font-family: "Lucida Console";
+	font-size: 25pt;
+	padding: 7px;
+	text-decoration: none;
+}
+.funsymbols:hover {
+	text-decoration: none;
+	background: rgba(255, 255, 0, 0.25);
 }
 
 hr {
@@ -95,6 +121,13 @@ h2 {
 h3 {
     font-weight: normal;
     text-align: center;
+}
+
+.logo {
+	 margin-left: 20px;
+	 margin-top: 25px;
+	 margin-bottom: 25px;
+	 width: 100px;
 }
 
 span.blinky {

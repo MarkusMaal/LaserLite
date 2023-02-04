@@ -17,7 +17,7 @@ while ($property = mysqli_fetch_field($result)) {
 // echo '</tr>'; //end tr tag
 
 //showing all data
-echo '<h2 id="Blog">Blogi</h2>';
+echo '<h2 id="Blog">Uudised</h2>';
 if (!empty($_SESSION)) {
     if ($_SESSION["level"] != "moderator") {
     	echo '<a href="?doc=development&s=4">Loo uus postitus</a>';

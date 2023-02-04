@@ -1,45 +1,42 @@
-<h2>Kanalid</h2>
-<p>Lingid ja kirjeldused igale mu kanalile</p>
+<h2>Channels</h2>
+<p>Links and descriptions of my channels</p>
   <table class="table_s" style="margin-right: 10%;">
   <tr>
-  <th style="width: 15%;">Nimi</th>
-  <th style="width: 40%;">Kirjeldus</th>
-  <th style="width: 20%;" colspan="2">Lingid</th>
+  <th style="width: 15%;">Name</th>
+  <th style="width: 40%;">Description</th>
+  <th style="width: 20%;" colspan="2">Links</th>
   </tr>
   <tr class="secrow" style="padding: 1%;">
-    <td>markustegelane</td>
-    <td> Hea kanal neile, kellele pakuvad huvi arvutid ja mängud. Aktiivsetel hooaegadel laadin videosid siia vähemalt kord nädalas. Mõned video kategooriad on näiteks arvuti nõuanded, MarkuStation, Markuse arvuti meelelahutus, info ja uudised ning muid asju.</td>
-    <td><a href="https://www.youtube.com/channel/UCQzg4k_aF2BPQJpEx4PX9UQ" target="_blank">Külasta kanalit (YouTube)</a></td>
-    <td><a href="https://lbry.tv/@MarkusTegelane:8" target="_blank">Külasta kanalit (LBRY/Odysee)</a></td>
+    <td>mmaal (markustegelane)</td>
+    <td> Good channel for people who are interested in computers and games. When I'm active, I upload once a week. Some video topics include computer tips, MarkuStation, Markuse computer entertainment, info and news and other stuff.</td>
+    <td><a href="https://www.youtube.com/channel/UCQzg4k_aF2BPQJpEx4PX9UQ" target="_blank">Visit this channel (YouTube)</a></td><td><a href="https://lbry.tv/@MarkusTegelane:8">Visit this channel (LBRY/Odysee)</a></td>
   </tr>
   <tr style="padding: 1%;">
-    <td>markustegelane x</td>
-    <td> MarkusTegelane kanali täiendus vähem läbimõeldud sisuga. Videoid lastakse välja sagedamini ja on tavaliselt suvalised videod.<br/> Lisaks suvalistele teen ka otseülekandeid, tagurpidi videosid, vanade videote täiendusi ja kommentaare, telgitaguseid uute videote kohta ja arendamise videosid kustatud kanalist MarkusTegelane++</td>
-    <td colspan="2"><a href="https://www.youtube.com/channel/UCGGMWFwRnLjTKRLtnO6KRFg" target="_blank">Külasta kanalit</a></td>
+    <td>mmaal lite (markustegelane lite)</td>
+    <td> Extension of mmaal (markustegelane) with lower quality content. Videos are released more often and often involve random topics.<br/> In addition to random stuff, I also do live streams, reversed videos, improvements for older videos, backstages for videos and development videos from a discontinued channel TheMarkusGuy++ (MarkusTegelane++)</td>
+    <td colspan="2"><a href="https://www.youtube.com/channel/UCGGMWFwRnLjTKRLtnO6KRFg" target="_blank">Visit this channel</a></td>
   </tr>
   <tr style="padding: 1%;">
-    <td>#markusTegelane</td>
-    <td> Programmeerimisele keskendunud versioon mu põhikanalist. Kui teid huvitavad varajased arendusjärgud minu tarkvarast, tarkvaraprojekte, mis ei sobi minu põhikanali sisuga või tahate lihtsalt teada, kuidas teatud failiformaadid töötavad, siis see kanal on mõeldud teile! Sellel kanalil on kõik videod inglise keeles, kuid saadaval on ka eestikeelsed subtiitrid.</td>
-    <td><a href="https://www.youtube.com/channel/UCGGMWFwRnLjTKRLtnO6KRFg" target="_blank">Külasta kanalit (YouTube)</a></td>
-    <td><a href="https://odysee.com/@hashMarkusTegelane:3" target="_blank">Külasta kanalit (LBRY/Odysee)</a></td>
+    <td>#mmaal (#markusTegelane)</td>
+    <td> A programming focused version of my main chanenl. If you are interested in early development builds of my software, software projects, that don't fit with my main channel content, or just want to know how specific file formats work, then this channel is meant for you! All content in this channel is in English, but Estonian subtitles are available if you need them.</td>
+    <td><a href="https://www.youtube.com/channel/UCvpWEcJTj4DRGIa3o279-3Q" target="_blank">Visit this channel (YouTube)</a></td>
+<td><a href="https://odysee.com/@hashMarkusTegelane:3" target="_blank">Visit this channel (LBRY/Odysee)</a></td>
   </tr>
   <tr class="secrow" style="padding: 1%;">
-    <td>Markuse asjad (varem ElektrooniliseRakenduseTeadus)</td>
-    <td> Teisejärguline kanal, millele teen ma videosid erinevatest Markuse asjadest. Nendeks on Markuse arvuti asjad, Markuse tahvelarvuti asjad, Markuse mälupulk, Markuse asjad telefonidele, Markuse kaustad jne.<br/> Videoid ei lasta väga sageli välja, kuid kindlasti lasen ma aastas vähemalt 2 videot välja.</td>
-    <td colspan="2"><a href="https://www.youtube.com/channel/UCMD2HR_TjoK-Xh3yY6NBynQ" target="_blank">Külasta kanalit</a></td>
+    <td>Markus's stuff (formerly ElektrooniliseRakenduseTeadus)</td>
+    <td> Secondary channel, where I do videos about Markus's stuff. This includes Markus's computer stuff, - tablet stuff, Markus's thumbdrive, Markus's stuff for phones, Markus's folders, etc.<br/> Videos are not released often, but I try to release at least 2 videos per year.</td>
+    <td colspan="2"><a href="https://www.youtube.com/channel/UCMD2HR_TjoK-Xh3yY6NBynQ" target="_blank">Visit this channel</a></td>
   </tr>
   <tr style="padding: 1%;">
     <td>Press any key to continue...</td>
-    <td>Kanal, mis laadib üles videosid veateadetest, videomängudest ja muust arvutivärgist. Kogu sisu on inglise keeles.</td>
-    <td><a href="https://www.youtube.com/channel/UCquUJ3h9wsJUm55zu6Sckpg" target="_blank">Külasta kanalit (YouTube)</a></td>
-<td><a href="https://odysee.com/@Press_any_key_to_continue:2" target="_blank">Külasta kanalit (LBRY/Odysee)</a>
-</td>
+    <td>Channel that uploads videos about computer error screens, video games, and other stuff. All content is in English.</td>
+    <td><a href="https://www.youtube.com/channel/UCquUJ3h9wsJUm55zu6Sckpg" target="_blank">Visit this channel (YouTube)</a></td><td><a href="https://odysee.com/@Press_any_key_to_continue:2">Visit this channel (LBRY/Odysee)</a></td>
   </tr>
   <tr class="secrow" style="padding: 1%;">
-    <td>Markus Maal (isiklik)</td>
-    <td> Minu isiklik kanal, kuhu ma laadin aeg-ajalt üles privaatseid videosid. Hetkel pole avalikult sellel kanalil sisu, kuid on plaanis teha sellest kanalist ühenduspunkt teiste kanalitega.<br/> Selle kontoga ma vahel kommenteerin videosid ja te näete mind sotsiaalmeedias ka selle profiilipildiga (Markus Maal sketch pilt).</td>
-    <td><a href="https://www.youtube.com/channel/UCirudpTn3Hp1sxbl-78z-dQ" target="_blank">Külasta kanalit</a></td>
-    <td><a href="https://www.facebook.com/profile.php?id=100007869184738" target="_blank">Facebooki profiil</a></td>
+    <td>Markus Maal (personal)</td>
+    <td> My personal channel, where I upload private videos from time to time. Right now there's no public content in this channel, but I have plans for making this channel a junction between my other channels.<br/> Using this account, I comment videos and you can also see this profile picture on other social media profiles I have (Markus Maal sketch image).</td>
+    <td><a href="https://www.youtube.com/channel/UCirudpTn3Hp1sxbl-78z-dQ" target="_blank">Visit YouTube channel</a></td>
+    <td><a href="https://www.facebook.com/profile.php?id=100007869184738" target="_blank">Facebook profile</a></td>
   </tr>
   </table>
   <br/>

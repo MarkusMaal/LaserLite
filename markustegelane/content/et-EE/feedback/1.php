@@ -1,3 +1,14 @@
+<?php 
+	if (!empty($_GET["logout"])) {
+		$_SESSION["name"] = null;
+		$_SESSION["auth"] = null;
+	}
+	if (!empty($_SESSION["name"]))
+	{
+		include($_SERVER["DOCUMENT_ROOT"] . "/markustegelane/content/et-EE/feedback/2.php");
+		die();
+	}
+?>
 <h1>Tagasiside</h1>
 <p>Siin on võimalik saata tagasisidet ja küsimusi veebisaidi administraatorile. Nimi ja
 parool saadetakse serverisse ja krüptitakse enne salvestamist. See tähendab, et peate

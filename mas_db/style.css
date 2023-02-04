@@ -94,3 +94,7 @@ a:hover {
 	color: #00ae95;
 	text-decoration: underline;
 }
+
+div.disclaimer {
+	display: none;
+}

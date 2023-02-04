@@ -1,13 +1,5 @@
 <?php 
 
-function ms($en, $et) {
-	if ((!empty($_COOKIE["lang"])) && ($_COOKIE["lang"] == "et-EE")) {
-		return $et;
-	} else {
-		return $en;
-	}
-}
-
 include("../head.php");
 ?>
 			<h1><?php echo ms("Management account login", "Haldaja kontoga sisselogimine"); ?></h1>

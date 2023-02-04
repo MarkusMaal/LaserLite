@@ -1,0 +1,684 @@
+:: Batch file download center
+::
+:: Codename: GreenLab
+@echo off
+set version=1.35
+if "%1"=="ver" exit
+setlocal EnableDelayedExpansion
+color 07
+ping markustegelane.ml -n 1 >nul
+color 08
+ping markustegelane.ml -n 1 >nul
+cls
+ping markustegelane.ml -n 1 >nul
+mode 150,45
+echo.
+echo.  _________________________________________________
+echo. ^|  Batch download center                         X^|
+echo. ^|_________________________________________________^|
+echo. ^| Downloads ^| Updates ^| About ^| Blog posts ^|
+echo. ^|_____*_____^|_________^|_______^|____________^|
+echo. %date% %time%
+echo. version %version%
+echo.
+ping markustegelane.ml -n 1 >nul
+color 07
+ping markustegelane.ml -n 1 >nul
+echo  - Checking for updates...
+start /wait /min wget --no-check-certificate "http://markustegelane.ml/bstore/?collection=version" -O versioncheck.cmd 2>nul
+echo  - Comparing versions
+call versioncheck.cmd
+echo  - Deleting temporary file
+del versioncheck.cmd
+if "%newersion%"=="" goto redownload
+if not "%newersion%"=="%version%" goto update_screen
+echo  - No updates available
+:redownload
+set isdownloaded=false
+title Batch file store
+echo  - Downloading metadata...
+start /wait /min wget --no-check-certificate "http://markustegelane.ml/bstore/?collection=dloads" -O metadata.cmd 2>nul
+echo  - Analyzing data...
+call metadata.cmd
+if "%pageval%"=="" set pageval=1
+goto skipanalyzer
+:analyzer
+:skipanalyzer
+if not "%scolor%"=="" color %scolor%
+if not "%smessage%"=="" cls&echo %smessage%&pause
+echo  - Deleting temporary file...
+del metadata.cmd
+:main_screen
+set cat=1
+:catfiles
+title Batch file store
+if "%scolor%"=="" color 07
+if not "%scolor%"=="" color %scolor%
+if "!cat!"=="4" set cat=5
+if "!cat!"=="6" set cat=1
+cls
+echo.
+echo.  _________________________________________________
+echo. ^|  Download center - available items             X^|
+echo. ^|_________________________________________________^|
+echo. ^| Downloads ^| Updates ^| About ^| Blog posts ^|
+echo. ^|_____*_____^|_________^|_______^|____________^|
+echo.
+if "!cat!"=="1" echo Category: Batch files
+if "!cat!"=="2" echo Category: PowerPoint
+if "!cat!"=="3" echo Category: Software
+if "!cat!"=="5" echo Category: Other
+echo.
+set /A IDX=1
+for /l %%a in (1 1 4096) do (
+	if "!cat%%a!"=="!cat!" (
+		echo  !IDX!. !name%%a!
+		set sel!IDX!=%%a
+		set /A IDX+=1
+	)
+)
+:catloop
+for /f "tokens=1- 3" %%a in ('bg.exe mouse') do set down=%%a&set top=%%b
+set key=%down%x%top%
+set /a actual=%down%-8
+if !actual! GEQ !IDX! goto catloop
+if "%key%"=="2x50" exit /b
+if %down% EQU 7 set /a cat+=1&goto catfiles
+if %down% GTR 8 set an=!sel%actual%!&goto fdtls
+if "%down%"=="4" (
+	if %top% GEQ 15 (
+		if %top% LEQ 21 (
+			goto updateui
+		)
+	)
+	if %top% GEQ 25 (
+		if %top% LEQ 29 (
+			goto about
+		)
+	)
+	if %top% GTR 32 (
+		if %top% LSS 42 goto bloggerdl
+	)
+)
+goto catloop
+
+:read
+cls
+echo.
+echo. !name%an%!
+echo.
+echo. !desc%an%!
+ping markustegelane.ml -n 2 >nul
+bg.exe mouse
+goto fdtls
+
+:fdtls
+if "!file%an%!"=="" set /a an=%an%-1
+if %an% LSS 1 set an=1
+cls
+echo.
+echo.  _________________________________________________
+echo. ^|  Download center - item view                   X^|
+echo. ^|_________________________________________________^|
+echo. ^| Downloads ^| Updates ^| About ^| Blog posts ^|
+echo. ^|____^<--____^|_________^|_______^|____________^|
+echo.
+echo. !name%an%! [ID: %an%]
+if "!cat%an%!"=="1" echo  Category: Batch files
+if "!cat%an%!"=="2" echo  Category: PowerPoint
+if "!cat%an%!"=="3" echo  Category: Software
+if "!cat%an%!"=="4" echo  Category: Wallpapers
+if "!cat%an%!"=="5" echo  Category: Other
+echo. - Read description -
+echo.
+echo. File: !file%an%!
+echo. MD5 checksum: !check%an%!
+echo.
+echo. ^<- Previous item     Reload items      Next item -^>
+echo. 
+if not exist "!file%an%!" echo. Download
+if exist "!file%an%!" echo. **Open**&echo. Redownload&echo. Delete
+echo.
+:kbdloop
+for /f "tokens=1- 3" %%a in ('bg.exe mouse') do set down=%%a&set top=%%b
+set key=%down%x%top%
+if "%key%"=="2x50" exit /b
+if "%down%" == "4" (
+	if %top% GTR 2 (
+		if %top% LEQ 11 goto catfiles
+	)
+	if %top% GTR 14 (
+		if %top% LSS 22 goto updateui
+	)
+	if %top% GTR 24 (
+		if %top% LSS 30 goto about
+	)
+	if %top% GTR 32 (
+		if %top% LSS 43 goto bloggerdl
+	)
+)
+if "%down%" == "5" (
+	if %top% GEQ 6 (
+		if %top% LEQ 8 goto catfiles
+	)
+)
+if "%down%"=="9" (
+	if %top% LSS 21 goto read
+)
+if "%down%"=="14" (
+	if %top% LSS 17 set /a an=%an%-1&goto fdtls
+	if %top% GTR 21 (
+		if %top% LSS 34 (
+			cls
+			call :repages
+			goto redownload
+		)
+	)
+	if %top% GTR 39 (
+		if %top% LSS 52 (
+			set /a an=%an%+1
+			goto fdtls
+		)
+	)
+)
+if "%down%"=="16" (
+	if %top% LSS 9 goto dlityo
+)
+if "%down%"=="17" (
+	if %top% LSS 11 goto dlitnmw
+)
+if "%down%"=="18" (
+	if %top% LSS 7 del "!file%an%!"&goto :fdtls
+)
+goto kbdloop
+:dlityo
+if exist "!file%an%!" start "" "!file%an%!"&goto fdtls
+:dlitnmw
+if exist "!file%an%!" echo. Deleting existing file...&del "!file%an%!"
+echo. Downloading !file%an%!....
+if not "!id%an%!"=="" (
+    if not "!confirm%an%!"=="" start /wait /min wget --no-check-certificate "https://docs.google.com/uc?export=download&confirm=!confirm%an%!&id=!id%an%!" -O "!file%an%!"
+    if "!confirm%an%!"=="" start /wait /min wget --no-check-certificate "https://docs.google.com/uc?export=download&id=!id%an%!" -O "!file%an%!" 2>nul
+) else (
+    start /wait /min wget --no-check-certificate "!url%an%!" -O "!file%an%!"
+)
+if not exist "!file%an%!" goto faildownload
+echo. Verifying !file%an%!....
+for /f %%a in ('certutil -hashfile "!file%an%!" MD5') do (
+	if not "%%a"=="CertUtil:" (
+		if not "%%a"=="MD5" (
+			if not "!check%an%!"=="%%a" set "realsum=%%a" (
+				set "realsum=!realsum:a=A!"
+				set "realsum=!realsum:b=B!"
+				set "realsum=!realsum:c=C!"
+				set "realsum=!realsum:d=D!"
+				set "realsum=!realsum:e=E!"
+				set "realsum=!realsum:f=F!"
+				set "realsum=!realsum:g=G!"
+				set "realsum=!realsum:h=H!"
+				set "realsum=!realsum:i=I!"
+				set "realsum=!realsum:j=J!"
+				set "realsum=!realsum:k=K!"
+				set "realsum=!realsum:l=L!"
+				set "realsum=!realsum:m=M!"
+				set "realsum=!realsum:n=N!"
+				set "realsum=!realsum:o=O!"
+				set "realsum=!realsum:p=P!"
+				set "realsum=!realsum:q=Q!"
+				set "realsum=!realsum:r=R!"
+				set "realsum=!realsum:s=S!"
+				set "realsum=!realsum:t=T!"
+				set "realsum=!realsum:u=U!"
+				set "realsum=!realsum:v=V!"
+				set "realsum=!realsum:w=W!"
+				set "realsum=!realsum:x=X!"
+				set "realsum=!realsum:y=Y!"
+				set "realsum=!realsum:z=Z!"
+				if "!check%an%!"=="!realsum!" echo. Verification result: Match
+				if not "!check%an%!"=="!realsum!" goto filerror
+			)
+			if "!check%an%!"=="%%a" echo. Verification result: Match
+		)
+	)
+)
+title Batch file store - Download successful
+echo. Download succeeded
+bg.exe mouse
+goto fdtls
+
+:filerror
+echo.
+echo Warning: Checksum mismatch
+echo.
+echo It seems that the checksum doesn't match, which
+echo can indicate a failed download.
+echo.
+echo Checksums:
+echo.
+echo !check%an%! (online checksum)
+echo !realsum! (offline checksum)
+echo.
+bg.exe mouse
+goto fdtls
+
+:about
+title About
+if not "%aboutcolor%"=="" color %aboutcolor%
+if "%aboutcolor%"=="" color 07
+cls
+echo.
+echo.  _________________________________________________
+echo. ^|  About                                         X^|
+echo. ^|_________________________________________________^|
+echo. ^| Downloads ^| Updates ^| About ^| Blog posts ^|
+echo. ^|___________^|_________^|___*___^|____________^|
+echo.
+echo. -----Batch download center (version %version%)-----
+echo. Created by TheMarkusGuy // MarkusTegelane
+echo. (Markus Maal in real life)
+echo. 
+echo. WHY did you make this downloader? Because it is fun.
+echo. Actually this batch file is designed for those
+echo. who have low spec computers or internet and still
+echo. want to download stuff from my website.
+echo.
+echo. Press left mouse button to continue . . . (33%%)
+for /f "tokens=1- 3" %%a in ('bg.exe mouse') do set down=%%a&set top=%%b
+set key=%down%x%top%
+if "%key%"=="2x50" exit /b
+if "%down%" == "4" (
+	if %top% GTR 2 (
+		if %top% LEQ 11 goto catfiles
+	)
+	if %top% GTR 14 (
+		if %top% LSS 22 goto updateui
+	)
+	if %top% GTR 32 (
+		if %top% LSS 43 goto bloggerdl
+	)
+)
+cls
+echo.
+echo.  _________________________________________________
+echo. ^|  About                                         X^|
+echo. ^|_________________________________________________^|
+echo. ^| Downloads ^| Updates ^| About ^| Blog posts ^|
+echo. ^|___________^|_________^|___*___^|____________^|
+echo.
+echo. WHERE did you get the inspiration? TheBatTeam made
+echo. a similar project named batch store. That made me
+echo. try to do something kind of similar and so I made
+echo. this.
+echo.
+echo. HOW does it work? It simply uses wget to download
+echo. everything from my Google drive that I have shared
+echo. (including a metadata file and all the downloads)
+echo.
+echo. Press left mouse button to continue . . . (67%%)
+for /f "tokens=1- 3" %%a in ('bg.exe mouse') do set down=%%a&set top=%%b
+set key=%down%x%top%
+if "%key%"=="2x50" exit /b
+if "%down%" == "4" (
+	if %top% GTR 2 (
+		if %top% LEQ 11 goto catfiles
+	)
+	if %top% GTR 14 (
+		if %top% LSS 22 goto updateui
+	)
+	if %top% GTR 32 (
+		if %top% LSS 43 goto bloggerdl
+	)
+)
+echo. 67 %%
+cls
+echo.
+echo.  _________________________________________________
+echo. ^|  About                                         X^|
+echo. ^|_________________________________________________^|
+echo. ^| Downloads ^| Updates ^| About ^| Blog posts ^|
+echo. ^|___________^|_________^|___*___^|____________^|
+echo.
+echo. WHAT about larger downloads? I couldn't bypass the
+echo. 'file is larger than 50 MB' message. If I tried,
+echo. wget would simply download the webpage of the warning.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo.
+echo. Press left mouse button to continue . . . (100%%)
+for /f "tokens=1- 3" %%a in ('bg.exe mouse') do set down=%%a&set top=%%b
+set key=%down%x%top%
+if "%key%"=="2x50" exit /b
+if "%down%" == "4" (
+	if %top% GTR 2 (
+		if %top% LEQ 11 goto catfiles
+	)
+	if %top% GTR 14 (
+		if %top% LSS 22 goto updateui
+	)
+	if %top% GTR 32 (
+		if %top% LSS 43 goto bloggerdl
+	)
+)
+goto about
+:updateui
+title Updates
+if not "%updatecolor%"=="" color %updatecolor%
+if "%updatecolor%"=="" color 07
+cls
+echo.
+echo.  _________________________________________________
+echo. ^|  Updates                                       X^|
+echo. ^|_________________________________________________^|
+echo. ^| Downloads ^| Updates ^| About ^| Blog posts ^|
+echo. ^|___________^|____*____^|_______^|____________^|
+echo.
+echo.  Check updates for
+echo. - Store
+echo.   This store wants to be as perfect and as stable as
+echo.   possible. But it is a code. And code is never perfect.
+echo.   Updates for the store can add new functionality, fix
+echo.   problems and make it look better.
+echo. - Log OS
+echo.   With Log OS updater, you can get the latest version of
+echo.   Log OS without losing your existing data.
+echo.
+:updatekeys
+for /f "tokens=1- 3" %%a in ('bg.exe mouse') do set down=%%a&set top=%%b
+set key=%down%x%top%
+if "%key%"=="2x50" exit /b
+if "%down%" == "4" (
+	if %top% GTR 2 (
+		if %top% LEQ 11 goto catfiles
+	)
+	if %top% GTR 14 (
+		if %top% LSS 22 goto updateui
+	)
+	if %top% GTR 24 (
+		if %top% LSS 30 goto about
+	)
+	if %top% GTR 32 (
+		if %top% LSS 43 goto bloggerdl
+	)
+)
+if "%down%"=="8" (
+	if %top% GTR 2 (
+		if %top% LSS 8 goto updatechecker
+	)
+)
+if "%down%"=="13" (
+	if %top% GTR 2 (
+		if %top% LSS 9 goto logupdatechecker
+	)
+)
+goto updatekeys
+
+:bloggerdl
+title Batch file store - Transitioning...
+if "%isdownloaded%"=="true" color %pcolor%&set screen=1&goto blogger_main
+cls
+echo.
+echo.  _________________________________________________
+echo. ^|  Transitioning to blog post mode...             ^|
+echo. ^|_________________________________________________^|
+echo. ^| Downloads ^| Updates ^| About ^| Blog posts ^|
+echo. ^|___________^|_________^|_______^|_____*______^|
+echo.
+echo  - Downloading metadata...
+wget --no-check-certificate "http://markustegelane.ml/bstore/?collection=blog" -O metadata.cmd 2>nul
+echo  - Analizing data...
+call metadata.cmd
+if not "%post1%"=="" set isdownloaded=true
+color %pcolor%
+echo  - Deleting temporary file
+del metadata.cmd
+:blogger_main
+title Blogger posts
+if "!post%screen%!"=="" set screen=1
+cls
+echo.
+echo.  _________________________________________________
+echo. ^|  Blog posts                                    X^|
+echo. ^|_________________________________________________^|
+echo. ^| Downloads ^| Updates ^| About ^| Blog posts ^|
+echo. ^|___________^|_________^|_______^|_____*______^|
+echo.
+if not "%kbd%"=="t" echo. ^<- Previous post   Next post -^>
+echo.
+echo.!post%screen%!
+echo.
+if not "!inpost%screen%!"=="" echo.!inpost%screen%!
+if not "!inpost%screen%a!"=="" echo.!inpost%screen%a!
+if not "!inpost%screen%b!"=="" echo.!inpost%screen%b!
+if not "!inpost%screen%c!"=="" echo.!inpost%screen%c!
+if not "!inpost%screen%d!"=="" echo.!inpost%screen%d!
+if not "!inpost%screen%e!"=="" echo.!inpost%screen%e!
+if not "!inpost%screen%f!"=="" echo.!inpost%screen%f!
+if not "!inpost%screen%g!"=="" echo.!inpost%screen%g!
+if not "!inpost%screen%h!"=="" echo.!inpost%screen%h!
+if not "!inpost%screen%i!"=="" echo.!inpost%screen%i!
+if not "!inpost%screen%j!"=="" echo.!inpost%screen%j!
+if not "!inpost%screen%k!"=="" echo.!inpost%screen%k!
+echo.
+:mloop
+for /f "tokens=1- 3" %%a in ('bg.exe mouse') do set down=%%a&set top=%%b
+set key=%down%x%top%
+if "%key%"=="2x50" exit
+if "%key%"=="7x1" set /a screen=%screen%-1&goto blogger_main
+if "%key%"=="7x2" set /a screen=%screen%-1&goto blogger_main
+if "%key%"=="7x3" set /a screen=%screen%-1&goto blogger_main
+if "%key%"=="7x4" set /a screen=%screen%-1&goto blogger_main
+if "%key%"=="7x5" set /a screen=%screen%-1&goto blogger_main
+if "%key%"=="7x6" set /a screen=%screen%-1&goto blogger_main
+if "%key%"=="7x7" set /a screen=%screen%-1&goto blogger_main
+if "%key%"=="7x8" set /a screen=%screen%-1&goto blogger_main
+if "%key%"=="7x9" set /a screen=%screen%-1&goto blogger_main
+if "%key%"=="7x10" set /a screen=%screen%-1&goto blogger_main
+if "%key%"=="7x11" set /a screen=%screen%-1&goto blogger_main
+if "%key%"=="7x12" set /a screen=%screen%-1&goto blogger_main
+if "%key%"=="7x13" set /a screen=%screen%-1&goto blogger_main
+if "%key%"=="7x14" set /a screen=%screen%-1&goto blogger_main
+if "%key%"=="7x15" set /a screen=%screen%-1&goto blogger_main
+if "%key%"=="7x16" set /a screen=%screen%-1&goto blogger_main
+if "%key%"=="7x20" set /a screen=%screen%+1&goto blogger_main
+if "%key%"=="7x21" set /a screen=%screen%+1&goto blogger_main
+if "%key%"=="7x22" set /a screen=%screen%+1&goto blogger_main
+if "%key%"=="7x23" set /a screen=%screen%+1&goto blogger_main
+if "%key%"=="7x24" set /a screen=%screen%+1&goto blogger_main
+if "%key%"=="7x25" set /a screen=%screen%+1&goto blogger_main
+if "%key%"=="7x26" set /a screen=%screen%+1&goto blogger_main
+if "%key%"=="7x27" set /a screen=%screen%+1&goto blogger_main
+if "%key%"=="7x28" set /a screen=%screen%+1&goto blogger_main
+if "%key%"=="7x29" set /a screen=%screen%+1&goto blogger_main
+if "%key%"=="7x30" set /a screen=%screen%+1&goto blogger_main
+if "%key%"=="7x31" set /a screen=%screen%+1&goto blogger_main
+if "%down%" == "4" (
+	if %top% GTR 2 (
+		if %top% LEQ 11 goto catfiles
+	)
+	if %top% GTR 14 (
+		if %top% LSS 22 goto updateui
+	)
+	if %top% GTR 24 (
+		if %top% LSS 30 goto about
+	)
+)
+goto mloop
+
+bg kbd
+set key=%errorlevel%
+if "%key%"=="332" set /a screen=%screen%+1
+if "%key%"=="330" set /a screen=%screen%-1
+if "%key%"=="27" goto main_screen
+goto blogger_main
+
+
+:logupdatechecker
+title Log OS updater
+cls
+echo.
+echo.  _________________________________________________
+echo. ^|  Log OS update checker                          ^|
+echo. ^|_________________________________________________^|
+echo.
+set /p location=DRAG LogOS.bat in this window and then press ENTER:
+cls
+echo.
+echo.  _________________________________________________
+echo. ^|  Log OS update checker                          ^|
+echo. ^|_________________________________________________^|
+echo.
+echo. - Checking Log OS version...
+set updatecheck=true
+call %location% ver
+color %updatecolor%
+cls
+if "%version%"=="1.2" set rsn=Couldn't find Log OS version&goto errror
+if "%updateserver%"=="" set rsn=Log OS update server not found&goto errror
+echo  - Downloading new software
+start /wait /min wget --no-check-certificate "%updateserver%" -O "%temp%\LogOS.bat" 2>nul
+echo  - Comparing versions...
+set iversion=%version%
+call "%temp%\LogOS.bat" ver
+color %updatecolor%
+cls
+if not "%iversion%"=="%version%" goto updatepackage
+del %temp%\LogOS.bat
+set "rsn=Your version of Log OS seems to be up to date"
+goto errror
+
+:updatepackage
+echo  - Flahing update...
+copy "%temp%\LogOS.bat" "%location%" /Y >nul
+echo  - Deleting temporary file...
+del "%temp%\LogOS.bat"
+echo  - Restoring store version
+set version=1.2
+echo Update was successful
+if not "%kbd%"=="t" echo Left click to continue...
+if not "%kbd%"=="t" bg mouse >nul
+if "%kbd%"=="t" pause
+goto updateui
+:errror
+cls
+echo.
+echo.  _________________________________________________
+echo. ^|  Log OS update checker                          ^|
+echo. ^|_________________________________________________^|
+echo.
+echo. It looks like update check has failed. Here is the
+echo. reason:
+echo.
+echo %rsn%
+echo.
+if not "%kbd%"=="t" echo Left click to continue...
+if not "%kbd%"=="t" bg mouse >nul
+if "%kbd%"=="t" pause
+goto updateui
+
+:updatechecker
+title Store update checker
+cls
+echo.
+echo.  _________________________________________________
+echo. ^|  Update checker                                 ^|
+echo. ^|_________________________________________________^|
+echo.
+echo. %date% %time%
+echo. version %version%
+echo.
+echo  - Checking for updates...
+start /wait /min wget --no-check-certificate "http://markustegelane.ml/bstore/?collection=version" -O versioncheck.cmd 2>nul
+echo  - Comparing versions
+call versioncheck.cmd
+echo  - Deleting temporary file
+del versioncheck.cmd
+if "%newersion%"=="" goto updateui
+if not "%newersion%"=="%version%" goto update_screen
+echo  - No updates available
+echo.
+if not "%kbd%"=="t" echo Left click to continue...
+if not "%kbd%"=="t" bg mouse >nul
+if "%kbd%"=="t" pause
+goto updateui
+:checkpage
+if not "%pageval%"=="1" set /a pageval=%pageval%-1
+goto :eof
+
+:faildownload
+title Batch file store - Download failed
+echo.
+echo Download failed
+echo.
+pause
+goto main_screen
+
+:pageswitch
+echo.
+echo.  _________________________________________________
+echo. ^|  Changing page...                               ^|
+echo. ^|_________________________________________________^|
+echo. ^| Downloads ^| Updates ^| About ^| Blog posts ^|
+echo. ^|_____*_____^|_________^|_______^|____________^|
+echo.
+goto :eof
+:repages
+echo.
+echo.  _________________________________________________
+echo. ^|  Refreshing...                                  ^|
+echo. ^|_________________________________________________^|
+echo. ^| Downloads ^| Updates ^| About ^| Blog posts ^|
+echo. ^|_____*_____^|_________^|_______^|____________^|
+echo.
+goto :eof
+
+:update_screen
+cls
+echo.
+echo.  _________________________________________________
+echo. ^|  New version available^^!                         ^|
+echo. ^|_________________________________________________^|
+echo.
+echo. You may upgrade now to get the latest features.
+echo.
+echo Version %version% will be upgraded to %newersion%
+echo.
+if not "%kbd%"=="t" goto mouseprompt
+echo Would you like to update now? (Y/N)
+set /p yn=
+if "%yn%"=="y" goto upgrader
+if "%yn%"=="Y" goto upgrader
+if "%yn%"=="N" cls&goto redownload
+if "%yn%"=="n" cls&goto redownload
+goto update_screen
+
+:mouseprompt
+echo. - Update now
+echo. - Update later
+:mp
+for /f "tokens=1- 3" %%a in ('bg.exe mouse') do set down=%%a&set top=%%b
+set key=%down%x%top%
+if "%key%"=="2x50" exit /b
+if "%down%" == "9" (
+	if %top% GTR 2 (
+		if %top% LEQ 12 goto upgrader
+	)
+)
+if "%down%" == "10" (
+	if %top% GTR 2 (
+		if %top% LEQ 15 cls&goto redownload
+	)
+)
+goto mp
+:upgrader
+echo Downloading upgrader...
+start /wait /min wget --no-check-certificate "http://markustegelane.ml/bstore/upgrader.dat" -O upgrader.bat 2>nul
+echo Downloading new store...
+start /wait /min wget --no-check-certificate "http://markustegelane.ml/bstore/store.dat" -O %temp%\store.bat 2>nul
+echo Launching upgrader
+start /b upgrader.bat
+exit
+
+::this is just a random line for random people... good stuff for everyone...

@@ -1,6 +1,17 @@
 <?php
+	function ms($en, $et) {
+		if (!empty($_COOKIE["lang"])) {
+		if ($_COOKIE["lang"] == "et-EE") {
+			return $et;
+		} else {
+			return $en;
+		}
+	   } else {
+			return $en;
+	   } 
+	}
 	include("common/comments.php");
-	ini_set('display_errors', 0);
+	ini_set('display_errors', 1);
 	ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
 	$loggedin = FALSE;
@@ -32,11 +43,7 @@
 		}
 	}
 	while ($row = mysqli_fetch_array($meta)) {
-                if ($row[4] == "") {
-echo '<h2>' . $row[2] . '</h2>';
-} else {
 		echo '<h2>' . $row[4] . '</h2>';
-}
 		if ($loggedin) {
 			echo '<a href="?doc=development&s=9&id=' . $id . '">Modify/delete</a>';
 		}

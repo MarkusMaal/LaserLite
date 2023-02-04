@@ -164,9 +164,24 @@
 		}
 	</script>
   <h1>About</h1>
-  <p>themarkusguy official web site<br>Version 6.1<br>Codename: LaserLite<br>Build: 6138<br>Last modified (UTC): <?php
+  <p>themarkusguy official web site<br>Version 6.3<br>Codename: LaserLite<br>Build: 6402<br>Last modified (UTC): <?php
 echo date('F j, Y g:m:s a', filemtime($_SERVER["DOCUMENT_ROOT"] . '/markustegelane/content/et-EE/about/1.php'));
-?><script>document.write('<br>Technology: Markus' software JS<br/><span id="ctype"></span>'); </script><br/><?php echo 'Host version: ' . phpversion();?><br/>
+?><script>document.write('<br>Technology: Markus' software JS<br/><span id="ctype"></span>'); </script><br/><?php echo 'Host version: ' . phpversion();?><br/>Connection type: <?php 
+$isSsl = false; 
+if (isset($_SERVER['HTTP_CF_VISITOR'])) {
+    $cfDecode = json_decode($_SERVER['HTTP_CF_VISITOR']);
+    if (!empty($cfDecode) && !empty($cfDecode->scheme) && $cfDecode->scheme == 'https') {
+        $isSsl = true;
+    }
+} else if ($_SERVER['HTTPS'] == true) {
+    $isSsl = true;
+}
+if ($isSsl == true) {
+   echo '<span style="color: #0f0;">Secure</span>';
+} else {
+   echo '<span style="color: #f00;">Not secure</span>';
+}
+?><br/>
   </p>
 <?php if (!empty($_SESSION["usr"])) {
   echo '<a href="?doc=development&s=1&subdoc=about">Modify information</a><br/>';
@@ -176,7 +191,7 @@ echo date('F j, Y g:m:s a', filemtime($_SERVER["DOCUMENT_ROOT"] . '/markustegela
   <br>
   <div style="width: 500px; margin: auto;">
   <?php
-  if ($_COOKIE["theme"] == "light") {
+  if ($theme == "light") {
   	echo '<a href="images/ljsoftware-en.png" title="web software by markus"><img style="width: 100%;" src="images/ljsoftware-en.png"></a>';
   } else {
   	echo '<a href="images/jsoftware-en.png" title="web software by markus"><img style="width: 100%;" src="images/jsoftware-en.png"></a>';
@@ -184,14 +199,26 @@ echo date('F j, Y g:m:s a', filemtime($_SERVER["DOCUMENT_ROOT"] . '/markustegela
   ?>
   </div>
   <br>
-  <h2>Hosting provided by 000webhost</h2>
-  <a target="_blank" href="https://000webhost.com"><img alt="000webhost" src="https://cdn.000webhost.com/000webhost/logo/000logo-new-colors.svg" style="width:20%;"></a>
+<?php if ((str_contains($_SERVER["HTTP_HOST"], ".ml")) || (str_contains($_SERVER["HTTP_HOST"], ".tk"))) {
+echo '<h2>Domain provider</h2>
+<a target="_blank" href="freenom.com"><img title="Freenom - A name for everyone" alt="Freenom" src="https://www.freenom.com/images.v2/logo.png" style="width: 20%;"></a><br/><br/>';
+}
+if (!empty($_SERVER["HTTPS"])) {
+if (str_contains($_SERVER["HTTP_HOST"], ".ml")) {
+echo '<h2>SSL/TLS provider</h2>
+<a target="_blank" href="https://letsencrypt.org/"><img title="Let&#39;s Encrypt" alt="Let&#39;s Encrypt" src="https://letsencrypt.org/images/letsencrypt-logo-horizontal.svg" style="width: 20%;"></a><br/><br/>';
+} else if (str_contains($_SERVER["HTTP_HOST"], ".tk")) {
+echo '<h2>SSL/TLS provider</h2>
+<a target="_blank" href="https://zerossl.com/"><img title="ZeroSSL" alt="ZeroSSL" src="https://zerossl.com/assets/images/zerossl_logo.svg" style="width: 20%;"></a><br/><br/>';
+} else if (str_contains($_SERVER["HTTP_HOST"], ".online")) {
+echo '<h2>SSL/TLS provider</h2>
+<a target="_blank" href="https://pki.goog/"><img title="Google Trust Services LLC" alt="ZeroSSL" src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" style="width: 20%;"></a><br/><br/>';
+}
+}
+?>
+   <h2>Web hosting</h2>
+  <a target="_blank" href="https://hostinger.ee?REFERRALCODE=1MARKUS53"><img title="Click here, if you want a 20% discount and help cover the hosting costs for this website" alt="Hostinger" src="https://assets.hostinger.com/images/logo-homepage2020-f9c79137d7.svg" style="width:20%;"></a>
   <br><br>
-  <h2>Domain provider</h2>
-  <a title="Freenom - A Name for Everyone" href="https://www.freenom.com"><img alt="Freenom - DNS teenus" src="https://www.freenom.com/images.v2/logo.png" style="width:20%;"></a>
-  <br><br>
-  <h2>SSL/TLS provider (HTTPS support)</h2>
-  <a title="Cloudflare - The Web Performance & Security Company" href="https://www.cloudflare.com/"><img style="width: 25%;" src="https://www.cloudflare.com/img/logo-cloudflare-dark.svg"/></a>
   <p id="name">Hello, anonymous!</p>
 	<form>
         <a href="#/" id="myBtn" onclick="buttonClicked();" class="listitems">Enter name</a>
