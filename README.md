@@ -1,4 +1,6 @@
 # LaserLite
+**NOTE** This version is not in active development. The version in active development can be found in [Gitlab](https://gitlab.com/www5800006).
+
 LaserLite is an open source version of the [markustegelane](https://markustegelane.ml) website
 and also a codename for the actual website.
 
